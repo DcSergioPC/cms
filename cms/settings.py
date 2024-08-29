@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cuentas.apps.CuentasConfig', #agregado
+    'articulos.apps.ArticulosConfig',  #agregado
 ]
 
 MIDDLEWARE = [
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'cms.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +78,7 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': os.environ.get('POSTGRES_ENGINE',default='django.db.backends.sqlite3'),
         'NAME': os.environ.get('POSTGRES_NAME',default=BASE_DIR / 'db.sqlite3'),
@@ -84,6 +86,16 @@ DATABASES = {
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD',default=''),
         "HOST": os.environ.get('POSTGRES_HOST',default=''),
         "PORT": os.environ.get('POSTGRES_PORT',default="5432"),
+    }
+}"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'login_task',
+        'USER': 'sample_user',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -122,9 +134,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#documentacion
+LOGIN_URL = '/cuentas/login'
+LOGIN_REDIRECT_URL = '/articulos'
+LOGOUT_REDIRECT_URL = '/cuentas/login'
