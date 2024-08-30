@@ -2,14 +2,32 @@
 
 {% block main %}
 <p>
-  <strong>Title:</strong>
-  {{article.title}}
+  <strong>Titulo:</strong>
+  {{ article.title }}
 </p>
 
 <p>
-  <strong>Content:</strong>
-  {{article.content}}
+  <strong>Contenido:</strong>
+  {{ article.content }}
 </p>
-<a href="{% url 'articulos:index' %}">Back</a> |
-<a href="{% url 'articulos:edit' article.id %}">Edit</a>
+
+{% if article.image %}
+  <p>
+    <strong>Imagen:</strong>
+    <img src="{{ article.image.url }}" alt="Image" style="max-width: 100%; height: auto;">
+  </p>
+{% endif %}
+
+{% if article.video %}
+  <p>
+    <strong>Video:</strong>
+    <video controls style="max-width: 100%; height: auto;">
+      <source src="{{ article.video.url }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </p>
+{% endif %}
+
+<a href="{% url 'articulos:index' %}">Atras</a> |
+<a href="{% url 'articulos:edit' article.id %}">Editar</a>
 {% endblock %}

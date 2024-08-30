@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main %}
-<h1>Editing Blog</h1>
+<h1>Edición de artículo</h1>
 <form action="{% url 'articulos:edit' article.id %}" method="post">
   {% csrf_token %}
   {{ form.as_p }}
@@ -10,7 +10,7 @@
 
 <br>
 
-<a href="{% url 'articulos:detail' article.id %}">Detail</a> |
-<a href="{% url 'articulos:index' %}">Back</a>
+<a href="{% url 'articulos:detail' article.id %}">Detalles</a> |
+<a href="{% url 'articulos:index' %}">Atrás</a>
 
 {% endblock %}

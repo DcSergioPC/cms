@@ -1,26 +1,26 @@
 {% extends "base.html" %}
 
 {% block main %}
-<h1>Blogs</h1>
+<h1>Articulos</h1>
 <table>
   <tr>
-    <th>Title</th>
-    <th>Content</th>
+    <th>Titulo</th>
+    <th>Contenido</th>
     <th colspan="3"></th>
   </tr>
   {% for article in articles %}
   <tr>
     <td>{{article.title}}</td>
     <td>{{article.content}}</td>
-    <td><a href="{% url 'articulos:detail' article.id %}">Detail</a></td>
-    <td><a href="{% url 'articulos:edit' article.id %}">Edit</a></td>
-    <td><a href="{% url 'articulos:delete' article.id %}">Delete</a></td>
+    <td><a href="{% url 'articulos:detail' article.id %}">Detalles</a></td>
+    <td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td>
+    <td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td>
   </tr>
   {% endfor %}
 </table>
 
 <br>
 
-<a href="{% url 'articulos:create' %}">New Blog</a>
+<a href="{% url 'articulos:create' %}">Nuevo articulo</a>
 
 {% endblock %}

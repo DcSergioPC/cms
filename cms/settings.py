@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -91,7 +93,7 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'login_task',
+        'NAME': 'cms_app',
         'USER': 'sample_user',
         'PASSWORD': 'password',
         'HOST': 'localhost',
@@ -138,6 +140,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 STATIC_URL = 'static/'
 
+########################################
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+########################################3
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -147,3 +154,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/cuentas/login'
 LOGIN_REDIRECT_URL = '/articulos'
 LOGOUT_REDIRECT_URL = '/cuentas/login'
+
+AUTH_USER_MODEL = 'cuentas.CustomUser'

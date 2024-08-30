@@ -2,12 +2,12 @@
 
 {% block main %}
 <p>
-  <strong>Title:</strong>
+  <strong>Titulo:</strong>
   {{article.title}}
 </p>
 
 <p>
-  <strong>Content:</strong>
+  <strong>Contenido:</strong>
   {{article.content}}
 </p>
 <form action="{% url 'articulos:delete' article.id %}" method="post">
@@ -17,5 +17,5 @@
 
 <br>
 
-<a href="{% url 'articulos:index' %}">Back</a>
+<a href="{% url 'articulos:index' %}">Atrás</a>
 {% endblock %}

@@ -12,14 +12,14 @@
   <body>
     <nav>
       <ul>
-        <!-- de aquí -->
         {% if user.is_authenticated %}
-        <li><a href="{% url 'articulos:index' %}">Lista de articulos</a></li>
+        <li><a href="{% url 'articulos:index' %}">Lista de blogs</a></li>
         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+        <li><a href="{% url 'user_detail' user.pk %}">Información para los miembros</a></li>    <!-- Apéndice -->
         {% else %}
         <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+        <li><a href="{% url 'signup' %}">Registrar usuario</a></li>
         {% endif %}
-        <!-- Hasta aquí -->
       </ul>
     </nav>
     <main>
