@@ -1,12 +1,6 @@
-{% load static %}
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Categorías</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'articulos/css/styles.css' %}">
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Lista de Categorías{% endblock %}
+{% block main %}
     <h1>Lista de Categorías</h1>
     <a href="{% url 'categoria_create' %}">Nueva Categoría</a>
     <ul>
@@ -17,5 +11,5 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
+
