@@ -32,7 +32,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',default='django-insecure-!rm=g3w
 DEBUG = os.environ.get('DEBUG',default=True)
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',default="*").split(",")
-print(ALLOWED_HOSTS)
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,8 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cms', #agregado
     'cuentas.apps.CuentasConfig', #agregado
     'articulos.apps.ArticulosConfig',  #agregado
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'cms.urls'
@@ -146,3 +152,24 @@ LOGIN_REDIRECT_URL = '/articulos'
 LOGOUT_REDIRECT_URL = '/cuentas/login'
 
 AUTH_USER_MODEL = 'cuentas.CustomUser'
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+AUTHENTICATION_BACKENDS = [
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+SITE_ID = 1
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
+GOOGLE_SECRET = os.getenv('GOOGLE_SECRET', '')
+SITE_NAME = os.getenv('SITE_NAME', 'localhost')
