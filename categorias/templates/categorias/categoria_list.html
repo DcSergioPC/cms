@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Categorías</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'articulos/css/styles.css' %}">
+</head>
+<body>
+    <h1>Lista de Categorías</h1>
+    <a href="{% url 'categoria_create' %}">Nueva Categoría</a>
+    <ul>
+        {% for categoria in categorias %}
+            <li>{{ categoria.titulo }} - 
+                <a href="{% url 'categoria_update' categoria.pk %}">Editar</a> | 
+                <a href="{% url 'categoria_delete' categoria.pk %}">Eliminar</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
