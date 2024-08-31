@@ -32,7 +32,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',default='django-insecure-!rm=g3w
 DEBUG = os.environ.get('DEBUG',default=True)
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS',default="*").split(",")
-print(ALLOWED_HOSTS)
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cms', #agregado
     'cuentas.apps.CuentasConfig', #agregado
     'articulos.apps.ArticulosConfig',  #agregado
     'django.contrib.sites',
@@ -170,3 +170,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 SITE_ID = 1
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
+GOOGLE_SECRET = os.getenv('GOOGLE_SECRET', '')
+SITE_NAME = os.getenv('SITE_NAME', 'localhost')

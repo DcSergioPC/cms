@@ -4,6 +4,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import login, authenticate
+from django.views.generic import TemplateView
 from .forms import (
     CustomUserCreationForm,
     UserUpdateForm,
@@ -59,3 +60,6 @@ class UserDelete(DeleteView):
     model = User
     template_name = 'cuentas/user_delete.html'
     success_url = reverse_lazy('login')
+
+class LogoutConfirmView(TemplateView):
+    template_name = 'cuentas/logout_confirm.html'
