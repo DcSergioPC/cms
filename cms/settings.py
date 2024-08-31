@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'cms.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': os.environ.get('POSTGRES_ENGINE',default='django.db.backends.sqlite3'),
         'NAME': os.environ.get('POSTGRES_NAME',default=BASE_DIR / 'db.sqlite3'),
@@ -88,16 +88,6 @@ WSGI_APPLICATION = 'cms.wsgi.application'
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD',default=''),
         "HOST": os.environ.get('POSTGRES_HOST',default=''),
         "PORT": os.environ.get('POSTGRES_PORT',default="5432"),
-    }
-}"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cms_app',
-        'USER': 'sample_user',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
     }
 }
 
