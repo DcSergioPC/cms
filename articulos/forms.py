@@ -8,7 +8,7 @@ class ArticleForm(forms.Form):
     video = forms.FileField(label='Video', required=False)   # Campo para video
 """
 from django import forms
-from .models import Article
+from .models import Article, Plantilla
 
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,13 @@ class ArticleForm(forms.ModelForm):
         fields = ['title', 'content', 'image', 'video']
         widgets = {
             'content': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }
+
+
+class PlantillaForm(forms.ModelForm):
+    class Meta:
+        model = Plantilla
+        fields = ['titulo', 'descripcion', 'contenido']
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }

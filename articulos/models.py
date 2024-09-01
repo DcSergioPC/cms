@@ -12,3 +12,12 @@ class Article(models.Model):
     
     def __str__(self):
         return f'{self.title}, {self.content}'
+    
+class Plantilla(models.Model):
+    titulo = models.CharField(max_length=255)
+    descripcion = models.TextField()
+    contenido = models.TextField()
+    
+    def __str__(self):
+        return f'{self.titulo}, {self.descripcion}, {self.contenido}'
+    
