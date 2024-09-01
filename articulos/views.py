@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article, Plantilla
-from .forms import ArticleForm
+from .forms import ArticleForm, PlantillaForm
 
 
 def index(request):
@@ -27,6 +27,7 @@ def index(request):
         }
         return render(request, 'articulos/create.html', params)
 """
+"""
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
@@ -43,6 +44,18 @@ def create(request):
     else:
         form = ArticleForm()
     
+    return render(request, 'articulos/create.html', {'form': form})"""
+
+
+def create(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)  
+        if form.is_valid():
+            form.save()  
+            return redirect('articulos:index')  
+    else:
+        form = ArticleForm()
+
     return render(request, 'articulos/create.html', {'form': form})
 
 
@@ -90,9 +103,6 @@ def edit(request, article_id):
 
     return render(request, 'articulos/edit.html', {'article': article, 'form': form})
 """
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
-from .forms import ArticleForm, PlantillaForm
 
 def edit(request, article_id):
     article = get_object_or_404(Article, id=article_id)
@@ -119,7 +129,6 @@ def delete(request, article_id):
             'article': article,
         }
         return render(request, 'articulos/delete.html', params)
-
 
 ############################### PLANTILLAS #######################
 def plantilla_index(request):
