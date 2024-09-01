@@ -1,9 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article
 from .forms import ArticleForm
+
+
 
 
 def index(request):
@@ -103,9 +105,7 @@ def edit(request, article_id):
 
     return render(request, 'articulos/edit.html', {'article': article, 'form': form})
 """
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
-from .forms import ArticleForm
+
 
 def edit(request, article_id):
     article = get_object_or_404(Article, id=article_id)
