@@ -27,6 +27,7 @@ def index(request):
         }
         return render(request, 'articulos/create.html', params)
 """
+"""
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
@@ -43,6 +44,18 @@ def create(request):
     else:
         form = ArticleForm()
     
+    return render(request, 'articulos/create.html', {'form': form})"""
+
+
+def create(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)  
+        if form.is_valid():
+            form.save()  
+            return redirect('articulos:index')  
+    else:
+        form = ArticleForm()
+
     return render(request, 'articulos/create.html', {'form': form})
 
 
@@ -119,3 +132,4 @@ def delete(request, article_id):
             'article': article,
         }
         return render(request, 'articulos/delete.html', params)
+
