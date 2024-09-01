@@ -14,39 +14,6 @@ def index(request):
     return render(request, 'articulos/index.html', params)
 
 
-"""def create(request):
-    if (request.method == 'POST'):
-        title = request.POST['title']
-        content = request.POST['content']
-        article = Article(title=title, content=content)
-        article.save()
-        return redirect('articulos:index')
-    else:
-        params = {
-            'form': ArticleForm(),
-        }
-        return render(request, 'articulos/create.html', params)
-"""
-"""
-def create(request):
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES)  # Asegúrate de incluir request.FILES
-        if form.is_valid():
-            # Crear una nueva instancia de Article con los datos del formulario
-            article = Article(
-                title=form.cleaned_data['title'],
-                content=form.cleaned_data['content'],
-                image=form.cleaned_data['image'],
-                video=form.cleaned_data['video']
-            )
-            article.save()
-            return redirect('articulos:index')
-    else:
-        form = ArticleForm()
-    
-    return render(request, 'articulos/create.html', {'form': form})"""
-
-
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)  
@@ -65,44 +32,6 @@ def detail(request, article_id):
         'article': article,
     }
     return render(request, 'articulos/detail.html', params)
-
-"""
-def edit(request, article_id):
-    article = Article.objects.get(id=article_id)
-    if (request.method == 'POST'):
-        article.title = request.POST['title']
-        article.content = request.POST['content']
-        article.save()
-        return redirect('articulos:detail', article_id)
-    else:
-        form = ArticleForm(initial={
-            'title': article.title,
-            'content': article.content,
-        })
-        params = {
-            'article': article,
-            'form': form,
-        }
-        return render(request, 'articulos/edit.html', params)
-"""
-"""
-def edit(request, article_id):
-    article = Article.objects.get(id=article_id)
-    if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES, instance=article)
-        if form.is_valid():
-            form.save()
-            return redirect('articulos:detail', article_id)
-    else:
-        form = ArticleForm(initial={
-            'title': article.title,
-            'content': article.content,
-            'image': article.image,
-            'video': article.video
-        })
-
-    return render(request, 'articulos/edit.html', {'article': article, 'form': form})
-"""
 
 def edit(request, article_id):
     article = get_object_or_404(Article, id=article_id)

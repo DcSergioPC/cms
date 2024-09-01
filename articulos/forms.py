@@ -30,4 +30,5 @@ class PlantillaForm(forms.ModelForm):
         widgets = {
             'descripcion': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
+        
 
