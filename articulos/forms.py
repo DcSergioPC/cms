@@ -8,8 +8,8 @@ class ArticleForm(forms.Form):
     video = forms.FileField(label='Video', required=False)   # Campo para video
 """
 from django import forms
-from .models import Article, Plantilla
-from categorias.models import Categoria
+from .models import Article, Plantilla, Categoria
+##from categorias.models import Categoria
 
 class ArticleForm(forms.ModelForm):
     class Meta:
@@ -32,3 +32,7 @@ class PlantillaForm(forms.ModelForm):
         }
         
 
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['titulo']

@@ -14,5 +14,10 @@ urlpatterns = [
     path('plantilla_detail/<int:plantillas_id>', views.plantilla_detail, name='plantilla_detail'),
     path('plantilla_edit/<int:plantillas_id>', views.plantilla_edit, name='plantilla_edit'),
     path('plantilla_delete/<int:plantillas_id>', views.plantilla_delete, name='plantilla_delete'),
+    ####CATEGORIAS
+    path('categoria', views.categoria_list, name='categoria_list'),
+    path('categoria_nueva', views.categoria_create, name='categoria_create'),
+    path('categoria_editar/<int:pk>', views.categoria_update, name='categoria_update'),
+    path('categoria_eliminar/<int:pk>', views.categoria_delete, name='categoria_delete'),
     
 ]

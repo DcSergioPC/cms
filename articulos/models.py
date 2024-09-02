@@ -1,5 +1,14 @@
 from django.db import models
-from categorias.models import Categoria
+#from .models import Categoria
+
+
+##TABLA CATEGORIAS
+class Categoria(models.Model):
+    titulo = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.titulo
+    
 
 # Create your models here.
 class Article(models.Model):
@@ -24,3 +33,4 @@ class Plantilla(models.Model):
     def __str__(self):
         return f'{self.titulo}, {self.descripcion}, {self.contenido}'
     
+
