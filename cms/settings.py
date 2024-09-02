@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'allauth.usersessions',
     'cms', #agregado
     'cuentas.apps.CuentasConfig', #agregado
     'articulos.apps.ArticulosConfig',  #agregado
@@ -48,12 +51,13 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.openid_connect',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # new
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -94,6 +98,9 @@ DATABASES = {
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD',default=''),
         "HOST": os.environ.get('POSTGRES_HOST',default=''),
         "PORT": os.environ.get('POSTGRES_PORT',default="5432"),
+        'OPTIONS': {
+            'sslmode': os.environ.get('POSTGRES_SSLMODE', default='disable'),  # Agrega el modo SSL aquí
+        },
     }
 }
 
@@ -149,7 +156,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #documentacion
 LOGIN_URL = '/cuentas/login'
 LOGIN_REDIRECT_URL = '/articulos'
-LOGOUT_REDIRECT_URL = '/cuentas/login'
+LOGOUT_REDIRECT_URL = f'{os.getenv("KEYCLOAK_SERVER_HOST")}/realms/{os.getenv("KEYCLOAK_REALM")}/protocol/openid-connect/logout?post_logout_redirect_uri={os.getenv("DJANGO_SERVER_HOST")}/cuentas/login&client_id={os.getenv("KEYCLOAK_CLIENT_ID")}'
+
 
 AUTH_USER_MODEL = 'cuentas.CustomUser'
 SOCIALACCOUNT_LOGIN_ON_GET=True
@@ -157,19 +165,29 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
-
+DJANGO_SERVER_HOST=os.getenv('DJANGO_SERVER_HOST')
+KEYCLOAK_CLIENT_ID = os.getenv('KEYCLOAK_CLIENT_ID')
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "keycloak",
+                "name": "Keycloak",
+                "client_id": KEYCLOAK_CLIENT_ID,
+                "secret": os.getenv('KEYCLOAK_SECRET'),
+                "settings": {
+                    "server_url": f'{os.getenv("KEYCLOAK_SERVER_HOST")}/realms/{os.getenv("KEYCLOAK_REALM")}/.well-known/openid-configuration',
+                },
+            }
+        ]
     }
 }
-SITE_ID = 1
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
-GOOGLE_SECRET = os.getenv('GOOGLE_SECRET', '')
-SITE_NAME = os.getenv('SITE_NAME', 'localhost')
+SITE_ID=1
+SITE_NAME=os.getenv('SITE_NAME', 'localhost')
+
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
+
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'localhost').split(",")

@@ -3,8 +3,11 @@
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout as auth_logout
 from django.views.generic import TemplateView
+from django.shortcuts import redirect
+from django.views import View
+from django.conf import settings
 from .forms import (
     CustomUserCreationForm,
     UserUpdateForm,
@@ -63,3 +66,20 @@ class UserDelete(DeleteView):
 
 class LogoutConfirmView(TemplateView):
     template_name = 'cuentas/logout_confirm.html'
+
+class CustomLogoutView(View):
+    def post(self, request, *args, **kwargs):
+        # Recupera el id_token de la sesión del usuario
+        client_id = getattr(settings, 'KEYCLOAK_CLIENT_ID', '')
+        
+        # Cierra la sesión en Django
+        auth_logout(request)
+
+        if client_id:
+            logout_url = getattr(settings, 'LOGOUT_REDIRECT_URL', '')
+        else:
+            # Si no hay id_token, redirige al login normal
+            logout_url = reverse("login")
+        
+        # Redirige al usuario a la URL de logout de Keycloak
+        return redirect(logout_url)

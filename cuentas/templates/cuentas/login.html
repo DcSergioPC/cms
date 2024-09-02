@@ -10,9 +10,9 @@
   {{ form.as_p }}
   <input type="submit" value="Iniciar sesión">
   <button class="btn btn-outline-info">
-    <a href="{% provider_login_url 'google'%}?next=/articulos">
+    <a href="{% provider_login_url 'openid_connect'%}?next=/articulos">
         <i class="fab fa-google"></i>
-        Login with Google
+        Iniciar Sesion con Keycloak
     </a>
 </button>
 </form>

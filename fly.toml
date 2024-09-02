@@ -1,0 +1,43 @@
+# fly.toml app configuration file generated for django-cms on 2024-09-01T22:47:58-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'django-cms'
+primary_region = 'gru'
+console_command = '/code/manage.py shell'
+
+[build]
+
+[deploy]
+  release_command = 'python manage.py migrate --noinput'
+  command = 'py manage.py collectstatic --noinput'
+
+[env]
+  PORT = '8000'
+  DEBUG="True"
+  DJANGO_ALLOWED_HOSTS="django-cms.fly.dev,*"
+  CSRF_TRUSTED_ORIGINS="https://django-cms.fly.dev,http:///django-cms.fly.dev"
+  DJANGO_SERVER_HOST="https://django-cms.fly.dev"
+  SITE_NAME="django-cms.fly.dev"
+
+  POSTGRES_ENGINE="django.db.backends.postgresql"
+  POSTGRES_PORT="5432"
+  KEYCLOAK_SERVER_HOST="https://keycloakserverfly.fly.dev"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[[statics]]
+  guest_path = '/code/static'
+  url_prefix = '/static/'
