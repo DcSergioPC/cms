@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Plantillas</h1>
+<table>
+  <tr>
+    <th>Titulo</th>
+    <th>Descripcion</th>
+    <th>Contenido</th>
+    <th colspan="3"></th>
+  </tr>
+  {% for plantilla in plantillas %}
+  <tr>
+    <td>{{plantilla.titulo}}</td>
+    <td>{{plantilla.descripcion}}</td>
+    <td>{{plantilla.contenido}}</td>
+    <td><a href="{% url 'articulos:plantilla_detail' plantilla.id %}">Detalles</a></td>
+    <td><a href="{% url 'articulos:plantilla_edit' plantilla.id %}">Editar</a></td>
+    <td><a href="{% url 'articulos:plantilla_delete' plantilla.id %}">Eliminar</a></td>
+  </tr>
+  {% endfor %}
+</table>
+
+<br>
+
+<a href="{% url 'articulos:plantilla_create' %}">Nueva Plantilla</a>
+
+{% endblock %}

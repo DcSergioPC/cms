@@ -13,11 +13,12 @@
     <nav>
       <ul>
         {% if user.is_authenticated %}
-        <li><a href="{% url 'articulos:index' %}">Lista de blogs</a></li>
+        <li><a href="{% url 'articulos:index' %}">Mis Articulos</a></li>
         <li><a href="{% url 'logout' %}">Cerrar sesión</a></li>
         
         <li><a href="{% url 'user_detail' user.pk %}">Detalles de Usuario</a></li>    <!-- Apéndice -->
-        <li><a href="{% url 'categoria_list' %}">Categorías</a></li>
+        <li><a href="{% url 'articulos:categoria_list' %}">Categorías</a></li>
+        <li><a href="{% url 'articulos:plantilla_index' %}">Plantillas</a></li>
         {% else %}
         <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
         <li><a href="{% url 'signup' %}">Registrar usuario</a></li>

@@ -11,6 +11,17 @@
   {{ article.content }}
 </p>
 
+<p>
+  <strong>Categoria:</strong>
+  {{ article.categoria }}
+</p>
+
+<p>
+  <strong>Plantilla:</strong>
+  {{ article.plantilla.titulo }}
+</p>
+
+
 {% if article.image %}
   <p>
     <strong>Imagen:</strong>

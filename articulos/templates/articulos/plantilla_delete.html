@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1>
+    SEGURO QUE QUIERES ELIMINAR LA SIGUIENTE PLANTILLA?
+</h1>
+
+<p>
+    <strong>Titulo:</strong>
+    {{ plantilla.titulo }}
+  </p>
+  
+  <p>
+      <strong>Descripcion:</strong>
+      {{ plantilla.descripcion }}
+    </p>
+  
+  <p>
+    <strong>Contenido:</strong>
+    {{ plantilla.contenido }}
+  </p>
+
+<form action="{% url 'articulos:plantilla_delete' plantilla.id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Eliminar">
+</form>
+
+<br>
+
+<a href="{% url 'articulos:plantilla_index' %}">Atras</a> 
+{% endblock %}

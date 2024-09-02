@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Nueva Plantilla</h1>
+<form action="{% url 'articulos:plantilla_create' %}" method="post"enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Crear Plantilla">
+</form>
+
+<br>
+
+<a href="{% url 'articulos:plantilla_index' %}">Back</a>
+{% endblock %}

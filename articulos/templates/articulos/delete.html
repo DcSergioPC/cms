@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block main %}
+
+<h1>
+  SEGURO QUE QUIERES ELIMINAR EL SIGUIENTE ARTICULO?
+</h1>
+
 <p>
   <strong>Titulo:</strong>
   {{article.title}}
@@ -10,6 +15,17 @@
   <strong>Contenido:</strong>
   {{article.content}}
 </p>
+
+<p>
+  <strong>Categoria:</strong>
+  {{ article.categoria }}
+</p>
+
+<p>
+  <strong>Plantilla:</strong>
+  {{ article.plantilla.titulo }}
+</p>
+
 <form action="{% url 'articulos:delete' article.id %}" method="post">
   {% csrf_token %}
   <input type="submit" value="Delete">

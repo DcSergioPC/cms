@@ -5,7 +5,7 @@
 <form action="{% url 'articulos:edit' article.id %}" method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Update">
+  <input type="submit" value="Editar">
 </form>
 
 <br>
