@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main %}
+<p>
+  <strong>Titulo:</strong>
+  {{ plantillas.titulo }}
+</p>
+
+<p>
+    <strong>Descripcion:</strong>
+    {{ plantillas.descripcion }}
+  </p>
+
+<p>
+  <strong>Contenido:</strong>
+  {{ plantillas.contenido }}
+</p>
+
+<a href="{% url 'articulos:plantilla_index' %}">Atras</a> |
+<a href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a>
+{% endblock %}

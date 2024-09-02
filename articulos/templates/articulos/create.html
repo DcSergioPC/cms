@@ -5,7 +5,7 @@
 <form action="{% url 'articulos:create' %}" method="post"enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Crear Articulo">
+  <input type="submit" value="Create Articulo">
 </form>
 
 <br>

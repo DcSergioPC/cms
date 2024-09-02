@@ -1,5 +1,5 @@
 .. cms documentation master file, created by
-   sphinx-quickstart on Sun Sep  1 21:56:15 2024.
+   sphinx-quickstart on Mon Sep  2 03:07:41 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -16,4 +16,5 @@ documentation for details.
    :caption: Contents:
 
    modules/articulos
-
+   modules/cms
+   modules/cuentas

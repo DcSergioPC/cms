@@ -68,9 +68,3 @@ class TestUrls(TestCase):
         url = reverse('categoria_delete', kwargs={'pk': self.category_id})
         self.assertEqual(url, f'/categorias/{self.category_id}/eliminar/')
  """
-
-
-
-
-
-
