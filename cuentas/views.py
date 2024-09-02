@@ -5,10 +5,13 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import login, authenticate, logout as auth_logout
 from django.views.generic import TemplateView
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import View
 from django.conf import settings
 from allauth.account.utils import complete_signup
+
+from cuentas.models import CustomUser
+
 from .forms import (
     CustomUserCreationForm,
     UserUpdateForm,
@@ -90,3 +93,9 @@ class CustomLogoutView(View):
         
         # Redirige al usuario a la URL de logout de Keycloak
         return redirect(logout_url)
+    
+############################### USUARIOS #######################
+
+def UsuariosList(request):
+    usuarios = CustomUser.objects.all()
+    return render(request, 'cuentas/usuarios_list.html', {'usuarios': usuarios})

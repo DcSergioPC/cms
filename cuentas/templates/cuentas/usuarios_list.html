@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Categorías{% endblock %}
+{% block main %}
+    <h1>Lista de Usuarios</h1>
+    
+    <table>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Edad</th>
+          <th colspan="3"></th>
+        </tr>
+        {% for usuario in usuarios %}
+        <tr>
+          <td>{{usuario.username}}</td>
+          <td>{{usuario.email}}</td>
+          <td>{{usuario.age}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    
+{% endblock %}
