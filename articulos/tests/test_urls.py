@@ -68,3 +68,42 @@ class TestUrls(TestCase):
         url = reverse('categoria_delete', kwargs={'pk': self.category_id})
         self.assertEqual(url, f'/categorias/{self.category_id}/eliminar/')
  """
+from django.test import TestCase
+from django.urls import reverse, resolve
+from articulos.views import index, create, detail, edit, delete
+from articulos.models import Article, Categoria
+from django.core.files.uploadedfile import SimpleUploadedFile
+
+class TestUrls(TestCase):
+    def setUp(self):
+        # Categoría de prueba
+        self.categoria = Categoria.objects.create(titulo='Test Categoria')
+
+        # Artículo de prueba
+        self.article = Article.objects.create(
+            title='Test Article',
+            content='Test content.',
+            image=SimpleUploadedFile('test_image.jpg', b'file_content', content_type='image/jpeg'),
+            video=SimpleUploadedFile('test_video.mp4', b'file_content', content_type='video/mp4'),
+            categoria=self.categoria
+        )
+
+    def test_index_url_resolves(self):
+        url = reverse('articulos:index')
+        self.assertEquals(resolve(url).func, index)
+        
+    def test_create_url_resolves(self):
+        url = reverse('articulos:create')
+        self.assertEquals(resolve(url).func, create)
+
+    def test_detail_url_resolves(self):
+        url = reverse('articulos:detail', args=[self.article.id])
+        self.assertEquals(resolve(url).func, detail)
+        
+    def test_edit_url_resolves(self):
+        url = reverse('articulos:edit', args=[self.article.id])
+        self.assertEquals(resolve(url).func, edit)
+    
+    def test_delete_url_resolves(self):
+        url = reverse('articulos:delete', args=[self.article.id])
+        self.assertEquals(resolve(url).func, delete)
