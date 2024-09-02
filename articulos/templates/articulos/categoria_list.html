@@ -2,7 +2,7 @@
 {% block title %}Lista de Categorías{% endblock %}
 {% block main %}
     <h1>Lista de Categorías</h1>
-    <a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a>
+    
     <ul>
         {% for categoria in categorias %}
             <li>{{ categoria.titulo }} - 
@@ -11,5 +11,7 @@
             </li>
         {% endfor %}
     </ul>
+
+    <a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a>
 {% endblock %}
 
