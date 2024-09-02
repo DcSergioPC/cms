@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>articulos.tests.test_urls &#8212; cms 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for articulos.tests.test_urls</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">TestCase</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">resolve</span>
+<span class="kn">from</span> <span class="nn">articulos.views</span> <span class="kn">import</span> <span class="n">index</span><span class="p">,</span> <span class="n">create</span><span class="p">,</span> <span class="n">detail</span><span class="p">,</span> <span class="n">edit</span><span class="p">,</span> <span class="n">delete</span>
+<span class="kn">from</span> <span class="nn">articulos.models</span> <span class="kn">import</span> <span class="n">Article</span>
+<span class="kn">from</span> <span class="nn">django.core.files.uploadedfile</span> <span class="kn">import</span> <span class="n">SimpleUploadedFile</span>
+
+<div class="viewcode-block" id="TestUrls">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls">[docs]</a>
+<span class="k">class</span> <span class="nc">TestUrls</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="TestUrls.setUp">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.setUp">[docs]</a>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#se crea articulo de prueba</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Test&#39;</span><span class="p">,</span>
+            <span class="n">content</span><span class="o">=</span><span class="s1">&#39;Test articulo.&#39;</span><span class="p">,</span>
+            <span class="n">image</span><span class="o">=</span><span class="n">SimpleUploadedFile</span><span class="p">(</span><span class="s1">&#39;test_image.jpg&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;file_content&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;image/jpeg&#39;</span><span class="p">),</span>
+            <span class="n">video</span><span class="o">=</span><span class="n">SimpleUploadedFile</span><span class="p">(</span><span class="s1">&#39;test_video.mp4&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;file_content&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;video/mp4&#39;</span><span class="p">)</span>
+            
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TestUrls.test_index_url_is_resolves">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.test_index_url_is_resolves">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_index_url_is_resolves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;articulos:index&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="TestUrls.test_create_url_is_resolves">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.test_create_url_is_resolves">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_create_url_is_resolves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;articulos:create&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">create</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TestUrls.test_detail_url_is_resolves">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.test_detail_url_is_resolves">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_detail_url_is_resolves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;articulos:detail&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">detail</span><span class="p">)</span></div>
+
+        
+<div class="viewcode-block" id="TestUrls.test_edit_url_is_resolved">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.test_edit_url_is_resolved">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_edit_url_is_resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;articulos:edit&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">edit</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="TestUrls.test_delete_url_is_resolved">
+<a class="viewcode-back" href="../../../modules/articulos.tests.html#articulos.tests.test_urls.TestUrls.test_delete_url_is_resolved">[docs]</a>
+    <span class="k">def</span> <span class="nf">test_delete_url_is_resolved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;articulos:delete&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">id</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="n">resolve</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">delete</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">cms</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Grupo 08.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
