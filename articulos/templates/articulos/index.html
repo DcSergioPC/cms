@@ -6,12 +6,16 @@
   <tr>
     <th>Titulo</th>
     <th>Contenido</th>
+    <th>Categoría</th>
+    <th>Plantilla</th>
     <th colspan="3"></th>
   </tr>
   {% for article in articles %}
   <tr>
     <td>{{article.title}}</td>
     <td>{{article.content}}</td>
+    <td>{{article.categoria}}</td>
+    <td>{{article.plantilla.titulo}}</td>
     <td><a href="{% url 'articulos:detail' article.id %}">Detalles</a></td>
     <td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td>
     <td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td>
