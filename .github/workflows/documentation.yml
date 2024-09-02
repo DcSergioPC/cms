@@ -1,15 +1,22 @@
 name: documentation
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  docs:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
