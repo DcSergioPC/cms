@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cuentas.apps.CuentasConfig', #agregado
     'articulos.apps.ArticulosConfig',  #agregado
     'categorias',
+    'cms',
 ]
 
 MIDDLEWARE = [
