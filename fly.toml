@@ -43,5 +43,5 @@ console_command = '/code/manage.py shell'
   url_prefix = '/static/'
 
 [mounts]
-source = "django_vol"
-destination = "/media"
+  source = "django_vol"
+  destination = "/media"
