@@ -1,14 +1,10 @@
 .. cms documentation master file, created by
-   sphinx-quickstart on Mon Sep  2 03:07:41 2024.
+   sphinx-quickstart on Thu Sep  5 23:24:35 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
 cms documentation
 =================
-
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
 
 
 .. toctree::
@@ -16,5 +12,5 @@ documentation for details.
    :caption: Contents:
 
    modules/articulos
-   modules/cms
    modules/cuentas
+   modules/cms

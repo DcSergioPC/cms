@@ -8,9 +8,11 @@
 import os
 import sys
 import django
-sys.path.insert(0, os.path.abspath('../..'))
+
+sys.path.insert(0, os.path.abspath('../../'))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'cms.settings'
 django.setup()
+
 project = 'cms'
 copyright = '2024, Equipo 08'
 author = 'Equipo 08'
@@ -21,9 +23,10 @@ release = '1.0.0'
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary', 
+    'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.viewcode'
+    'sphinx.ext.viewcode',
+    'sphinx_autodoc_typehints'
 ]
 
 templates_path = ['_templates']
