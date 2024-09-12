@@ -4,7 +4,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Blog</title>
+    <title>CMS</title>
     <link rel="stylesheet" href="{% static 'articulos/css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'articulos/css/style.css' %}">
   </head>
@@ -19,7 +19,7 @@
         <li><a href="{% url 'user_detail' user.pk %}">Detalles de Usuario</a></li>    <!-- Apéndice -->
         <li><a href="{% url 'articulos:categoria_list' %}">Categorías</a></li>
         <li><a href="{% url 'articulos:plantilla_index' %}">Plantillas</a></li>
-        <li><a href="{% url 'usuarios_list' %}" >Usuarios</a></li>
+        <li><a href="{% url 'usuarios_list' %}" >Usuarios y Roles</a></li>
         {% else %}
         <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
         <li><a href="{% url 'signup' %}">Registrar usuario</a></li>
