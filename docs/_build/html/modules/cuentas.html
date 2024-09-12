@@ -35,463 +35,97 @@
             
   <section id="cuentas">
 <h1>Cuentas<a class="headerlink" href="#cuentas" title="Link to this heading">¶</a></h1>
-<section id="module-cuentas.models">
-<span id="modelos"></span><h2>Modelos<a class="headerlink" href="#module-cuentas.models" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.models.</span></span><span class="sig-name descname"><span class="pre">CustomUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_login</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_superuser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">username</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">age</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_admin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_staff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_active</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_joined</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/models.html#CustomUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.models.CustomUser" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractBaseUser</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PermissionsMixin</span></code></p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#cuentas.models.CustomUser.DoesNotExist" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
+<section id="modelos">
+<h2>Modelos<a class="headerlink" href="#modelos" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de models.py</strong></p>
+<ul class="simple">
+<li><p>CustomUser</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomUser</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">,</span> <span class="n">PermissionsMixin</span><span class="p">):</span>
+ <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+     <span class="n">_</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">),</span>
+     <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+ <span class="p">)</span>
+ <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span>
+     <span class="n">_</span><span class="p">(</span><span class="s1">&#39;email address&#39;</span><span class="p">),</span>
+     <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+ <span class="p">)</span>
+ <span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">((</span><span class="s1">&#39;Age&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+ <span class="n">is_admin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="n">is_staff</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;staff status&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+ <span class="n">data_joined</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;data joined&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.EMAIL_FIELD">
-<span class="sig-name descname"><span class="pre">EMAIL_FIELD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'email'</span></em><a class="headerlink" href="#cuentas.models.CustomUser.EMAIL_FIELD" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="n">objects</span> <span class="o">=</span> <span class="n">UserManager</span><span class="p">()</span>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#cuentas.models.CustomUser.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
+ <span class="n">EMAIL_FIELD</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+ <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+ <span class="n">REQUIRED_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.REQUIRED_FIELDS">
-<span class="sig-name descname"><span class="pre">REQUIRED_FIELDS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['username']</span></em><a class="headerlink" href="#cuentas.models.CustomUser.REQUIRED_FIELDS" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+     <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
+     <span class="n">db_table</span> <span class="o">=</span> <span class="s1">&#39;users&#39;</span>
+     <span class="n">swappable</span> <span class="o">=</span> <span class="s1">&#39;AUTH_USER_MODEL&#39;</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.USERNAME_FIELD">
-<span class="sig-name descname"><span class="pre">USERNAME_FIELD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'email'</span></em><a class="headerlink" href="#cuentas.models.CustomUser.USERNAME_FIELD" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">normalize_email</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.age">
-<span class="sig-name descname"><span class="pre">age</span></span><a class="headerlink" href="#cuentas.models.CustomUser.age" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.clean">
-<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/models.html#CustomUser.clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.models.CustomUser.clean" title="Link to this definition">¶</a></dt>
-<dd><p>Hook for doing any extra model-wide validation after clean() has been
-called on every field by self.clean_fields. Any ValidationError raised
-by this method will not be associated with a particular field; it will
-have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.data_joined">
-<span class="sig-name descname"><span class="pre">data_joined</span></span><a class="headerlink" href="#cuentas.models.CustomUser.data_joined" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.email">
-<span class="sig-name descname"><span class="pre">email</span></span><a class="headerlink" href="#cuentas.models.CustomUser.email" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.email_user">
-<span class="sig-name descname"><span class="pre">email_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/models.html#CustomUser.email_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.models.CustomUser.email_user" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.emailaddress_set">
-<span class="sig-name descname"><span class="pre">emailaddress_set</span></span><a class="headerlink" href="#cuentas.models.CustomUser.emailaddress_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+ <span class="k">def</span> <span class="nf">email_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">from_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+     <span class="n">send_mail</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">from_email</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.get_next_by_data_joined">
-<span class="sig-name descname"><span class="pre">get_next_by_data_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">data_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cuentas.models.CustomUser.get_next_by_data_joined" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.get_previous_by_data_joined">
-<span class="sig-name descname"><span class="pre">get_previous_by_data_joined</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">data_joined&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cuentas.models.CustomUser.get_previous_by_data_joined" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.groups">
-<span class="sig-name descname"><span class="pre">groups</span></span><a class="headerlink" href="#cuentas.models.CustomUser.groups" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the forward and reverse sides of
-a many-to-many relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
-instances.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#cuentas.models.CustomUser.id" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.is_active">
-<span class="sig-name descname"><span class="pre">is_active</span></span><a class="headerlink" href="#cuentas.models.CustomUser.is_active" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.is_admin">
-<span class="sig-name descname"><span class="pre">is_admin</span></span><a class="headerlink" href="#cuentas.models.CustomUser.is_admin" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.is_staff">
-<span class="sig-name descname"><span class="pre">is_staff</span></span><a class="headerlink" href="#cuentas.models.CustomUser.is_staff" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.is_superuser">
-<span class="sig-name descname"><span class="pre">is_superuser</span></span><a class="headerlink" href="#cuentas.models.CustomUser.is_superuser" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.last_login">
-<span class="sig-name descname"><span class="pre">last_login</span></span><a class="headerlink" href="#cuentas.models.CustomUser.last_login" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.logentry_set">
-<span class="sig-name descname"><span class="pre">logentry_set</span></span><a class="headerlink" href="#cuentas.models.CustomUser.logentry_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.contrib.auth.models.UserManager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#cuentas.models.CustomUser.objects" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.password">
-<span class="sig-name descname"><span class="pre">password</span></span><a class="headerlink" href="#cuentas.models.CustomUser.password" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.socialaccount_set">
-<span class="sig-name descname"><span class="pre">socialaccount_set</span></span><a class="headerlink" href="#cuentas.models.CustomUser.socialaccount_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.user_permissions">
-<span class="sig-name descname"><span class="pre">user_permissions</span></span><a class="headerlink" href="#cuentas.models.CustomUser.user_permissions" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the forward and reverse sides of
-a many-to-many relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
-instances.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.username">
-<span class="sig-name descname"><span class="pre">username</span></span><a class="headerlink" href="#cuentas.models.CustomUser.username" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.models.CustomUser.usersession_set">
-<span class="sig-name descname"><span class="pre">usersession_set</span></span><a class="headerlink" href="#cuentas.models.CustomUser.usersession_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-</dd></dl>
-
+<p>Definicion de usuario personalizado con CustomUser</p>
+<p>Funcionalidades de permisos y grupos. Verificacion de permisos de usuario con PermissionsMixin</p>
+<p>El campo username es el nombre de usuario, para la autentificacion se utiliza email, USERNAME_FIELD</p>
+<p>El campo email es para la direccion de correo electronico (es unica)</p>
+<p>El método clean() es para limpiar y normalizar los datos del modelo antes de guardarlos</p>
+<p>El método email_user() es para enviar un correo electrónico al usuario. send_mail de Django se utiliza para enviar el correo</p>
 </section>
-<section id="module-cuentas.views">
-<span id="vistas"></span><h2>Vistas<a class="headerlink" href="#module-cuentas.views" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.CustomLogoutView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">CustomLogoutView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#CustomLogoutView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.CustomLogoutView" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.views.CustomLogoutView.post">
-<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#CustomLogoutView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.CustomLogoutView.post" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.LogoutConfirmView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">LogoutConfirmView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#LogoutConfirmView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.LogoutConfirmView" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.LogoutConfirmView.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/logout_confirm.html'</span></em><a class="headerlink" href="#cuentas.views.LogoutConfirmView.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.PasswordChange">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">PasswordChange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#PasswordChange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.PasswordChange" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PasswordChangeView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.PasswordChange.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/password_change.html'</span></em><a class="headerlink" href="#cuentas.views.PasswordChange.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.PasswordChangeDone">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">PasswordChangeDone</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#PasswordChangeDone"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.PasswordChangeDone" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PasswordChangeDoneView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.PasswordChangeDone.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/user_detail.html'</span></em><a class="headerlink" href="#cuentas.views.PasswordChangeDone.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.UserCreateAndLoginView">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">UserCreateAndLoginView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserCreateAndLoginView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserCreateAndLoginView" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserCreateAndLoginView.form_class">
-<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#cuentas.views.UserCreateAndLoginView.form_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.forms.CustomUserCreationForm" title="cuentas.forms.CustomUserCreationForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUserCreationForm</span></code></a></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.views.UserCreateAndLoginView.form_valid">
-<span class="sig-name descname"><span class="pre">form_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">form</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserCreateAndLoginView.form_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserCreateAndLoginView.form_valid" title="Link to this definition">¶</a></dt>
-<dd><p>If the form is valid, save the associated model.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserCreateAndLoginView.success_url">
-<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/articulos/'</span></em><a class="headerlink" href="#cuentas.views.UserCreateAndLoginView.success_url" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserCreateAndLoginView.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/signup.html'</span></em><a class="headerlink" href="#cuentas.views.UserCreateAndLoginView.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.UserDelete">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">UserDelete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserDelete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserDelete" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DeleteView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserDelete.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#cuentas.views.UserDelete.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.models.CustomUser" title="cuentas.models.CustomUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUser</span></code></a></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserDelete.success_url">
-<span class="sig-name descname"><span class="pre">success_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'/cuentas/login/'</span></em><a class="headerlink" href="#cuentas.views.UserDelete.success_url" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserDelete.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/user_delete.html'</span></em><a class="headerlink" href="#cuentas.views.UserDelete.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.UserDetail">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">UserDetail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserDetail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserDetail" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserDetail.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#cuentas.views.UserDetail.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.models.CustomUser" title="cuentas.models.CustomUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUser</span></code></a></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserDetail.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/user_detail.html'</span></em><a class="headerlink" href="#cuentas.views.UserDetail.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.views.UserUpdate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.views.</span></span><span class="sig-name descname"><span class="pre">UserUpdate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserUpdate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserUpdate" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateView</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserUpdate.form_class">
-<span class="sig-name descname"><span class="pre">form_class</span></span><a class="headerlink" href="#cuentas.views.UserUpdate.form_class" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.forms.UserUpdateForm" title="cuentas.forms.UserUpdateForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">UserUpdateForm</span></code></a></p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cuentas.views.UserUpdate.get_success_url">
-<span class="sig-name descname"><span class="pre">get_success_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/views.html#UserUpdate.get_success_url"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.views.UserUpdate.get_success_url" title="Link to this definition">¶</a></dt>
-<dd><p>Return the URL to redirect to after processing a valid form.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserUpdate.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#cuentas.views.UserUpdate.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.models.CustomUser" title="cuentas.models.CustomUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUser</span></code></a></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.views.UserUpdate.template_name">
-<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'cuentas/user_edit.html'</span></em><a class="headerlink" href="#cuentas.views.UserUpdate.template_name" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+<section id="vistas">
+<h2>Vistas<a class="headerlink" href="#vistas" title="Link to this heading">¶</a></h2>
 </section>
-<section id="module-cuentas.forms">
-<span id="formularios"></span><h2>Formularios<a class="headerlink" href="#module-cuentas.forms" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.forms.</span></span><span class="sig-name descname"><span class="pre">CustomUserCreationForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/forms.html#CustomUserCreationForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserCreationForm</span></code></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/cuentas/forms.html#CustomUserCreationForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.Meta" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Meta</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('username',</span> <span class="pre">'email',</span> <span class="pre">'age')</span></em><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.Meta.fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.Meta.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.models.CustomUser" title="cuentas.models.CustomUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUser</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'age':</span> <span class="pre">&lt;django.forms.fields.IntegerField</span> <span class="pre">object&gt;,</span> <span class="pre">'email':</span> <span class="pre">&lt;django.forms.fields.EmailField</span> <span class="pre">object&gt;,</span> <span class="pre">'password1':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'password2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'usable_password':</span> <span class="pre">&lt;django.forms.fields.ChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'username':</span> <span class="pre">&lt;django.contrib.auth.forms.UsernameField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.base_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'password1':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'password2':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'usable_password':</span> <span class="pre">&lt;django.forms.fields.ChoiceField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.declared_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cuentas.forms.CustomUserCreationForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#cuentas.forms.CustomUserCreationForm.media" title="Link to this definition">¶</a></dt>
-<dd><p>Return all media required to render the widgets on this form.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cuentas.forms.</span></span><span class="sig-name descname"><span class="pre">UserUpdateForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cuentas/forms.html#UserUpdateForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.forms.UserUpdateForm" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/cuentas/forms.html#UserUpdateForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cuentas.forms.UserUpdateForm.Meta" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('username',</span> <span class="pre">'email',</span> <span class="pre">'age')</span></em><a class="headerlink" href="#cuentas.forms.UserUpdateForm.Meta.fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#cuentas.forms.UserUpdateForm.Meta.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#cuentas.models.CustomUser" title="cuentas.models.CustomUser"><code class="xref py py-class docutils literal notranslate"><span class="pre">CustomUser</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'age':</span> <span class="pre">&lt;django.forms.fields.IntegerField</span> <span class="pre">object&gt;,</span> <span class="pre">'email':</span> <span class="pre">&lt;django.forms.fields.EmailField</span> <span class="pre">object&gt;,</span> <span class="pre">'username':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#cuentas.forms.UserUpdateForm.base_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#cuentas.forms.UserUpdateForm.declared_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="cuentas.forms.UserUpdateForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#cuentas.forms.UserUpdateForm.media" title="Link to this definition">¶</a></dt>
-<dd><p>Return all media required to render the widgets on this form.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="formularios">
+<h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de forms.py</strong></p>
+<ul class="simple">
+<li><p>CustomUserCreationForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomUserCreationForm</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="n">UserCreationForm</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">fields</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>CustomUserCreationForm(UserCreationForm) define un usuario con datos personalizados (formulario personalizado). Extiende de la clase UserCreationForm. Se permite agregar campos a la descripcion de usuario</p>
+<p>Con Meta(UserCreationForm.Meta) se define la estructura del formulario</p>
+<p>Se definen los campos del formulario mediante fields = UserCreationForm.Meta.fields + (‘email’, ‘age’)</p>
+<ul class="simple">
+<li><p>UserUpdateForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UserUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+         <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;age&#39;</span><span class="p">,</span>
+     <span class="p">)</span>
+</pre></div>
+</div>
+<p>Para actualizar la informacion del usuario (UserUpdateForm) se define un formulario que hereda de ModelForm</p>
+<p>Se define estructuracion de formulario con clase Meta</p>
+<p>El formulario esta basado en el modelo CustomUser mediante model = CustomUser</p>
+<dl>
+<dt>Se definen los campos que estan en el formulario con fields = (</dt><dd><blockquote>
+<div><p>‘username’,
+‘email’,
+‘age’,</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
 </section>
 </section>
 
@@ -525,9 +159,9 @@ class built by <code class="docutils literal notranslate"><span class="pre">crea
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="articulos.html">Artículos</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cuentas</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-cuentas.models">Modelos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-cuentas.views">Vistas</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-cuentas.forms">Formularios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelos">Modelos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vistas">Vistas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formularios">Formularios</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cms.html">CMS</a></li>

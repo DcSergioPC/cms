@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Cuentas" href="cuentas.html" />
-    <link rel="prev" title="cms documentation" href="../index.html" />
+    <link rel="prev" title="Documentación del Sistema de Administración de Contenido - CMS" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -35,441 +35,369 @@
             
   <section id="articulos">
 <h1>Artículos<a class="headerlink" href="#articulos" title="Link to this heading">¶</a></h1>
-<section id="module-articulos.models">
-<span id="modelos"></span><h2>Modelos<a class="headerlink" href="#module-articulos.models" title="Link to this heading">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.models.Article">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.models.</span></span><span class="sig-name descname"><span class="pre">Article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">video</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categoria</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plantilla</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/models.html#Article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.models.Article" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Article.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articulos.models.Article.DoesNotExist" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
+<section id="modelos">
+<h2>Modelos<a class="headerlink" href="#modelos" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de models.py</strong></p>
+<ul class="simple">
+<li><p>Categoria</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Categoria</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">titulo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Article.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articulos.models.Article.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.categoria">
-<span class="sig-name descname"><span class="pre">categoria</span></span><a class="headerlink" href="#articulos.models.Article.categoria" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">titulo</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
+<p>importamos el modulo models para definir los modelos en nuestro proyecto CMS</p>
+<p>Para representar la estructura de Categorias se utiliza una clase Categoria que posee un campo que almacena el nombre de dicha categoria. En este caso se utiliza CharField para definir una tamano maximo para el texto</p>
+<ul class="simple">
+<li><p>Plantilla</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Plantilla</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">titulo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+<span class="n">contenido</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.categoria_id">
-<span class="sig-name descname"><span class="pre">categoria_id</span></span><a class="headerlink" href="#articulos.models.Article.categoria_id" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.content">
-<span class="sig-name descname"><span class="pre">content</span></span><a class="headerlink" href="#articulos.models.Article.content" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articulos.models.Article.id" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.image">
-<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#articulos.models.Article.image" title="Link to this definition">¶</a></dt>
-<dd><p>Just like the FileDescriptor, but for ImageFields. The only difference is
-assigning the width/height to the width_field/height_field, if appropriate.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articulos.models.Article.objects" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.plantilla">
-<span class="sig-name descname"><span class="pre">plantilla</span></span><a class="headerlink" href="#articulos.models.Article.plantilla" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulo</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">descripcion</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contenido</span><span class="si">}</span><span class="s1">&#39;</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
-</dd></dl>
+<p>Para representar la estructura de Plantillas utilizamos una clase llamada Plantilla</p>
+<p>El atributo titulo sera el nombre de la plantilla. Tendra un tamano maximo de 255 caracteres utilizando CharField</p>
+<p>El atributo descripcion almacena la descripcion de la Plantilla. En este caso, mediante TextField</p>
+<p>El atributo contenido almacena el contenido de la plantilla que se define en la seccion de plantillas del proyecto cms</p>
+<ul class="simple">
+<li><p>Article</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.plantilla_id">
-<span class="sig-name descname"><span class="pre">plantilla_id</span></span><a class="headerlink" href="#articulos.models.Article.plantilla_id" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.title">
-<span class="sig-name descname"><span class="pre">title</span></span><a class="headerlink" href="#articulos.models.Article.title" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
+<span class="c1">##################</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;images/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;videos/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">####################</span>
+<span class="n">categoria</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plantilla</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Plantilla</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Article.video">
-<span class="sig-name descname"><span class="pre">video</span></span><a class="headerlink" href="#articulos.models.Article.video" title="Link to this definition">¶</a></dt>
-<dd><p>The descriptor for the file attribute on the model instance. Return a
-FieldFile when accessed so you can write code like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">myapp.models</span> <span class="kn">import</span> <span class="n">MyModel</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span> <span class="o">=</span> <span class="n">MyModel</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">instance</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">size</span>
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s1">&#39;</span>
 </pre></div>
 </div>
-<p>Assign a file object on assignment so you can do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/path/to/hello.world&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">instance</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.models.Categoria">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.models.</span></span><span class="sig-name descname"><span class="pre">Categoria</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/models.html#Categoria"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.models.Categoria" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Categoria.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articulos.models.Categoria.DoesNotExist" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Categoria.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articulos.models.Categoria.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Categoria.article_set">
-<span class="sig-name descname"><span class="pre">article_set</span></span><a class="headerlink" href="#articulos.models.Categoria.article_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Categoria.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articulos.models.Categoria.id" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Categoria.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articulos.models.Categoria.objects" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Categoria.titulo">
-<span class="sig-name descname"><span class="pre">titulo</span></span><a class="headerlink" href="#articulos.models.Categoria.titulo" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.models.Plantilla">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.models.</span></span><span class="sig-name descname"><span class="pre">Plantilla</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titulo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">descripcion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contenido</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/models.html#Plantilla"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.models.Plantilla" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.DoesNotExist">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#articulos.models.Plantilla.DoesNotExist" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.MultipleObjectsReturned">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#articulos.models.Plantilla.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.article_set">
-<span class="sig-name descname"><span class="pre">article_set</span></span><a class="headerlink" href="#articulos.models.Plantilla.article_set" title="Link to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.contenido">
-<span class="sig-name descname"><span class="pre">contenido</span></span><a class="headerlink" href="#articulos.models.Plantilla.contenido" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.descripcion">
-<span class="sig-name descname"><span class="pre">descripcion</span></span><a class="headerlink" href="#articulos.models.Plantilla.descripcion" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.id">
-<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#articulos.models.Plantilla.id" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.objects">
-<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#articulos.models.Plantilla.objects" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.models.Plantilla.titulo">
-<span class="sig-name descname"><span class="pre">titulo</span></span><a class="headerlink" href="#articulos.models.Plantilla.titulo" title="Link to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
-</dd></dl>
-
-</dd></dl>
-
+<p>Modelo Article representa la estructura de un articulo en la base de datos</p>
+<p>El atributo titulo sera el nombre del articulo. Tendra un tamano maximo de 255 caracteres utilizando CharField</p>
+<p>El atributo content almacena el contenido del articulo que se define en la seccion de articulos del proyecto cms</p>
+<p>El atributo image permite subir imagenes para los articulos utilizando ImageField (blank=True y null=True indica que es opcional)</p>
+<p>El atributo video permite subir videos para los articulos utilizando FileField (blank=True y null=True indica que es opcional)</p>
+<p>El atributo categoria es un campo de clave foranea que relaciona el articulo con una categoria Categoria existente. En el caso de que se elimina la categoria, el articulo no se eliminara debido a on_delete=models.SET_NULL, que pondra al campo categoria en NULL</p>
+<p>El atributo plantilla es un campo de clave foranea que relaciona el articulo con una plantilla Plantilla existente. En el caso de que se elimina la Plantilla, el articulo no se eliminara debido a on_delete=models.SET_NULL, que pondra al campo Plantilla en NULL</p>
+<section id="documentacion-generada-por-sphinx-8-0-2">
+<h3>Documentacion generada por Sphinx 8.0.2<a class="headerlink" href="#documentacion-generada-por-sphinx-8-0-2" title="Link to this heading">¶</a></h3>
 </section>
-<section id="module-articulos.views">
-<span id="vistas"></span><h2>Vistas<a class="headerlink" href="#module-articulos.views" title="Link to this heading">¶</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.categoria_create">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">categoria_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#categoria_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.categoria_create" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.categoria_delete">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">categoria_delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#categoria_delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.categoria_delete" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.categoria_list">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">categoria_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#categoria_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.categoria_list" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.categoria_update">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">categoria_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#categoria_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.categoria_update" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.create">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.create" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.delete">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.delete" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.detail">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.detail" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.edit">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#edit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.edit" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.index">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.index" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.plantilla_create">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">plantilla_create</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#plantilla_create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.plantilla_create" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.plantilla_delete">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">plantilla_delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plantillas_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#plantilla_delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.plantilla_delete" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.plantilla_detail">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">plantilla_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plantillas_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#plantilla_detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.plantilla_detail" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.plantilla_edit">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">plantilla_edit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plantillas_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#plantilla_edit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.plantilla_edit" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="articulos.views.plantilla_index">
-<span class="sig-prename descclassname"><span class="pre">articulos.views.</span></span><span class="sig-name descname"><span class="pre">plantilla_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/views.html#plantilla_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.views.plantilla_index" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </section>
-<section id="module-articulos.forms">
-<span id="formularios"></span><h2>Formularios<a class="headerlink" href="#module-articulos.forms" title="Link to this heading">¶</a></h2>
-<p>from django import forms</p>
-<dl class="simple">
-<dt>class ArticleForm(forms.Form):</dt><dd><p>title = forms.CharField(label=’Title’, max_length=255)
-content = forms.CharField(label=’Content’, widget=forms.Textarea())
-image = forms.ImageField(label=’Image’, required=False)  # Campo para imagen
-video = forms.FileField(label=’Video’, required=False)   # Campo para video</p>
-</dd>
-</dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.forms.</span></span><span class="sig-name descname"><span class="pre">ArticleForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/forms.html#ArticleForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.ArticleForm" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/articulos/forms.html#ArticleForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.ArticleForm.Meta" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['title',</span> <span class="pre">'content',</span> <span class="pre">'image',</span> <span class="pre">'video',</span> <span class="pre">'categoria',</span> <span class="pre">'plantilla']</span></em><a class="headerlink" href="#articulos.forms.ArticleForm.Meta.fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+<section id="vistas">
+<h2>Vistas<a class="headerlink" href="#vistas" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de views.py</strong></p>
+<ul class="simple">
+<li><p>index</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+   <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+   <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;articles&#39;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/index.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene todos los registros de tabla Article que esta almacenada en la base de datos</p>
+<p>Se guardan los articulos en diccionario params, donde la clave es ‘articles’ y el valor es el definido arriba (articles)</p>
+<p>Se visualiza la lista de articulos mediante render(request, ‘articulos/index.html’, params) que renderiza la plantilla pasandole los datos del diccionario</p>
+<ul class="simple">
+<li><p>create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">()</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articulos.forms.ArticleForm.Meta.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#articulos.models.Article" title="articulos.models.Article"><code class="xref py py-class docutils literal notranslate"><span class="pre">Article</span></code></a></p>
-</dd></dl>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con ArticleForm(request.POST, request.FILES) se crea un objeto formulario con los datos ingresdos por el usuario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>detail</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/detail.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>detail muestra los detalles de un articulo</p>
+<p>Se obtiene el articulo con el ID correspondiente mediante Article.objects.get(id=article_id)</p>
+<p>Se guardan los articulos en diccionario params, donde la clave es ‘articles’ y el valor es el definido arriba (articles)</p>
+<p>Se visualizan articulos mediante render(request, ‘articulos/index.html’, params) que renderiza la plantilla detail.html pasandole los datos del diccionario</p>
+<ul class="simple">
+<li><p>edit</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.Meta.widgets">
-<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'content':</span> <span class="pre">&lt;django.forms.widgets.Textarea</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articulos.forms.ArticleForm.Meta.widgets" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>  <span class="c1"># Usa request.FILES para archivos</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:detail&#39;</span><span class="p">,</span> <span class="n">article_id</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>  <span class="c1"># Usa la instancia para prellenar el formulario</span>
 
-</dd></dl>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/edit.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene el articulo con el ID correspondiente mediante get_object_or_404(Article, id=article_id). Si no existe, error 404</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con ArticleForm(request.POST, request.FILES, instance=article) se cargan objeto formulario con los datos ingresados por el usuario en el articulo</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">):</span>
+     <span class="n">article</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/delete.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mediante Article.objects.get(id=article_id) obtenemos el articulo a eliminar</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar el articulo</p>
+<p>El articulo se elimina de la base de datos con article.delete()</p>
+<p>En el caso de que sea un metodo GET, el sistema muestra una pantalla para confirmar eliminacion</p>
+<ul class="simple">
+<li><p>plantilla_index</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;plantillas&#39;</span><span class="p">:</span> <span class="n">plantillas</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_index.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene todas las plantillas almacenadas en la base de datos mediante Plantilla.objects.all()</p>
+<p>Mediante el uso de diccionario params, las plantillas se guardan con clave “plantillas” y valor “plantillas”</p>
+<p>Utilizando render(request, ‘articulos/plantilla_index.html’, params) se renderiza la plantilla plantilla_index.html, en donde se muestran en la pagina de lista de plantillas las plantillas almacenadas</p>
+<ul class="simple">
+<li><p>plantilla_create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>  <span class="c1"># Asegúrate de incluir request.FILES</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="c1"># Crear una nueva instancia de Plantilla con los datos del formulario</span>
+         <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="p">(</span>
+             <span class="n">titulo</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">],</span>
+             <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;descripcion&#39;</span><span class="p">],</span>
+             <span class="n">contenido</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;contenido&#39;</span><span class="p">]</span>
+         <span class="p">)</span>
+         <span class="n">plantillas</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">()</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'categoria':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'content':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'image':</span> <span class="pre">&lt;django.forms.fields.ImageField</span> <span class="pre">object&gt;,</span> <span class="pre">'plantilla':</span> <span class="pre">&lt;django.forms.models.ModelChoiceField</span> <span class="pre">object&gt;,</span> <span class="pre">'title':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'video':</span> <span class="pre">&lt;django.forms.fields.FileField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articulos.forms.ArticleForm.base_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con PlantillaForm(request.POST) se crea un formulario con datos de plantilla del usuario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<p>Se renderiza la plantilla plantilla_create.html pasando el formulario con render(request, ‘articulos/plantilla_create.html’, {‘form’: form}).</p>
+<ul class="simple">
+<li><p>plantilla_detail</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;plantillas&#39;</span><span class="p">:</span> <span class="n">plantillas</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_detail.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID que se especifica en Plantilla.objects.get(id=plantillas_id) mediante una consulta a la base de Datos</p>
+<p>Mediante el uso de diccionario params, las plantillas se guardan con clave “plantillas” y valor “plantillas”</p>
+<p>Se renderiza la plantilla plantilla_detail.html pasando el formulario con render(request, ‘articulos/plantilla_create.html’, {‘form’: form}).</p>
+<ul class="simple">
+<li><p>plantilla_edit</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantilla</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Plantilla</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#articulos.forms.ArticleForm.declared_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">plantilla</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_detail&#39;</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">plantilla</span><span class="p">)</span>  <span class="c1"># Usa la instancia para prellenar el formulario</span>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="articulos.forms.ArticleForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articulos.forms.ArticleForm.media" title="Link to this definition">¶</a></dt>
-<dd><p>Return all media required to render the widgets on this form.</p>
-</dd></dl>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_edit.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;plantilla&#39;</span><span class="p">:</span> <span class="n">plantilla</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID correspondiente mediante get_object_or_404(Plantilla, id=plantillas_id). Si no existe, error 404</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con PlantillaForm(request.POST, instance=plantilla) se cargan objeto formulario con los datos ingresados por el usuario en la plantilla</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>plantilla_delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantilla</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">):</span>
+     <span class="n">plantilla</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;plantilla&#39;</span><span class="p">:</span> <span class="n">plantilla</span><span class="p">,</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_delete.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID que se especifica en Plantilla.objects.get(id=plantillas_id) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar la plantilla</p>
+<p>La plantilla se elimina de la base de datos con plantilla.delete()</p>
+<p>En el caso de que sea un metodo GET, el sistema muestra una pantalla para confirmar eliminacion</p>
+<ul class="simple">
+<li><p>categoria_list</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="n">categorias</span> <span class="o">=</span> <span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;categorias&#39;</span><span class="p">:</span> <span class="n">categorias</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene las categorias con Categoria.objects.all() mediante una consulta a la base de Datos</p>
+<p>Se renderiza la plantilla categoria_list.html, en donde render(request, ‘articulos/categoria_list.html’, {‘categorias’: categorias}) pasa las categorias para visualizar en la pagina de categorias</p>
+<ul class="simple">
+<li><p>categoria_create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">()</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Su funcion es crear una nueva categoria</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>categoria_update</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+ <span class="n">categoria</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">categoria</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">categoria</span><span class="p">)</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la categoria con el ID que se especifica en get_object_or_404(Categoria, pk=pk) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>categoria_delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+ <span class="n">categoria</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">categoria</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_confirm_delete.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;categoria&#39;</span><span class="p">:</span> <span class="n">categoria</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la categoria con el ID que se especifica en get_object_or_404(Categoria, pk=pk) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar la categoria</p>
+<p>La categoria se elimina de la base de datos con categoria.delete()</p>
+</section>
+<section id="formularios">
+<h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de forms.py</strong></p>
+<ul class="simple">
+<li><p>ArticleForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ArticleForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Article</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span><span class="p">,</span><span class="s1">&#39;categoria&#39;</span><span class="p">,</span> <span class="s1">&#39;plantilla&#39;</span><span class="p">]</span>
+     <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}),</span>
+     <span class="p">}</span>
 
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.forms.</span></span><span class="sig-name descname"><span class="pre">CategoriaForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/forms.html#CategoriaForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.CategoriaForm" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/articulos/forms.html#CategoriaForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.CategoriaForm.Meta" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['titulo']</span></em><a class="headerlink" href="#articulos.forms.CategoriaForm.Meta.fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articulos.forms.CategoriaForm.Meta.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#articulos.models.Categoria" title="articulos.models.Categoria"><code class="xref py py-class docutils literal notranslate"><span class="pre">Categoria</span></code></a></p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'titulo':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articulos.forms.CategoriaForm.base_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#articulos.forms.CategoriaForm.declared_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="articulos.forms.CategoriaForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articulos.forms.CategoriaForm.media" title="Link to this definition">¶</a></dt>
-<dd><p>Return all media required to render the widgets on this form.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">articulos.forms.</span></span><span class="sig-name descname"><span class="pre">PlantillaForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/articulos/forms.html#PlantillaForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.PlantillaForm" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
-<dl class="py class">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.Meta">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="../_modules/articulos/forms.html#PlantillaForm.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#articulos.forms.PlantillaForm.Meta" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.Meta.fields">
-<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['titulo',</span> <span class="pre">'descripcion',</span> <span class="pre">'contenido']</span></em><a class="headerlink" href="#articulos.forms.PlantillaForm.Meta.fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.Meta.model">
-<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#articulos.forms.PlantillaForm.Meta.model" title="Link to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#articulos.models.Plantilla" title="articulos.models.Plantilla"><code class="xref py py-class docutils literal notranslate"><span class="pre">Plantilla</span></code></a></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.Meta.widgets">
-<span class="sig-name descname"><span class="pre">widgets</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'descripcion':</span> <span class="pre">&lt;django.forms.widgets.Textarea</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articulos.forms.PlantillaForm.Meta.widgets" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.base_fields">
-<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'contenido':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'descripcion':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;,</span> <span class="pre">'titulo':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#articulos.forms.PlantillaForm.base_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.declared_fields">
-<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#articulos.forms.PlantillaForm.declared_fields" title="Link to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="articulos.forms.PlantillaForm.media">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#articulos.forms.PlantillaForm.media" title="Link to this definition">¶</a></dt>
-<dd><p>Return all media required to render the widgets on this form.</p>
-</dd></dl>
-
-</dd></dl>
-
+ <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">True</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">True</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">label_from_instance</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">titulo</span>  <span class="c1"># Mostrar solo el título</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Article</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Article</p>
+<p>En el formulario se muestran los campos definidos en Article mediante fields = [‘title’, ‘content’, ‘image’, ‘video’,’categoria’, ‘plantilla’]</p>
+<ul class="simple">
+<li><p>PlantillaForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PlantillaForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Plantilla</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;contenido&#39;</span><span class="p">]</span>
+     <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}),</span>
+     <span class="p">}</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Plantilla</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Plantilla</p>
+<p>En el formulario se muestran los campos definidos en Plantilla mediante fields = [‘titulo’, ‘descripcion’, ‘contenido’]</p>
+<ul class="simple">
+<li><p>CategoriaForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CategoriaForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Categoria</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Categoria</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Categoria</p>
+<p>En el formulario se muestran los campos definidos en Categoria mediante fields = fields = [‘titulo’]</p>
 </section>
 </section>
 
@@ -502,9 +430,9 @@ video = forms.FileField(label=’Video’, required=False)   # Campo para video<
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Artículos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-articulos.models">Modelos</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-articulos.views">Vistas</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-articulos.forms">Formularios</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modelos">Modelos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vistas">Vistas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formularios">Formularios</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cuentas.html">Cuentas</a></li>
@@ -515,7 +443,7 @@ video = forms.FileField(label=’Video’, required=False)   # Campo para video<
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="previous chapter">cms documentation</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">Documentación del Sistema de Administración de Contenido - CMS</a></li>
       <li>Next: <a href="cuentas.html" title="next chapter">Cuentas</a></li>
   </ul></li>
 </ul>
