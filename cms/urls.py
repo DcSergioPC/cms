@@ -27,5 +27,5 @@ urlpatterns = [
     path('articulos/', include('articulos.urls')),  # 
     path("accounts/", include("allauth.urls")), #most important
 ] 
-if settings.DEBUG:  # Solo sirve archivos de medios en desarrollo
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:  # Solo sirve archivos de medios en desarrollo
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

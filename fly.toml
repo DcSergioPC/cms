@@ -44,4 +44,4 @@ console_command = '/code/manage.py shell'
 
 [mounts]
   source = "django_vol"
-  destination = "/media"
+  destination = "/code/media"
