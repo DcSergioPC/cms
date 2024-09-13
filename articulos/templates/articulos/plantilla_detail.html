@@ -18,7 +18,7 @@
 </body>
 
 <a href="{% url 'articulos:plantilla_index' %}">Atras</a> |
-<a href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a>
+{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a> {% endif %}
 
 {% endblock %}
 

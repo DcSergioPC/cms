@@ -20,7 +20,7 @@
     {% endif %}
   </div>
 <a href="{% url 'articulos:index' %}">Atras</a> |
-<a href="{% url 'articulos:edit' article.id %}">Editar</a>
+{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
 
 </body>
 {% endblock %}

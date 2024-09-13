@@ -18,15 +18,15 @@
     <td>{{plantilla.descripcion}}</td>
     <td>{{plantilla.contenido}}</td>
     <td><a href="{% url 'articulos:plantilla_detail' plantilla.id %}">Detalles</a></td>
-    <td><a href="{% url 'articulos:plantilla_edit' plantilla.id %}">Editar</a></td>
-    <td><a href="{% url 'articulos:plantilla_delete' plantilla.id %}">Eliminar</a></td>
+    {% if myRole == 'admin' or myRole == 'editor' %}<td><a href="{% url 'articulos:plantilla_edit' plantilla.id %}">Editar</a></td> {% endif %}
+    {% if myRole == 'admin' %}<td><a href="{% url 'articulos:plantilla_delete' plantilla.id %}">Eliminar</a></td> {% endif %}
   </tr>
   {% endfor %}
 </table>
 
 <br>
 
-<a href="{% url 'articulos:plantilla_create' %}">Nueva Plantilla</a>
+{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:plantilla_create' %}">Nueva Plantilla</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
