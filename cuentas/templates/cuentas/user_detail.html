@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block main %}
+
+{% if user.is_authenticated %}
+
 <table class="table">
   <tbody>
     <tr>
@@ -18,5 +21,12 @@
   </tbody>
 </table>
 <a href="{% url 'user_update' user.pk %}">Editar</a>
-<a href="{% url 'password_change' %}">cambiar contrasena</a>    <!-- Apéndice -->
+<a href="{% url 'password_change' %}">cambiar contrasena</a> 
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+   <!-- Apéndice -->
 {% endblock %}

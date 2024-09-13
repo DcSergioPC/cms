@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 {% block title %}Confirmar Eliminación{% endblock %}
 {% block main %}
+
+{% if user.is_authenticated %}
+
     <h1>¿Estás seguro de que quieres eliminar "{{ categoria.titulo }}"?</h1>
     <form method="post">
         {% csrf_token %}
         <button type="submit">Eliminar</button>
     </form>
     <a href="{% url 'articulos:categoria_list' %}">Cancelar</a>
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+
 {% endblock %}
 

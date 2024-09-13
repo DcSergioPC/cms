@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
-{% block title %}Lista de Categorías{% endblock %}
+{% block title %}Usuarios y Roles{% endblock %}
 {% block main %}
-    <h1>Lista de Usuarios</h1>
+{% if user.is_authenticated %}
+
+
+    <h1>Usuarios</h1>
     
     <table>
         <tr>
           <th>Nombre</th>
           <th>Email</th>
           <th>Edad</th>
+          <th>Rol</th>
+          <th>Rol</th>
           <th colspan="3"></th>
         </tr>
         {% for usuario in usuarios %}
@@ -15,8 +20,38 @@
           <td>{{usuario.username}}</td>
           <td>{{usuario.email}}</td>
           <td>{{usuario.age}}</td>
+          <td>ROL a mostrar</td>
+          <td><a > | </a></td>
+          <td><a >Editar ROL</a></td>
         </tr>
         {% endfor %}
       </table>
+
+      <h1>Roles</h1>
     
+      <table>
+          <tr>
+            <th>ROL</th>
+            <th colspan="1"></th>
+            <th>Cantidad Actual</th>
+          </tr>
+          
+          <tr>
+            <td>ADMINISTRADOR</td>
+            <td> </td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>INVITADO</td>
+            <td> </td>
+            <td>7</td>
+          </tr>
+        </table>
+    
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
 {% endblock %}

@@ -1,44 +1,26 @@
 {% extends "base.html" %}
 
 {% block main %}
-<p>
-  <strong>Titulo:</strong>
-  {{ article.title }}
-</p>
+{{ article.plantilla.contenido|safe }}
+<body>
 
-<p>
-  <strong>Contenido:</strong>
-  {{ article.content }}
-</p>
+  <div class="container">
+    <h1>{{ article.title }}</h1>
 
-<p>
-  <strong>Categoria:</strong>
-  {{ article.categoria }}
-</p>
-
-<p>
-  <strong>Plantilla:</strong>
-  {{ article.plantilla.titulo }}
-</p>
-
-
-{% if article.image %}
-  <p>
-    <strong>Imagen:</strong>
-    <img src="{{ article.image.url }}" alt="Image" style="max-width: 100%; height: auto;">
-  </p>
-{% endif %}
-
-{% if article.video %}
-  <p>
-    <strong>Video:</strong>
-    <video controls style="max-width: 100%; height: auto;">
-      <source src="{{ article.video.url }}" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </p>
-{% endif %}
-
+    {% if article.image %}
+    <img src="{{ article.image.url }}" alt="Image">
+    {% endif %}
+    
+    <p>{{ article.content }}</p>
+    {% if article.video %}
+        <video controls>
+          <source src="{{ article.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    {% endif %}
+  </div>
 <a href="{% url 'articulos:index' %}">Atras</a> |
 <a href="{% url 'articulos:edit' article.id %}">Editar</a>
+
+</body>
 {% endblock %}

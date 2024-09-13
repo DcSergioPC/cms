@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block main %}
+
+{% if user.is_authenticated %}
+
 <h1>Plantillas</h1>
 <table>
   <tr>
@@ -24,5 +27,12 @@
 <br>
 
 <a href="{% url 'articulos:plantilla_create' %}">Nueva Plantilla</a>
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+
 
 {% endblock %}

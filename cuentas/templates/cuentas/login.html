@@ -2,18 +2,11 @@
 {% load socialaccount %}
 
 {% block main %}
-<h1>Iniciar sesión</h1>
-
-<form method="post">
-  {% csrf_token %}
-  <input type="hidden" name="next" value="{{ next }}" />
-  {{ form.as_p }}
-  <input type="submit" value="Iniciar sesión">
-  <button class="btn btn-outline-info">
-    <a href="{% provider_login_url 'openid_connect'%}?next=/articulos">
-        <i class="fab fa-google"></i>
-        Iniciar Sesion con Keycloak
-    </a>
+<h1>! Bienvenido al Sistema de Gestión de Contenidos !</h1>
+<button class="btn btn-outline-info">
+  <a href="{% provider_login_url 'openid_connect'%}?next=/articulos">
+      <i class="fab fa-google"></i>
+      Autenticarme con Keycloak
+  </a>
 </button>
-</form>
 {% endblock %}
