@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Usuarios y Roles{% endblock %}
 {% block main %}
-    <h1>Usuarios y Roles</h1>
+{% if user.is_authenticated %}
+
+
+    <h1>Usuarios</h1>
     
     <table>
         <tr>
@@ -23,28 +26,31 @@
         {% endfor %}
       </table>
 
-      <h1>Administrar Roles</h1>
+      <h1>Roles</h1>
     
       <table>
           <tr>
-            <th>NOMBRE DEL ROL</th>
+            <th>ROL</th>
+            <th colspan="1"></th>
             <th>Cantidad Actual</th>
-            <th colspan="3"></th>
           </tr>
           
           <tr>
             <td>ADMINISTRADOR</td>
+            <td> </td>
             <td>2</td>
-            <td><a >| Editar</a></td>
-            <td><a >| Eliminar</a></td>
           </tr>
           <tr>
             <td>INVITADO</td>
+            <td> </td>
             <td>7</td>
-            <td><a >| Editar </a></td>
-            <td><a >| Eliminar</a></td>
           </tr>
         </table>
-        <button >Nuevo Rol</button>
     
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
 {% endblock %}

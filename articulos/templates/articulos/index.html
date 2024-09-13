@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block main %}
+{% if user.is_authenticated %}
+
+
 <h1>Articulos</h1>
 <table>
   <tr>
@@ -26,5 +29,11 @@
 <br>
 
 <a href="{% url 'articulos:create' %}">Nuevo articulo</a>
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
 
 {% endblock %}

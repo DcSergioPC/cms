@@ -21,8 +21,7 @@
         <li><a href="{% url 'articulos:plantilla_index' %}">Plantillas</a></li>
         <li><a href="{% url 'usuarios_list' %}" >Usuarios y Roles</a></li>
         {% else %}
-        <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
-        <li><a href="{% url 'signup' %}">Registrar usuario</a></li>
+        
         {% endif %}
       </ul>
     </nav>

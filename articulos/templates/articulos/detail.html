@@ -6,7 +6,10 @@
 
   <div class="container">
     <h1>{{ article.title }}</h1>
+
+    {% if article.image %}
     <img src="{{ article.image.url }}" alt="Image">
+    {% endif %}
     
     <p>{{ article.content }}</p>
     {% if article.video %}

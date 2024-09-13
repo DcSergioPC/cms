@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 
 {% block main %}
-<h1>Nuevo Articulo</h1>
-<form action="{% url 'articulos:create' %}" method="post"enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Create Articulo">
-</form>
 
-<br>
+{% if user.is_authenticated %}
+  <h1>Nuevo Articulo</h1>
+  <form action="{% url 'articulos:create' %}" method="post"enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Create Articulo">
+  </form>
 
-<a href="{% url 'articulos:index' %}">Atras</a>
+  <br>
+
+  <a href="{% url 'articulos:index' %}">Atras</a>
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+
+
 {% endblock %}
