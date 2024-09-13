@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    
     username = models.CharField(
         _('username'),
         max_length=150,
