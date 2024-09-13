@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Rol{% endblock %}
+
+{% block main %}
+<h1>Editar Rol de {{ user.username }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar</button>
+</form>
+
+<a href="{% url 'usuarios_list' %}">Volver a la lista de usuarios</a>
+{% endblock %}
