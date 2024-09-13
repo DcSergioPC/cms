@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load role_filter %}
 {% block main %}
 
 {% if user.is_authenticated %}
@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <th>Rol</th>
-      <td>{{ user.age }}</td>
+      <td>{{ myRole|get_role_name }}</td>
     </tr>
   </tbody>
 </table>
