@@ -18,5 +18,6 @@ urlpatterns = [
     path('user_delete/<int:pk>/', views.UserDelete.as_view(), name='user_delete'),
     path('logout_confirm/', views.LogoutConfirmView.as_view(), name='logout_confirm'),
     path('usuarios_list/', views.UsuariosList, name='usuarios_list'),
+    path('usuarios/edit/<int:user_id>/', views.edit_user_role, name='edit_user_role'),
     
 ]

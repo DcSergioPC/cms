@@ -8,6 +8,11 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+ROLE_CHOICES = (
+        ('admin', 'ADMINISTRADOR'),
+        ('editor', 'EDITOR'),	
+        ('guest', 'INVITADO'),
+    )
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     
@@ -24,6 +29,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('staff status'), default=False)
     is_active = models.BooleanField(_('active'), default=True)
     data_joined = models.DateTimeField(_('data joined'), default=timezone.now)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='guest')
+
 
     objects = UserManager()
 

@@ -19,4 +19,14 @@ class UserUpdateForm(forms.ModelForm):
             'email',
             'age',
         )
+
+class UserRoleForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['role']  # Asegúrate de que 'role' esté en tu modelo CustomUser
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Aquí podrías agregar lógica adicional para el formulario si es necesario
+
 # Hasta aquí
