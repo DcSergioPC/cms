@@ -20,7 +20,7 @@
       <td>{{ usuario.username }}</td>
       <td>{{ usuario.email }}</td>
       <td>{{ usuario.age }}</td>
-      <td>{{ roles|get_role_name:usuario.role }}</td>
+      <td>{{ usuario.role|get_role_name }}</td>
       {% if myRole == 'admin' %}<td><button><a href="{% url 'edit_user_role' usuario.id %}">Editar Rol</a></button></td>{% endif %}
     </tr>
     {% endfor %}

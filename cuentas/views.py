@@ -100,9 +100,7 @@ class CustomLogoutView(View):
 
 def UsuariosList(request):
     usuarios = CustomUser.objects.all()
-    myRole = request.user.role
-    roles_dict = dict(ROLE_CHOICES)  # Convertir a diccionario
-    return render(request, 'cuentas/usuarios_list.html', {'usuarios': usuarios, 'roles': roles_dict, 'myRole': myRole})
+    return render(request, 'cuentas/usuarios_list.html', {'usuarios': usuarios})
 
 @login_required
 def edit_user_role(request, user_id):
