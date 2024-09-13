@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Artículos &#8212; cms 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cuentas" href="cuentas.html" />
+    <link rel="prev" title="Documentación del Sistema de Administración de Contenido - CMS" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="articulos">
+<h1>Artículos<a class="headerlink" href="#articulos" title="Link to this heading">¶</a></h1>
+<section id="modelos">
+<h2>Modelos<a class="headerlink" href="#modelos" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de models.py</strong></p>
+<ul class="simple">
+<li><p>Categoria</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Categoria</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">titulo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">titulo</span>
+</pre></div>
+</div>
+<p>importamos el modulo models para definir los modelos en nuestro proyecto CMS</p>
+<p>Para representar la estructura de Categorias se utiliza una clase Categoria que posee un campo que almacena el nombre de dicha categoria. En este caso se utiliza CharField para definir una tamano maximo para el texto</p>
+<ul class="simple">
+<li><p>Plantilla</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Plantilla</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">titulo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+<span class="n">contenido</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">titulo</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">descripcion</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">contenido</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>Para representar la estructura de Plantillas utilizamos una clase llamada Plantilla</p>
+<p>El atributo titulo sera el nombre de la plantilla. Tendra un tamano maximo de 255 caracteres utilizando CharField</p>
+<p>El atributo descripcion almacena la descripcion de la Plantilla. En este caso, mediante TextField</p>
+<p>El atributo contenido almacena el contenido de la plantilla que se define en la seccion de plantillas del proyecto cms</p>
+<ul class="simple">
+<li><p>Article</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+<span class="c1">##################</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;images/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;videos/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">####################</span>
+<span class="n">categoria</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plantilla</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Plantilla</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>Modelo Article representa la estructura de un articulo en la base de datos</p>
+<p>El atributo titulo sera el nombre del articulo. Tendra un tamano maximo de 255 caracteres utilizando CharField</p>
+<p>El atributo content almacena el contenido del articulo que se define en la seccion de articulos del proyecto cms</p>
+<p>El atributo image permite subir imagenes para los articulos utilizando ImageField (blank=True y null=True indica que es opcional)</p>
+<p>El atributo video permite subir videos para los articulos utilizando FileField (blank=True y null=True indica que es opcional)</p>
+<p>El atributo categoria es un campo de clave foranea que relaciona el articulo con una categoria Categoria existente. En el caso de que se elimina la categoria, el articulo no se eliminara debido a on_delete=models.SET_NULL, que pondra al campo categoria en NULL</p>
+<p>El atributo plantilla es un campo de clave foranea que relaciona el articulo con una plantilla Plantilla existente. En el caso de que se elimina la Plantilla, el articulo no se eliminara debido a on_delete=models.SET_NULL, que pondra al campo Plantilla en NULL</p>
+<section id="documentacion-generada-por-sphinx-8-0-2">
+<h3>Documentacion generada por Sphinx 8.0.2<a class="headerlink" href="#documentacion-generada-por-sphinx-8-0-2" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="vistas">
+<h2>Vistas<a class="headerlink" href="#vistas" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de views.py</strong></p>
+<ul class="simple">
+<li><p>index</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+   <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+   <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;articles&#39;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/index.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene todos los registros de tabla Article que esta almacenada en la base de datos</p>
+<p>Se guardan los articulos en diccionario params, donde la clave es ‘articles’ y el valor es el definido arriba (articles)</p>
+<p>Se visualiza la lista de articulos mediante render(request, ‘articulos/index.html’, params) que renderiza la plantilla pasandole los datos del diccionario</p>
+<ul class="simple">
+<li><p>create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">()</span>
+
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con ArticleForm(request.POST, request.FILES) se crea un objeto formulario con los datos ingresdos por el usuario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>detail</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/detail.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>detail muestra los detalles de un articulo</p>
+<p>Se obtiene el articulo con el ID correspondiente mediante Article.objects.get(id=article_id)</p>
+<p>Se guardan los articulos en diccionario params, donde la clave es ‘articles’ y el valor es el definido arriba (articles)</p>
+<p>Se visualizan articulos mediante render(request, ‘articulos/index.html’, params) que renderiza la plantilla detail.html pasandole los datos del diccionario</p>
+<ul class="simple">
+<li><p>edit</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">FILES</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>  <span class="c1"># Usa request.FILES para archivos</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:detail&#39;</span><span class="p">,</span> <span class="n">article_id</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">ArticleForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>  <span class="c1"># Usa la instancia para prellenar el formulario</span>
+
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/edit.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene el articulo con el ID correspondiente mediante get_object_or_404(Article, id=article_id). Si no existe, error 404</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con ArticleForm(request.POST, request.FILES, instance=article) se cargan objeto formulario con los datos ingresados por el usuario en el articulo</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+ <span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">):</span>
+     <span class="n">article</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/delete.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Mediante Article.objects.get(id=article_id) obtenemos el articulo a eliminar</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar el articulo</p>
+<p>El articulo se elimina de la base de datos con article.delete()</p>
+<p>En el caso de que sea un metodo GET, el sistema muestra una pantalla para confirmar eliminacion</p>
+<ul class="simple">
+<li><p>plantilla_index</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_index</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;plantillas&#39;</span><span class="p">:</span> <span class="n">plantillas</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_index.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene todas las plantillas almacenadas en la base de datos mediante Plantilla.objects.all()</p>
+<p>Mediante el uso de diccionario params, las plantillas se guardan con clave “plantillas” y valor “plantillas”</p>
+<p>Utilizando render(request, ‘articulos/plantilla_index.html’, params) se renderiza la plantilla plantilla_index.html, en donde se muestran en la pagina de lista de plantillas las plantillas almacenadas</p>
+<ul class="simple">
+<li><p>plantilla_create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>  <span class="c1"># Asegúrate de incluir request.FILES</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="c1"># Crear una nueva instancia de Plantilla con los datos del formulario</span>
+         <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="p">(</span>
+             <span class="n">titulo</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">],</span>
+             <span class="n">descripcion</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;descripcion&#39;</span><span class="p">],</span>
+             <span class="n">contenido</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s1">&#39;contenido&#39;</span><span class="p">]</span>
+         <span class="p">)</span>
+         <span class="n">plantillas</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">()</span>
+
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_create.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con PlantillaForm(request.POST) se crea un formulario con datos de plantilla del usuario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<p>Se renderiza la plantilla plantilla_create.html pasando el formulario con render(request, ‘articulos/plantilla_create.html’, {‘form’: form}).</p>
+<ul class="simple">
+<li><p>plantilla_detail</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantillas</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="s1">&#39;plantillas&#39;</span><span class="p">:</span> <span class="n">plantillas</span><span class="p">,</span>
+ <span class="p">}</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_detail.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID que se especifica en Plantilla.objects.get(id=plantillas_id) mediante una consulta a la base de Datos</p>
+<p>Mediante el uso de diccionario params, las plantillas se guardan con clave “plantillas” y valor “plantillas”</p>
+<p>Se renderiza la plantilla plantilla_detail.html pasando el formulario con render(request, ‘articulos/plantilla_create.html’, {‘form’: form}).</p>
+<ul class="simple">
+<li><p>plantilla_edit</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_edit</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantilla</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Plantilla</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
+
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">plantilla</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_detail&#39;</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">PlantillaForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">plantilla</span><span class="p">)</span>  <span class="c1"># Usa la instancia para prellenar el formulario</span>
+
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_edit.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;plantilla&#39;</span><span class="p">:</span> <span class="n">plantilla</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID correspondiente mediante get_object_or_404(Plantilla, id=plantillas_id). Si no existe, error 404</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con PlantillaForm(request.POST, instance=plantilla) se cargan objeto formulario con los datos ingresados por el usuario en la plantilla</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>plantilla_delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plantilla_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">plantillas_id</span><span class="p">):</span>
+ <span class="n">plantilla</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">plantillas_id</span><span class="p">)</span>
+ <span class="k">if</span> <span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">):</span>
+     <span class="n">plantilla</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:plantilla_index&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;plantilla&#39;</span><span class="p">:</span> <span class="n">plantilla</span><span class="p">,</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/plantilla_delete.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Se obtiene la plantilla con el ID que se especifica en Plantilla.objects.get(id=plantillas_id) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar la plantilla</p>
+<p>La plantilla se elimina de la base de datos con plantilla.delete()</p>
+<p>En el caso de que sea un metodo GET, el sistema muestra una pantalla para confirmar eliminacion</p>
+<ul class="simple">
+<li><p>categoria_list</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_list</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="n">categorias</span> <span class="o">=</span> <span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_list.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;categorias&#39;</span><span class="p">:</span> <span class="n">categorias</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene las categorias con Categoria.objects.all() mediante una consulta a la base de Datos</p>
+<p>Se renderiza la plantilla categoria_list.html, en donde render(request, ‘articulos/categoria_list.html’, {‘categorias’: categorias}) pasa las categorias para visualizar en la pagina de categorias</p>
+<ul class="simple">
+<li><p>categoria_create</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">()</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Su funcion es crear una nueva categoria</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>categoria_update</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+ <span class="n">categoria</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">categoria</span><span class="p">)</span>
+     <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+         <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+         <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">else</span><span class="p">:</span>
+     <span class="n">form</span> <span class="o">=</span> <span class="n">CategoriaForm</span><span class="p">(</span><span class="n">instance</span><span class="o">=</span><span class="n">categoria</span><span class="p">)</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_form.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la categoria con el ID que se especifica en get_object_or_404(Categoria, pk=pk) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario envia un formulario</p>
+<p>Con form.is_valid() se validan los datos del formulario y se guardan con form.save()</p>
+<ul class="simple">
+<li><p>categoria_delete</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">categoria_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+ <span class="n">categoria</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Categoria</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+ <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+     <span class="n">categoria</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+     <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;articulos:categoria_list&#39;</span><span class="p">)</span>
+ <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/categoria_confirm_delete.html&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;categoria&#39;</span><span class="p">:</span> <span class="n">categoria</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>Se obtiene la categoria con el ID que se especifica en get_object_or_404(Categoria, pk=pk) mediante una consulta a la base de Datos</p>
+<p>Se usa la condicional if request.method == ‘POST’ que define que el usuario quiere eliminar la categoria</p>
+<p>La categoria se elimina de la base de datos con categoria.delete()</p>
+</section>
+<section id="formularios">
+<h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de forms.py</strong></p>
+<ul class="simple">
+<li><p>ArticleForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ArticleForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Article</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="s1">&#39;video&#39;</span><span class="p">,</span><span class="s1">&#39;categoria&#39;</span><span class="p">,</span> <span class="s1">&#39;plantilla&#39;</span><span class="p">]</span>
+     <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}),</span>
+     <span class="p">}</span>
+
+ <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Categoria</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;categoria&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">True</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Plantilla</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">required</span> <span class="o">=</span> <span class="kc">True</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;plantilla&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">label_from_instance</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">titulo</span>  <span class="c1"># Mostrar solo el título</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Article</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Article</p>
+<p>En el formulario se muestran los campos definidos en Article mediante fields = [‘title’, ‘content’, ‘image’, ‘video’,’categoria’, ‘plantilla’]</p>
+<ul class="simple">
+<li><p>PlantillaForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PlantillaForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Plantilla</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;contenido&#39;</span><span class="p">]</span>
+     <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+         <span class="s1">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">}),</span>
+     <span class="p">}</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Plantilla</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Plantilla</p>
+<p>En el formulario se muestran los campos definidos en Plantilla mediante fields = [‘titulo’, ‘descripcion’, ‘contenido’]</p>
+<ul class="simple">
+<li><p>CategoriaForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CategoriaForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">Categoria</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;titulo&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Se utiliza ModelForm para heredar formularios basados en modelos de Django</p>
+<p>Se define un formulario basado en el modelo Categoria</p>
+<p>La clase Meta, proporciona metainformacion sobre el formulario</p>
+<p>Este formulario se asocia al modelo Categoria</p>
+<p>En el formulario se muestran los campos definidos en Categoria mediante fields = fields = [‘titulo’]</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">cms</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Artículos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modelos">Modelos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vistas">Vistas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formularios">Formularios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cuentas.html">Cuentas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cms.html">CMS</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Documentación del Sistema de Administración de Contenido - CMS</a></li>
+      <li>Next: <a href="cuentas.html" title="next chapter">Cuentas</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Equipo 08.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/modules/articulos.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cuentas/', include('cuentas.urls')),  #
     path('articulos/', include('articulos.urls')),  # 
-    path("accounts/", include("allauth.urls")), #most important
+    path("accounts/", include("allauth.urls")), 
 ] 
 # if settings.DEBUG:  # Solo sirve archivos de medios en desarrollo
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
