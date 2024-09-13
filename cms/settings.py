@@ -153,10 +153,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+KEYCLOAK_CLIENT_ID = os.getenv('KEYCLOAK_CLIENT_ID')
+KEYCLOAK_SECRET = os.getenv('KEYCLOAK_SECRET')
+KEYCLOAK_SERVER_HOST = os.getenv('KEYCLOAK_SERVER_HOST')
+KEYCLOAK_REALM = os.getenv('KEYCLOAK_REALM')
+
+DJANGO_SERVER_HOST = os.getenv('DJANGO_SERVER_HOST')
+
 #documentacion
 LOGIN_URL = '/cuentas/login'
 LOGIN_REDIRECT_URL = '/articulos'
-LOGOUT_REDIRECT_URL = f'{os.getenv("KEYCLOAK_SERVER_HOST")}/realms/{os.getenv("KEYCLOAK_REALM")}/protocol/openid-connect/logout?post_logout_redirect_uri={os.getenv("DJANGO_SERVER_HOST")}/cuentas/login&client_id={os.getenv("KEYCLOAK_CLIENT_ID")}'
+LOGOUT_REDIRECT_URL = f'{KEYCLOAK_SERVER_HOST}/realms/{KEYCLOAK_REALM}/protocol/openid-connect/logout?post_logout_redirect_uri={DJANGO_SERVER_HOST}/cuentas/login&client_id={KEYCLOAK_CLIENT_ID}'
 
 
 AUTH_USER_MODEL = 'cuentas.CustomUser'
@@ -165,8 +173,8 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
-DJANGO_SERVER_HOST=os.getenv('DJANGO_SERVER_HOST')
-KEYCLOAK_CLIENT_ID = os.getenv('KEYCLOAK_CLIENT_ID')
+
+
 SOCIALACCOUNT_PROVIDERS = {
     "openid_connect": {
         "APPS": [
@@ -174,10 +182,10 @@ SOCIALACCOUNT_PROVIDERS = {
                 "provider_id": "keycloak",
                 "name": "Keycloak",
                 "client_id": KEYCLOAK_CLIENT_ID,
-                "secret": os.getenv('KEYCLOAK_SECRET'),
+                "secret": KEYCLOAK_SECRET,
                 "settings": {
-                    "server_url": f'{os.getenv("KEYCLOAK_SERVER_HOST")}/realms/{os.getenv("KEYCLOAK_REALM")}/.well-known/openid-configuration',
-                },
+                    "server_url": f'{KEYCLOAK_SERVER_HOST}/realms/{KEYCLOAK_REALM}/.well-known/openid-configuration',
+                }
             }
         ]
     }
@@ -191,3 +199,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"  # new
 
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'localhost').split(",")
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = False
