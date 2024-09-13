@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Lista de Categorías{% endblock %}
 {% block main %}
+
+{% if user.is_authenticated %}
+
     <h1>Lista de Categorías</h1>
     
     <ul>
@@ -13,4 +16,11 @@
     </ul>
 
     <a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a>
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+
 {% endblock %}

@@ -1,21 +1,24 @@
 {% extends "base.html" %}
 
 {% block main %}
-<p>
-  <strong>Titulo:</strong>
-  {{ plantillas.titulo }}
-</p>
+{{ plantillas.contenido|safe }}
+<body>
 
-<p>
-    <strong>Descripcion:</strong>
-    {{ plantillas.descripcion }}
-  </p>
-
-<p>
-  <strong>Contenido:</strong>
-  {{ plantillas.contenido }}
-</p>
+  <div class="container">
+    <h1>{{plantillas.titulo}}</h1>
+    <p>Descripcion: {{plantillas.descripcion}}</p>
+    <img src="https://images.pexels.com/photos/28277461/pexels-photo-28277461/free-photo-of-madera-ligero-carretera-amanecer.jpeg" alt="Image">
+    <p> Lorem ipsum es el texto que se usa habitualmente en diseño gráfico en demostraciones de tipografías o de borradores de diseño para probar el diseño visual antes de insertar el texto final. Aunque no posee actualmente fuentes para justificar sus hipótesis, el profesor de filología clásica Richard McClintock asegura que su uso se remonta a los impresores de comienzos del siglo XVI.1​ Su uso en algunos editores de texto muy conocidos en la actualidad ha dado al texto lorem ipsum nueva popularidad.El texto en sí no tiene sentido aparente, aunque no es aleatorio, sino que deriva de un texto de Cicerón en lengua latina, a cuyas palabras se les han eliminado sílabas o letras. El significado del mismo no tiene importancia, ya que solo es una demostración o prueba. El texto procede de la obra De finibus bonorum et malorum (Sobre los límites del bien y del mal) que comienza con</p>
+        <video controls>
+          <source src="https://media.istockphoto.com/id/1896758161/es/v%C3%ADdeo/im%C3%A1genes-de-dron-de-un-ciclista-de-monta%C3%B1a-decidido-a-andar-en-bicicleta-en-un-enorme.mp4?s=mp4-640x640-is&k=20&c=vc250k5A5zD_WqDLRxI2N3i2isoMHiLXLdbDjYnR3rE=" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    
+  </div>
+</body>
 
 <a href="{% url 'articulos:plantilla_index' %}">Atras</a> |
 <a href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a>
+
 {% endblock %}
+
