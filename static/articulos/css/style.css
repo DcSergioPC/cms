@@ -93,3 +93,20 @@ h1, h2, h3 {
   color: red;
   font-size: 0.875em;
 }
+
+table {
+  border-collapse: separate;
+  border-spacing: 10px; /* Ajusta el tamaño del gap aquí */
+}
+
+td, th {
+  border: 1px solid #ddd; /* Ajusta el color del borde según sea necesario */
+  padding: 8px; /* Espaciado interno para las celdas */
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+}

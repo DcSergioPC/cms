@@ -5,12 +5,14 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth import login, authenticate, logout as auth_logout
 from django.views.generic import TemplateView
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from django.conf import settings
 from allauth.account.utils import complete_signup
+from django.contrib.auth.decorators import login_required
+from cuentas.forms import UserRoleForm
 
-from cuentas.models import CustomUser
+from cuentas.models import CustomUser, ROLE_CHOICES
 
 from .forms import (
     CustomUserCreationForm,
@@ -98,4 +100,19 @@ class CustomLogoutView(View):
 
 def UsuariosList(request):
     usuarios = CustomUser.objects.all()
-    return render(request, 'cuentas/usuarios_list.html', {'usuarios': usuarios})
+    myRole = request.user.role
+    roles_dict = dict(ROLE_CHOICES)  # Convertir a diccionario
+    return render(request, 'cuentas/usuarios_list.html', {'usuarios': usuarios, 'roles': roles_dict, 'myRole': myRole})
+
+@login_required
+def edit_user_role(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        form = UserRoleForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('usuarios_list')  # Redirige a la lista de usuarios después de guardar
+    else:
+        form = UserRoleForm(instance=user)
+    
+    return render(request, 'user/edit_user_role.html', {'form': form, 'user': user})
