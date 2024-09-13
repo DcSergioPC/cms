@@ -20,15 +20,15 @@
     <td>{{article.categoria}}</td>
     <td>{{article.plantilla.titulo}}</td>
     <td><a href="{% url 'articulos:detail' article.id %}">Detalles</a></td>
-    <td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td>
-    <td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td>
+    {% if myRole == 'admin' or myRole == 'editor' %}<td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td> {% endif %}
+    {% if myRole == 'admin' %}<td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td> {% endif %}
   </tr>
   {% endfor %}
 </table>
 
 <br>
 
-<a href="{% url 'articulos:create' %}">Nuevo articulo</a>
+{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
