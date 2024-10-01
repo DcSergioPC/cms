@@ -9,13 +9,13 @@
     <ul>
         {% for categoria in categorias %}
             <li>{{ categoria.titulo }} - 
-                <a href="{% url 'articulos:categoria_update' categoria.pk %}">Editar</a> | 
-                <a href="{% url 'articulos:categoria_delete' categoria.pk %}">Eliminar</a>
+                {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:categoria_update' categoria.pk %}">Editar</a> | {% endif %}
+                {% if myRole == 'admin' %}<a href="{% url 'articulos:categoria_delete' categoria.pk %}">Eliminar</a> {% endif %}
             </li>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a>
+    {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>

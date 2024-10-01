@@ -105,7 +105,23 @@ td, th {
 }
 
 main {
+  margin: 0;
+  padding: 20px;
+  margin-top: 40px;
   display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 40px);
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  padding-inline: 10%;
+}
+
+.login-btn {
+  width: 100%;
+  border-radius: 10px;
+  height: 10rem;
+  font-size: 3rem;
+  border-width: thick;
+  box-shadow: 0px 0px 10px;
 }
