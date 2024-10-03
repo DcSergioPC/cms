@@ -19,5 +19,7 @@ urlpatterns = [
     path('categoria_nueva', views.categoria_create, name='categoria_create'),
     path('categoria_editar/<int:pk>', views.categoria_update, name='categoria_update'),
     path('categoria_eliminar/<int:pk>', views.categoria_delete, name='categoria_delete'),
-    
+    ##Comentarios
+    path('comentario/edit/<int:comentario_id>/', views.edit_comentario, name='edit_comentario'),
+    path('comentario/delete/<int:comentario_id>/', views.delete_comentario, name='delete_comentario'),
 ]

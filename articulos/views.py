@@ -2,8 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria
-from .forms import ArticleForm, PlantillaForm, CategoriaForm
+from .models import Article, Plantilla, Categoria, Comentario 
+from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
+
 
 
 def index(request):
@@ -26,10 +27,34 @@ def create(request):
     return render(request, 'articulos/create.html', {'form': form})
 
 
-def detail(request, article_id):
+'''def detail(request, article_id):
     article = Article.objects.get(id=article_id)
     params = {
         'article': article,
+    }
+    return render(request, 'articulos/detail.html', params)
+'''
+
+
+def detail(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    comentarios = article.comentarios.all()
+    
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.article = article
+            comentario.user = request.user
+            comentario.save()
+            return redirect('articulos:detail', article_id=article.id)
+    else:
+        form = ComentarioForm()
+
+    params = {
+        'article': article,
+        'comentarios': comentarios,
+        'form': form,
     }
     return render(request, 'articulos/detail.html', params)
 
@@ -153,3 +178,33 @@ def categoria_delete(request, pk):
         categoria.delete()
         return redirect('articulos:categoria_list')
     return render(request, 'articulos/categoria_confirm_delete.html', {'categoria': categoria})
+
+
+def edit_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    # Verifica que el usuario sea el autor del comentario
+    if comentario.user != request.user:
+        return redirect('articulos:detail', article_id=comentario.article.id)
+    
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('articulos:detail', article_id=comentario.article.id)
+    else:
+        form = ComentarioForm(instance=comentario)
+
+    return render(request, 'articulos/edit_comentario.html', {
+        'form': form,
+        'article': comentario.article,  
+    })
+
+def delete_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    # Verifica que el usuario sea el autor del comentario
+    if comentario.user == request.user:
+        comentario.delete()
+    
+    return redirect('articulos:detail', article_id=comentario.article.id)

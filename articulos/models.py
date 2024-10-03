@@ -1,6 +1,8 @@
 from django.db import models
 #from .models import Categoria
 
+from django.conf import settings
+
 
 ##TABLA CATEGORIAS
 class Categoria(models.Model):
@@ -34,5 +36,19 @@ class Article(models.Model):
         return f'{self.title}, {self.content}'
     
 
-    
+##
+
+
+
+
+class Comentario(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comentarios')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comentario de {self.user.username} en {self.article.title}'
+
+
 
