@@ -8,25 +8,55 @@ from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
 
 
 def index(request):
-    articles = Article.objects.all()
-    params = {
-        'articles': articles,
-    }
-    return render(request, 'articulos/index.html', params)
+    if request.user.is_authenticated:
+        articles = Article.objects.filter(author=request.user)  # Solo artículos del usuario autenticado
+        return render(request, 'articulos/index.html', {'articles': articles})
+    return redirect('login')  # Redirige si no está autenticado
 
-
+######
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)  
         if form.is_valid():
-            form.save()  
+            #form.save()
+            article = form.save(commit=False)
+            article.author = request.user  # Asigna el autor
+            article.status = 'pendiente'  # Establece el estado a "pending"
+            article.save()  
             return redirect('articulos:index')  
     else:
         form = ArticleForm()
 
     return render(request, 'articulos/create.html', {'form': form})
+'''
+def manejar_articulos(request):
+    articles = Article.objects.filter(status='pending')
+    return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
+'''
+def aceptar_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    article.status = 'publicado'
+    article.save()
+    return redirect('articulos:manejar_articulos')
 
 
+def reject_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    article.status = 'rechazado'
+    article.save()
+    return redirect('articulos:manejar_articulos')
+
+def articulos_publicados(request):
+    articles = Article.objects.filter(status='publicado')
+    return render(request, 'articulos/articulos_publicados.html', {'articles': articles})
+
+def manejar_articulos(request):
+    #comprobamos si el usuario es el administrador
+    if request.user.is_authenticated: 
+        articles = Article.objects.filter(status='pendiente')
+        return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
+    return redirect('articulos:index')  
+######
 '''def detail(request, article_id):
     article = Article.objects.get(id=article_id)
     params = {

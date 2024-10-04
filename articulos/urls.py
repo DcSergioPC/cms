@@ -22,4 +22,10 @@ urlpatterns = [
     ##Comentarios
     path('comentario/edit/<int:comentario_id>/', views.edit_comentario, name='edit_comentario'),
     path('comentario/delete/<int:comentario_id>/', views.delete_comentario, name='delete_comentario'),
+    ##Manejo de Articulos
+    path('estado_publicacion', views.manejar_articulos, name='manejar_articulos'),  # Para gestionar artículos pendientes
+    path('publicados', views.articulos_publicados, name='articulos_publicados'),  # Para ver publicaciones aceptadas
+    path('aceptar/<int:article_id>/', views.aceptar_articulo, name='aceptar_articulo'),  # Para aceptar un artículo
+    path('reject/<int:article_id>/', views.reject_article, name='reject_article'),
+
 ]
