@@ -56,6 +56,13 @@ def manejar_articulos(request):
         articles = Article.objects.filter(status='pendiente')
         return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
     return redirect('articulos:index')  
+
+def tablero_kanban(request):
+    if request.user.is_authenticated:
+        articles = Article.objects.all()  # Solo artículos del usuario autenticado
+        return render(request, 'articulos/kanban.html', {'articles': articles})
+    return redirect('login')  # Redirige si no está autenticado
+
 ######
 '''def detail(request, article_id):
     article = Article.objects.get(id=article_id)

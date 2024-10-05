@@ -10,7 +10,8 @@ from django.utils.translation import gettext_lazy as _
 
 ROLE_CHOICES = (
         ('admin', 'ADMINISTRADOR'),
-        ('editor', 'EDITOR'),	
+        ('editor', 'EDITOR'),
+        ('autor', 'AUTOR'),	
         ('guest', 'INVITADO'),
     )
 

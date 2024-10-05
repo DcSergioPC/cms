@@ -23,6 +23,8 @@ class Plantilla(models.Model):
 class Article(models.Model):
     STATUS_CHOICES = [
         ('pendiente', 'Pendiente'),
+        ('revision', 'Revision'),
+        ('aprobado', 'Aprobado'),
         ('publicado', 'Publicado'),
         ('rechazado', 'Rechazado'),
     ]

@@ -14,10 +14,12 @@
       <ul>
         {% if user.is_authenticated %}
         <li><a href="{% url 'articulos:index' %}">Mis Articulos</a></li>
+        <li><a href="{% url 'articulos:tablero_kanban' %}">Kanban</a></li>
         {% if myRole == 'admin' %}
         <li><a href="{% url 'articulos:manejar_articulos' %}">Confirmar Articulos</a></li>
         {% endif %}
         <li><a href="{% url 'articulos:articulos_publicados' %}">Publicaciones</a></li>
+
         <li><a href="{% url 'logout_confirm' %}">Cerrar sesión</a></li>
         
         <li><a href="{% url 'user_detail' user.pk %}">Detalles de Usuario</a></li>    <!-- Apéndice -->
