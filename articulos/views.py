@@ -6,11 +6,28 @@ from .models import Article, Plantilla, Categoria, Comentario
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
 
 
+from .filters import ArticleFilter  # Importamos el filtro que se creó en filters.py
+
+def article_list(request):
+    articles = Article.objects.all()
+    filter = ArticleFilter(request.GET, queryset=articles)  # Aplicamos el filtro
+
+    return render(request, 'articulos/index.html', {'filter': filter})
+
 
 def index(request):
     if request.user.is_authenticated:
         articles = Article.objects.filter(author=request.user)  # Solo artículos del usuario autenticado
-        return render(request, 'articulos/index.html', {'articles': articles})
+
+        # Aplicar el filtro
+        article_filter = ArticleFilter(request.GET, queryset=Article.objects.all())
+    
+        # Obtener los artículos filtrados
+        articles = article_filter.qs
+
+
+        return render(request, 'articulos/index.html', {'filter': article_filter, 'articles': articles})
+        #return render(request, 'articulos/index.html', {'articles': articles})
     return redirect('login')  # Redirige si no está autenticado
 
 ######
