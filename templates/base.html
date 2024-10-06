@@ -15,7 +15,7 @@
         {% if user.is_authenticated %}
         <li><a href="{% url 'articulos:index' %}">Mis Articulos</a></li>
         <li><a href="{% url 'articulos:tablero_kanban' %}">Kanban</a></li>
-        {% if myRole == 'admin' %}
+        {% if myRole == 'admin' or myRole == 'editor' %}
         <li><a href="{% url 'articulos:manejar_articulos' %}">Confirmar Articulos</a></li>
         {% endif %}
         <li><a href="{% url 'articulos:articulos_publicados' %}">Publicaciones</a></li>

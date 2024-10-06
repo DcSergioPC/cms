@@ -52,7 +52,7 @@ def manejar_articulos(request):
 '''
 def aceptar_articulo(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    article.status = 'publicado'
+    article.status = 'aprobado'
     article.save()
     return redirect('articulos:manejar_articulos')
 
@@ -63,6 +63,13 @@ def reject_article(request, article_id):
     article.save()
     return redirect('articulos:manejar_articulos')
 
+def publicar_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.user.role == 'admin': 
+        article.status = 'publicado'
+        article.save()
+    return redirect('articulos:manejar_articulos')
+
 def articulos_publicados(request):
     articles = Article.objects.filter(status='publicado')
     return render(request, 'articulos/articulos_publicados.html', {'articles': articles})
@@ -70,9 +77,33 @@ def articulos_publicados(request):
 def manejar_articulos(request):
     #comprobamos si el usuario es el administrador
     if request.user.is_authenticated: 
-        articles = Article.objects.filter(status='pendiente')
+        articles = Article.objects.filter(status__in=['pendiente', 'revision', 'aprobado'])
         return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
     return redirect('articulos:index')  
+
+def ver_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    
+    if article.status in ['pendiente', 'revision']:
+        article.status = 'revision'
+        article.save()
+    
+    if request.method == 'POST':
+        if 'aceptar' in request.POST:
+            article.status = 'aprobado'
+            article.save()
+        elif 'rechazar' in request.POST:
+            article.status = 'rechazado'
+            article.save()
+        elif 'publicar' in request.POST and request.user.role == 'admin':   
+            article.status = 'publicado'
+            article.save()
+    
+    return render(request, 'articulos/ver_articulo.html', {'article': article, 'myRole': request.user.role})
+
+
+
+
 
 def tablero_kanban(request):
     if request.user.is_authenticated:

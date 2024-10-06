@@ -28,5 +28,6 @@ urlpatterns = [
     path('publicados', views.articulos_publicados, name='articulos_publicados'),  # Para ver publicaciones aceptadas
     path('aceptar/<int:article_id>/', views.aceptar_articulo, name='aceptar_articulo'),  # Para aceptar un artículo
     path('reject/<int:article_id>/', views.reject_article, name='reject_article'),
-
+    ##Para ver articulo antes de publicar
+    path('ver_articulo/<int:article_id>', views.ver_articulo, name='ver_articulo'),
 ]

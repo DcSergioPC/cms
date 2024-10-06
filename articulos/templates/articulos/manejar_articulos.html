@@ -19,8 +19,7 @@
                 <td>{{ article.author.username }}</td>
                 <td>{{ article.get_status_display }}</td>
                 <td>
-                    <a href="{% url 'articulos:aceptar_articulo' article.id %}">Aceptar</a>
-                    <a href="{% url 'articulos:reject_article' article.id %}">Rechazar</a>
+                    <a href="{% url 'articulos:ver_articulo' article.id %}">Ver articulo</a>
                 </td>
             </tr>
             {% empty %}
