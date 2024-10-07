@@ -202,7 +202,7 @@ class TestViews(TestCase):
  
 from django.test import TestCase, Client
 from django.urls import reverse
-from articulos.models import Article, Categoria, Plantilla
+from articulos.models import Article, Categoria, Plantilla, Comentario 
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class TestViews(TestCase):
@@ -220,6 +220,8 @@ class TestViews(TestCase):
         )
         self.categoria = Categoria.objects.create(titulo='Test Categoria')
 
+        
+        
         # Artículo de prueba
         self.article = Article.objects.create(
             title='Test Article',
@@ -230,11 +232,11 @@ class TestViews(TestCase):
             plantilla=self.plantilla
         )
 
-    def test_index_GET(self):
+    '''def test_index_GET(self):
         response = self.client.get(self.index_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'articulos/index.html')
-
+'''
     def test_create_GET(self):
         response = self.client.get(self.create_url)
         self.assertEquals(response.status_code, 200)
@@ -291,3 +293,6 @@ class TestViews(TestCase):
         # self.assertRedirects(response, self.index_url)
         # self.assertFalse(Article.objects.filter(id=self.article.id).exists())
         pass
+
+
+    

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Cuentas &#8212; cms 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMS" href="cms.html" />
+    <link rel="prev" title="Artículos" href="articulos.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="cuentas">
+<h1>Cuentas<a class="headerlink" href="#cuentas" title="Link to this heading">¶</a></h1>
+<section id="modelos">
+<h2>Modelos<a class="headerlink" href="#modelos" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de models.py</strong></p>
+<ul class="simple">
+<li><p>CustomUser</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomUser</span><span class="p">(</span><span class="n">AbstractBaseUser</span><span class="p">,</span> <span class="n">PermissionsMixin</span><span class="p">):</span>
+ <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span>
+     <span class="n">_</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">),</span>
+     <span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+ <span class="p">)</span>
+ <span class="n">email</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span>
+     <span class="n">_</span><span class="p">(</span><span class="s1">&#39;email address&#39;</span><span class="p">),</span>
+     <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+ <span class="p">)</span>
+ <span class="n">age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">((</span><span class="s1">&#39;Age&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+ <span class="n">is_admin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="n">is_staff</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;staff status&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+ <span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+ <span class="n">data_joined</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;data joined&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+
+ <span class="n">objects</span> <span class="o">=</span> <span class="n">UserManager</span><span class="p">()</span>
+
+ <span class="n">EMAIL_FIELD</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+ <span class="n">USERNAME_FIELD</span> <span class="o">=</span> <span class="s1">&#39;email&#39;</span>
+ <span class="n">REQUIRED_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">]</span>
+
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">verbose_name</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+     <span class="n">verbose_name_plural</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span>
+     <span class="n">db_table</span> <span class="o">=</span> <span class="s1">&#39;users&#39;</span>
+     <span class="n">swappable</span> <span class="o">=</span> <span class="s1">&#39;AUTH_USER_MODEL&#39;</span>
+
+ <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+     <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">normalize_email</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+
+ <span class="k">def</span> <span class="nf">email_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">from_email</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+     <span class="n">send_mail</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">from_email</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">email</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Definicion de usuario personalizado con CustomUser</p>
+<p>Funcionalidades de permisos y grupos. Verificacion de permisos de usuario con PermissionsMixin</p>
+<p>El campo username es el nombre de usuario, para la autentificacion se utiliza email, USERNAME_FIELD</p>
+<p>El campo email es para la direccion de correo electronico (es unica)</p>
+<p>El método clean() es para limpiar y normalizar los datos del modelo antes de guardarlos</p>
+<p>El método email_user() es para enviar un correo electrónico al usuario. send_mail de Django se utiliza para enviar el correo</p>
+</section>
+<section id="vistas">
+<h2>Vistas<a class="headerlink" href="#vistas" title="Link to this heading">¶</a></h2>
+</section>
+<section id="formularios">
+<h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
+<p><strong>Descripción de Clases de forms.py</strong></p>
+<ul class="simple">
+<li><p>CustomUserCreationForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CustomUserCreationForm</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">(</span><span class="n">UserCreationForm</span><span class="o">.</span><span class="n">Meta</span><span class="p">):</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="n">UserCreationForm</span><span class="o">.</span><span class="n">Meta</span><span class="o">.</span><span class="n">fields</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;age&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>CustomUserCreationForm(UserCreationForm) define un usuario con datos personalizados (formulario personalizado). Extiende de la clase UserCreationForm. Se permite agregar campos a la descripcion de usuario</p>
+<p>Con Meta(UserCreationForm.Meta) se define la estructura del formulario</p>
+<p>Se definen los campos del formulario mediante fields = UserCreationForm.Meta.fields + (‘email’, ‘age’)</p>
+<ul class="simple">
+<li><p>UserUpdateForm</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">UserUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+ <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+     <span class="n">model</span> <span class="o">=</span> <span class="n">CustomUser</span>
+     <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span>
+         <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;age&#39;</span><span class="p">,</span>
+     <span class="p">)</span>
+</pre></div>
+</div>
+<p>Para actualizar la informacion del usuario (UserUpdateForm) se define un formulario que hereda de ModelForm</p>
+<p>Se define estructuracion de formulario con clase Meta</p>
+<p>El formulario esta basado en el modelo CustomUser mediante model = CustomUser</p>
+<dl>
+<dt>Se definen los campos que estan en el formulario con fields = (</dt><dd><blockquote>
+<div><p>‘username’,
+‘email’,
+‘age’,</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">cms</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="articulos.html">Artículos</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cuentas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modelos">Modelos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vistas">Vistas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#formularios">Formularios</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cms.html">CMS</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="articulos.html" title="previous chapter">Artículos</a></li>
+      <li>Next: <a href="cms.html" title="next chapter">CMS</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Equipo 08.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/modules/cuentas.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

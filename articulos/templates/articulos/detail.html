@@ -6,6 +6,7 @@
 
   <div class="container">
     <h1>{{ article.title }}</h1>
+    <p>Fecha de creación: {{ article.created_at|date:"F j, Y" }}</p>
 
     {% if article.image %}
     <img src="{{ article.image.url }}" alt="Image">
