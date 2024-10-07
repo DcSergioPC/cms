@@ -294,5 +294,24 @@ class TestViews(TestCase):
         # self.assertFalse(Article.objects.filter(id=self.article.id).exists())
         pass
 
+    #nuevos
+    def aceptar_articulo(self):
+        self.client.login(username='usuariotest', password='1234') 
+        response = self.client.post(self.aceptar_url)
+        self.article.refresh_from_db()
+        self.assertEqual(self.article.status, 'aprobado')
+        self.assertRedirects(response, reverse('articulos:manejar_articulos'))
 
-    
+    def rechazar_articulo(self):
+        self.client.login(username='usuariotest', password='1234')  
+        response = self.client.post(self.reject_url)
+        self.article.refresh_from_db()
+        self.assertEqual(self.article.status, 'rechazado')
+        self.assertRedirects(response, reverse('articulos:manejar_articulos'))
+
+    def publicar_articulo_administrador(self):
+        self.client.login(username='usuariotest', password='1234') 
+        response = self.client.post(self.publicar_url)
+        self.article.refresh_from_db()
+        self.assertEqual(self.article.status, 'publicado')
+        self.assertRedirects(response, reverse('articulos:manejar_articulos'))
