@@ -46,8 +46,13 @@
 
   </div>
 
-  <a href="{% url 'articulos:index' %}">Atras</a> |
-  {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
+  {% if myRole == 'guest' %}
+    |<a href="{% url 'articulos:articulos_publicados' %}">Atras</a>| 
+  {% else %}
+    |<a href="{% url 'articulos:index' %}">Atras</a>| 
+  {% endif %}
+  
+  {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a>| {% endif %}
 
 </body>
 {% endblock %}

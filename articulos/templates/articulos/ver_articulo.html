@@ -26,10 +26,14 @@
       {% csrf_token %}
       
       {% if article.status == "pendiente" %}
+        {% if myRole == 'admin' or myRole == 'editor' %}
           <button type="submit" name="aceptar">Aceptar</button>
-          <button type="submit" name="rechazar">Rechazar</button>
+          {% if myRole == 'admin' %}
+            <button type="button" onclick="window.location.href='{% url 'articulos:delete' article.id %}';">Eliminar</button> 
+          {% endif %}
+        {% endif %}
       {% elif article.status == "revision" %}
-        <button type="submit" name="aceptar">Aceptar</button>
+        <button type="submit" name="aprobar">Aprobar</button>
         <button type="submit" name="rechazar">Rechazar</button>
       {% elif article.status == "aprobado" %}
         {% if myRole == 'admin' %}    
@@ -47,7 +51,7 @@
 
   </div>
 
-  <a href="{% url 'articulos:manejar_articulos' %}">Atras</a> |
+  <a href="{% url 'articulos:tablero_kanban' %}">Atras</a> |
   {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
 
 </body>

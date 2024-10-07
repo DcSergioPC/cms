@@ -35,16 +35,19 @@
     {% if article.get_status_display == 'Pendiente' %}    
     <table>
         <tr>
-            <th>{{ article.title }}</th>
+            <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
         </tr>
         <tr>
-            <td>{{ article.author }}
-                <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
+            <td>
+                {{ article.author }}
                 {% if myRole == 'admin' or myRole == 'editor' %}
-                    <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
-                {% endif %}
-                {% if myRole == 'admin' %}
-                    <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                    <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="aceptar">Aceptar</button>
+                        {% if myRole == 'admin' %}
+                            <button type="button" onclick="window.location.href='{% url 'articulos:delete' article.id %}';">Eliminar</button> 
+                        {% endif %}
+                    </form>
                 {% endif %}
             </td>
         </tr>
@@ -59,16 +62,16 @@
     {% if article.get_status_display == 'Revision' %}    
         <table>
             <tr>
-                <th>{{ article.title }}</th>
+                <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
             </tr>
             <tr>
                 <td>{{ article.author }}
-                    <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
-                    {% if myRole == 'admin' or myRole == 'editor' %}
-                        <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
-                    {% endif %}
-                    {% if myRole == 'admin' %}
-                        <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                    {% if myRole == 'admin' or myRole == 'editor' %} 
+                        <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
+                            {% csrf_token %}
+                            <button type="submit" name="aprobar">Aprobar</button>
+                            <button type="submit" name="rechazar">Rechazar</button>
+                        </form>
                     {% endif %}
                 </td>
             </tr>
@@ -83,17 +86,14 @@
     {% if article.get_status_display == 'Aprobado' %}    
         <table>
             <tr>
-                <th>{{ article.title }}</th>
+                <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
             </tr>
             <tr>
                 <td>{{ article.author }}
-                    <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
-                    {% if myRole == 'admin' or myRole == 'editor' %}
-                        <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
-                    {% endif %}
-                    {% if myRole == 'admin' %}
-                        <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
-                    {% endif %}
+                    <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
+                        {% csrf_token %}
+                        {% if myRole == 'admin' %} <button type="submit" name="publicar">Publicar</button> {% endif %}
+                    </form>
                 </td>
             </tr>
         </table>
@@ -107,17 +107,10 @@
             {% if article.get_status_display == 'Publicado' %}    
                 <table>
                     <tr>
-                    <th>{{ article.title }}</th>
+                        <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
                     </tr>
                         <tr>
                             <td>{{ article.author }}
-                                <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
-                                {% if myRole == 'admin' or myRole == 'editor' %}
-                                    <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
-                                {% endif %}
-                                {% if myRole == 'admin' %}
-                                    <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
-                                {% endif %}
                             </td>
                         </tr>
                 </table>
@@ -128,7 +121,7 @@
 
 <br>
 
-{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
+{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
