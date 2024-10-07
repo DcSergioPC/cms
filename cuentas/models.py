@@ -31,6 +31,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(_('active'), default=True)
     data_joined = models.DateTimeField(_('data joined'), default=timezone.now)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='guest')
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
 
 
     objects = UserManager()

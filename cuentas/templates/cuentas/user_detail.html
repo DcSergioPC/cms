@@ -5,18 +5,18 @@
 {% if user.is_authenticated %}
 
 <table class="table">
-  <tbody>
+  <tbody class="align-left">
     <tr>
-      <th>Nombre de usuario</th>
-      <td>{{ user.username }}</td>
+      <th>Nombre</th>
+      <td>{{ user.first_name }}</td>
     </tr>
     <tr>
-      <th>Dirección de correo electrónico</th>
+      <th>Apellido</th>
+      <td>{{ user.last_name }}</td>
+    </tr>
+    <tr>
+      <th>Correo electrónico</th>
       <td>{{ user.email }}</td>
-    </tr>
-    <tr>
-      <th>Age</th>
-      <td>{{ user.age }}</td>
     </tr>
     <tr>
       <th>Rol</th>
