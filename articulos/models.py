@@ -1,6 +1,8 @@
 from django.db import models
 #from .models import Categoria
 
+from django.conf import settings
+
 
 ##TABLA CATEGORIAS
 class Categoria(models.Model):
@@ -17,9 +19,15 @@ class Plantilla(models.Model):
     def __str__(self):
         return f'{self.titulo}, {self.descripcion}, {self.contenido}'
     
-# Create your models here.
+# Se actualizo para agregar estado
 class Article(models.Model):
-    
+    STATUS_CHOICES = [
+        ('pendiente', 'Pendiente'),
+        ('revision', 'Revision'),
+        ('aprobado', 'Aprobado'),
+        ('publicado', 'Publicado'),
+        ('rechazado', 'Rechazado'),
+    ]
     title = models.CharField(max_length=255)
     content = models.TextField()
 
@@ -30,9 +38,27 @@ class Article(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
     plantilla = models.ForeignKey(Plantilla, on_delete=models.SET_NULL, null=True, blank=True)
     
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)  # Usuario que creó el artículo
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pendiente')
+    created_at = models.DateTimeField(auto_now_add=True)
+    
     def __str__(self):
         return f'{self.title}, {self.content}'
     
 
-    
+##
+
+
+
+
+class Comentario(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='comentarios')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comentario de {self.user.username} en {self.article.title}'
+
+
 

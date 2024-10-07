@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+    .container {
+        display: flex; /* Establecemos un contenedor flexible */
+        justify-content: space-between; /* Distribuimos los elementos de forma equitativa */
+    }
+
+    .column {
+        width: 23%; /* Ancho de cada columna (ajustable) */
+        border: 1px solid #ccc; /* Borde opcional para cada columna */
+        padding: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+</style>
+
+{% if user.is_authenticated %}
+
+<h1>TABLERO KANBAN</h1>
+
+<div class="container">
+  <div class="column" data-status="pendiente">
+    <h2>Pendiente</h2>
+    {% for article in articles %}
+    {% if article.get_status_display == 'Pendiente' %}    
+    <table>
+        <tr>
+            <th>{{ article.title }}</th>
+        </tr>
+        <tr>
+            <td>{{ article.author }}
+                <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
+                {% if myRole == 'admin' or myRole == 'editor' %}
+                    <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
+                {% endif %}
+                {% if myRole == 'admin' %}
+                    <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+    {% endfor %} 
+  </div>
+
+  <div class="column" data-status="revision">
+    <h2>En revisión</h2>
+    {% for article in articles %}
+    {% if article.get_status_display == 'Revision' %}    
+        <table>
+            <tr>
+                <th>{{ article.title }}</th>
+            </tr>
+            <tr>
+                <td>{{ article.author }}
+                    <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
+                    {% if myRole == 'admin' or myRole == 'editor' %}
+                        <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
+                    {% endif %}
+                    {% if myRole == 'admin' %}
+                        <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+    {% endfor %}   
+  </div>
+
+  <div class="column" data-status="aprobado">
+    <h2>Aprobado</h2>
+    {% for article in articles %}
+    {% if article.get_status_display == 'Aprobado' %}    
+        <table>
+            <tr>
+                <th>{{ article.title }}</th>
+            </tr>
+            <tr>
+                <td>{{ article.author }}
+                    <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
+                    {% if myRole == 'admin' or myRole == 'editor' %}
+                        <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
+                    {% endif %}
+                    {% if myRole == 'admin' %}
+                        <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    {% endif %}
+    {% endfor %}   
+    </div>
+
+  <div class="column" data-status="publicado">
+    <h2>Publicado</h2>
+        {% for article in articles %}
+            {% if article.get_status_display == 'Publicado' %}    
+                <table>
+                    <tr>
+                    <th>{{ article.title }}</th>
+                    </tr>
+                        <tr>
+                            <td>{{ article.author }}
+                                <a href="{% url 'articulos:detail' article.id %}">Detalles</a>
+                                {% if myRole == 'admin' or myRole == 'editor' %}
+                                    <a href="{% url 'articulos:edit' article.id %}">Editar</a> 
+                                {% endif %}
+                                {% if myRole == 'admin' %}
+                                    <a href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+                                {% endif %}
+                            </td>
+                        </tr>
+                </table>
+          {% endif %}
+        {% endfor %}    
+    </div>
+</div>
+
+<br>
+
+{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+
+{% endblock %}

@@ -3,7 +3,6 @@
 {% block main %}
 {% if user.is_authenticated %}
 
-
 <h1>Articulos</h1>
 <table>
   <tr>
@@ -11,15 +10,20 @@
     <th>Contenido</th>
     <th>Categoría</th>
     <th>Plantilla</th>
+    <th>Autor</th>
+    <th>Estado</th>
+    <th>Fecha</th>
     <th colspan="3"></th>
   </tr>
   {% for article in articles %}
   <tr>
     <td>{{article.title}}</td>
-    <td>{{article.content}}</td>
+    <td><a href="{% url 'articulos:detail' article.id %}">Ver Contenido</a></td>
     <td>{{article.categoria}}</td>
     <td>{{article.plantilla.titulo}}</td>
-    <td><a href="{% url 'articulos:detail' article.id %}">Detalles</a></td>
+    <td>{{article.author}}</td>
+    <td>{{ article.get_status_display }} </td>
+    <td>{{ article.created_at|date:"d M Y H:i" }}</td> <!-- Muestra la fecha -->
     {% if myRole == 'admin' or myRole == 'editor' %}<td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td> {% endif %}
     {% if myRole == 'admin' %}<td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td> {% endif %}
   </tr>
@@ -36,4 +40,35 @@
 {% endif %}
 
 
+
+
+<!-- Filtro separado -->
+<form method="get">
+  {{ filter.form.as_p }}
+  <button type="submit">Filtrar</button>
+</form>
+
+<!-- Tabla con los resultados filtrados -->
+<table>
+  <thead>
+      <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Categoría</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+      </tr>
+  </thead>
+  <tbody>
+      {% for article in filter.qs %}
+      <tr>
+          <td>{{ article.title }}</td>
+          <td>{{ article.author }}</td>
+          <td>{{ article.categoria }}</td>
+          <td>{{ article.get_status_display }}</td>
+          <td>{{ article.created_at|date:"d M Y H:i" }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

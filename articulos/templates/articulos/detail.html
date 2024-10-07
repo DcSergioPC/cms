@@ -12,15 +12,42 @@
     {% endif %}
     
     <p>{{ article.content }}</p>
+    
     {% if article.video %}
         <video controls>
           <source src="{{ article.video.url }}" type="video/mp4">
           Your browser does not support the video tag.
         </video>
     {% endif %}
+    
+    <h2>Comentarios</h2>
+    <form method="post" class="comentario-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar respuesta</button>
+    </form>
+
+    <ul>
+      {% for comentario in comentarios %}
+      <li class = "comentario"><strong>Usuario: {{ comentario.user.username }}:</strong> <p>{{ comentario.content }}</p> <em>Fecha: ({{ comentario.created_at }})</em>
+        {% if comentario.user == request.user %}
+        <a href="{% url 'articulos:edit_comentario' comentario.id %}">Editar</a>
+        <form method="post" action="{% url 'articulos:delete_comentario' comentario.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Eliminar</button>
+        </form>
+        {% endif %}
+      
+      </li>
+      {% empty %}
+      <li>Sin comentarios</li>
+      {% endfor %}
+    </ul>
+
   </div>
-<a href="{% url 'articulos:index' %}">Atras</a> |
-{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
+
+  <a href="{% url 'articulos:index' %}">Atras</a> |
+  {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
 
 </body>
 {% endblock %}

@@ -2,34 +2,144 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria
-from .forms import ArticleForm, PlantillaForm, CategoriaForm
+from .models import Article, Plantilla, Categoria, Comentario 
+from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
+
+
+from .filters import ArticleFilter  # Importamos el filtro que se creó en filters.py
+
+def article_list(request):
+    articles = Article.objects.all()
+    filter = ArticleFilter(request.GET, queryset=articles)  # Aplicamos el filtro
+
+    return render(request, 'articulos/index.html', {'filter': filter})
 
 
 def index(request):
-    articles = Article.objects.all()
-    params = {
-        'articles': articles,
-    }
-    return render(request, 'articulos/index.html', params)
+    if request.user.is_authenticated:
+        articles = Article.objects.filter(author=request.user)  # Solo artículos del usuario autenticado
+
+        # Aplicar el filtro
+        article_filter = ArticleFilter(request.GET, queryset=Article.objects.all())
+    
+        # Obtener los artículos filtrados
+        articles = article_filter.qs
 
 
+        return render(request, 'articulos/index.html', {'filter': article_filter, 'articles': articles})
+        #return render(request, 'articulos/index.html', {'articles': articles})
+    return redirect('login')  # Redirige si no está autenticado
+
+######
 def create(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)  
         if form.is_valid():
-            form.save()  
+            #form.save()
+            article = form.save(commit=False)
+            article.author = request.user  # Asigna el autor
+            article.status = 'pendiente'  # Establece el estado a "pending"
+            article.save()  
             return redirect('articulos:index')  
     else:
         form = ArticleForm()
 
     return render(request, 'articulos/create.html', {'form': form})
+'''
+def manejar_articulos(request):
+    articles = Article.objects.filter(status='pending')
+    return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
+'''
+def aceptar_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    article.status = 'aprobado'
+    article.save()
+    return redirect('articulos:manejar_articulos')
 
 
-def detail(request, article_id):
+def reject_article(request, article_id):
+    article = Article.objects.get(id=article_id)
+    article.status = 'rechazado'
+    article.save()
+    return redirect('articulos:manejar_articulos')
+
+def publicar_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.user.role == 'admin': 
+        article.status = 'publicado'
+        article.save()
+    return redirect('articulos:manejar_articulos')
+
+def articulos_publicados(request):
+    articles = Article.objects.filter(status='publicado')
+    return render(request, 'articulos/articulos_publicados.html', {'articles': articles})
+
+def manejar_articulos(request):
+    #comprobamos si el usuario es el administrador
+    if request.user.is_authenticated: 
+        articles = Article.objects.filter(status__in=['pendiente', 'revision', 'aprobado'])
+        return render(request, 'articulos/manejar_articulos.html', {'articles': articles})
+    return redirect('articulos:index')  
+
+def ver_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    
+    if article.status in ['pendiente', 'revision']:
+        article.status = 'revision'
+        article.save()
+    
+    if request.method == 'POST':
+        if 'aceptar' in request.POST:
+            article.status = 'aprobado'
+            article.save()
+        elif 'rechazar' in request.POST:
+            article.status = 'rechazado'
+            article.save()
+        elif 'publicar' in request.POST and request.user.role == 'admin':   
+            article.status = 'publicado'
+            article.save()
+    
+    return render(request, 'articulos/ver_articulo.html', {'article': article, 'myRole': request.user.role})
+
+
+
+
+
+def tablero_kanban(request):
+    if request.user.is_authenticated:
+        articles = Article.objects.all()  # Solo artículos del usuario autenticado
+        return render(request, 'articulos/kanban.html', {'articles': articles})
+    return redirect('login')  # Redirige si no está autenticado
+
+######
+'''def detail(request, article_id):
     article = Article.objects.get(id=article_id)
     params = {
         'article': article,
+    }
+    return render(request, 'articulos/detail.html', params)
+'''
+
+
+def detail(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    comentarios = article.comentarios.all()
+    
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.article = article
+            comentario.user = request.user
+            comentario.save()
+            return redirect('articulos:detail', article_id=article.id)
+    else:
+        form = ComentarioForm()
+
+    params = {
+        'article': article,
+        'comentarios': comentarios,
+        'form': form,
     }
     return render(request, 'articulos/detail.html', params)
 
@@ -153,3 +263,33 @@ def categoria_delete(request, pk):
         categoria.delete()
         return redirect('articulos:categoria_list')
     return render(request, 'articulos/categoria_confirm_delete.html', {'categoria': categoria})
+
+
+def edit_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    # Verifica que el usuario sea el autor del comentario
+    if comentario.user != request.user:
+        return redirect('articulos:detail', article_id=comentario.article.id)
+    
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST, instance=comentario)
+        if form.is_valid():
+            form.save()
+            return redirect('articulos:detail', article_id=comentario.article.id)
+    else:
+        form = ComentarioForm(instance=comentario)
+
+    return render(request, 'articulos/edit_comentario.html', {
+        'form': form,
+        'article': comentario.article,  
+    })
+
+def delete_comentario(request, comentario_id):
+    comentario = get_object_or_404(Comentario, id=comentario_id)
+    
+    # Verifica que el usuario sea el autor del comentario
+    if comentario.user == request.user:
+        comentario.delete()
+    
+    return redirect('articulos:detail', article_id=comentario.article.id)

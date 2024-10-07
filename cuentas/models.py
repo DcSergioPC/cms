@@ -10,11 +10,13 @@ from django.utils.translation import gettext_lazy as _
 
 ROLE_CHOICES = (
         ('admin', 'ADMINISTRADOR'),
-        ('editor', 'EDITOR'),	
+        ('editor', 'EDITOR'),
+        ('autor', 'AUTOR'),	
         ('guest', 'INVITADO'),
     )
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    
     username = models.CharField(
         _('username'),
         max_length=150,
