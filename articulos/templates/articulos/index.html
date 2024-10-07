@@ -4,6 +4,16 @@
 {% if user.is_authenticated %}
 
 <h1>Articulos</h1>
+
+<!-- Filtro separado -->
+
+<a>Filtrar por:</a>
+<form method="get">
+  {{ filter.form.as_p }}
+  <button type="submit">Aplicar</button>
+  <button type="button" onclick="window.location.href='{% url 'articulos:index' %}';">Reiniciar</button>
+</form>
+
 <table>
   <tr>
     <th>Titulo</th>
@@ -32,43 +42,11 @@
 
 <br>
 
-{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
+{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>
 {% endif %}
 
-
-
-
-<!-- Filtro separado -->
-<form method="get">
-  {{ filter.form.as_p }}
-  <button type="submit">Filtrar</button>
-</form>
-
-<!-- Tabla con los resultados filtrados -->
-<table>
-  <thead>
-      <tr>
-          <th>Título</th>
-          <th>Autor</th>
-          <th>Categoría</th>
-          <th>Estado</th>
-          <th>Fecha</th>
-      </tr>
-  </thead>
-  <tbody>
-      {% for article in filter.qs %}
-      <tr>
-          <td>{{ article.title }}</td>
-          <td>{{ article.author }}</td>
-          <td>{{ article.categoria }}</td>
-          <td>{{ article.get_status_display }}</td>
-          <td>{{ article.created_at|date:"d M Y H:i" }}</td>
-      </tr>
-      {% endfor %}
-  </tbody>
-</table>
 {% endblock %}

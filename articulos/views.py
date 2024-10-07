@@ -6,7 +6,7 @@ from .models import Article, Plantilla, Categoria, Comentario
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
 
 
-from .filters import ArticleFilter  # Importamos el filtro que se creó en filters.py
+from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
 
 def article_list(request):
     articles = Article.objects.all()
@@ -72,7 +72,13 @@ def publicar_articulo(request, article_id):
 
 def articulos_publicados(request):
     articles = Article.objects.filter(status='publicado')
-    return render(request, 'articulos/articulos_publicados.html', {'articles': articles})
+    # Aplicar el filtro
+    article_filter = PublicadoFilter(request.GET, queryset=Article.objects.filter(status='publicado'))
+    
+    # Obtener los artículos filtrados
+    articles = article_filter.qs
+    
+    return render(request, 'articulos/articulos_publicados.html', {'filter': article_filter, 'articles': articles})
 
 def manejar_articulos(request):
     #comprobamos si el usuario es el administrador
@@ -84,16 +90,19 @@ def manejar_articulos(request):
 def ver_articulo(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     
-    if article.status in ['pendiente', 'revision']:
-        article.status = 'revision'
-        article.save()
+    # if article.status in ['pendiente', 'revision']:
+    #     article.status = 'revision'
+    #     article.save()
     
     if request.method == 'POST':
         if 'aceptar' in request.POST:
-            article.status = 'aprobado'
+            article.status = 'revision'
             article.save()
         elif 'rechazar' in request.POST:
-            article.status = 'rechazado'
+            article.status = 'pendiente'
+            article.save()
+        elif 'aprobar' in request.POST:
+            article.status = 'aprobado'
             article.save()
         elif 'publicar' in request.POST and request.user.role == 'admin':   
             article.status = 'publicado'
@@ -101,7 +110,23 @@ def ver_articulo(request, article_id):
     
     return render(request, 'articulos/ver_articulo.html', {'article': article, 'myRole': request.user.role})
 
-
+def actualiza_articulo(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    if request.method == 'POST':
+        if 'aceptar' in request.POST:
+            article.status = 'revision'
+            article.save()
+        elif 'rechazar' in request.POST:
+            article.status = 'pendiente'
+            article.save()
+        elif 'aprobar' in request.POST:
+            article.status = 'aprobado'
+            article.save()
+        elif 'publicar' in request.POST and request.user.role == 'admin':   
+            article.status = 'publicado'
+            article.save()
+    
+    return redirect('articulos:tablero_kanban')
 
 
 
@@ -110,6 +135,9 @@ def tablero_kanban(request):
         articles = Article.objects.all()  # Solo artículos del usuario autenticado
         return render(request, 'articulos/kanban.html', {'articles': articles})
     return redirect('login')  # Redirige si no está autenticado
+
+
+
 
 ######
 '''def detail(request, article_id):

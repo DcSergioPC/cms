@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 
 {% block main %}
+{% if user.is_authenticated %}
 <div class="container">
     <h1>Publicaciones</h1>
+
+    <a>Filtrar por:</a>
+    <form method="get">
+      {{ filter.form.as_p }}
+      <button type="submit">Aplicar</button>
+      <button type="button" onclick="window.location.href='{% url 'articulos:articulos_publicados' %}';">Reiniciar</button>
+    </form>
+
     <table class="table">
         <thead>
             <tr>
                 <th>Título</th>
+                <th>Categoría</th>
                 <th>Autor</th>
                 <th>Fecha de Creación</th>
-                <th>Acciones</th>
+                
             </tr>
         </thead>
         <tbody>
             {% for article in articles %}
             <tr>
-                <td>{{ article.title }}</td>
+                <td><a href="{% url 'articulos:detail' article.id %}">{{ article.title }}</a></td>
+                <td>{{article.categoria}}</td>
                 <td>{{ article.author.username }}</td>
                 <td>{{ article.created_at|date:"D d M Y" }}</td>
-                <td>
-                    <a href="{% url 'articulos:detail' article.id %}">Ver Detalles</a>
-                </td>
+
             </tr>
             {% empty %}
             <tr>
@@ -30,4 +39,9 @@
         </tbody>
     </table>
 </div>
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
 {% endblock %}
