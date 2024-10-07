@@ -210,3 +210,6 @@ ACCOUNT_EMAIL_REQUIRED = False
 #para hora local
 TIME_ZONE = 'America/Asuncion'
 USE_TZ = True
+
+#para el login
+SOCIALACCOUNT_STORE_TOKENS = True

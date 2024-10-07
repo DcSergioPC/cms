@@ -165,3 +165,7 @@ main {
 .comentario-form button:hover {
   background-color: #4a7a99; 
 }
+
+.align-left {
+  text-align: left;
+}

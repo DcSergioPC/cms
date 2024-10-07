@@ -1,16 +1,8 @@
-from django.core.management import call_command
-from django.db.models.signals import post_migrate
-from django.dispatch import receiver
 # signals.py
 from allauth.socialaccount.signals import social_account_added, social_account_updated
 from allauth.socialaccount.models import SocialToken, SocialAccount
+from django.dispatch import receiver
 import jwt
-
-@receiver(post_migrate)
-def run_create_or_update_site(sender, **kwargs):
-    """Run the create_or_update_site command after migrations are applied."""
-    if sender.name == 'allauth.socialaccount':
-        call_command('create_or_update_site')
 
 # Helper function to decode Keycloak token
 def decode_keycloak_token(token):
@@ -32,11 +24,12 @@ def save_keycloak_data_on_login(sender, request, sociallogin, **kwargs):
         token = SocialToken.objects.get(account=social_account)
         decoded_token = decode_keycloak_token(token.token)
         
-        if decoded_token:
+        # if decoded_token:
             # Guarda la información que necesites en el modelo del usuario o en otro lugar
-            user.first_name = decoded_token.get('given_name')
-            user.last_name = decoded_token.get('family_name')
-            user.save()
+            # user.first_name = decoded_token.get('given_name')
+            # user.last_name = decoded_token.get('family_name')
+            # user.save()
+            # print(decoded_token)
     except (SocialAccount.DoesNotExist, SocialToken.DoesNotExist):
         pass
 
@@ -50,10 +43,11 @@ def update_keycloak_data_on_login(sender, request, sociallogin, **kwargs):
         token = SocialToken.objects.get(account=social_account)
         decoded_token = decode_keycloak_token(token.token)
 
-        if decoded_token:
+        # if decoded_token:
             # Actualiza o guarda la información del token como prefieras
-            user.first_name = decoded_token.get('given_name')
-            user.last_name = decoded_token.get('family_name')
-            user.save()
+            # user.first_name = decoded_token.get('given_name')
+            # user.last_name = decoded_token.get('family_name')
+            # user.save()
+            # print(decoded_token)
     except (SocialAccount.DoesNotExist, SocialToken.DoesNotExist):
         pass
