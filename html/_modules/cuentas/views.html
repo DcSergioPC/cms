@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cuentas.views &#8212; cms 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for cuentas.views</h1><div class="highlight"><pre>
+<span></span><span class="c1">#from django.shortcuts import render</span>
+
+<span class="c1"># Create your views here.</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">CreateView</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">login</span><span class="p">,</span> <span class="n">authenticate</span><span class="p">,</span> <span class="n">logout</span> <span class="k">as</span> <span class="n">auth_logout</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">TemplateView</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">allauth.account.utils</span> <span class="kn">import</span> <span class="n">complete_signup</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CustomUserCreationForm</span><span class="p">,</span>
+    <span class="n">UserUpdateForm</span><span class="p">,</span>
+<span class="p">)</span>    <span class="c1"># cambiar</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="kn">import</span> <span class="n">get_user_model</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DetailView</span><span class="p">,</span>
+    <span class="n">UpdateView</span><span class="p">,</span>
+    <span class="n">DeleteView</span><span class="p">,</span>
+<span class="p">)</span>    <span class="c1"># cambiar</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>    <span class="c1"># Apéndice</span>
+
+<span class="kn">from</span> <span class="nn">django.contrib.auth.views</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PasswordChangeView</span><span class="p">,</span> <span class="n">PasswordChangeDoneView</span>
+<span class="p">)</span>    <span class="c1"># Apéndice</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">get_user_model</span><span class="p">()</span>
+
+<div class="viewcode-block" id="UserCreateAndLoginView">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserCreateAndLoginView">[docs]</a>
+<span class="k">class</span> <span class="nc">UserCreateAndLoginView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">CustomUserCreationForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;cuentas/signup.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;articulos:index&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UserCreateAndLoginView.form_valid">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserCreateAndLoginView.form_valid">[docs]</a>
+    <span class="k">def</span> <span class="nf">form_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">form_valid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">)</span>
+        <span class="n">raw_pw</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">cleaned_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;password1&quot;</span><span class="p">)</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">raw_pw</span><span class="p">)</span>  <span class="c1"># Adjust based on your auth backend</span>
+        
+        <span class="k">if</span> <span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">login</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+            <span class="c1"># Redirect to success_url after login</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_url</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Handle authentication failure</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">form_invalid</span><span class="p">(</span><span class="n">form</span><span class="p">)</span></div>
+</div>
+
+
+<span class="c1"># de aquí</span>
+<div class="viewcode-block" id="UserDetail">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserDetail">[docs]</a>
+<span class="k">class</span> <span class="nc">UserDetail</span><span class="p">(</span><span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/user_detail.html&#39;</span></div>
+
+<span class="c1"># Hasta aquí</span>
+<div class="viewcode-block" id="UserUpdate">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserUpdate">[docs]</a>
+<span class="k">class</span> <span class="nc">UserUpdate</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">UserUpdateForm</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/user_edit.html&#39;</span>
+
+<div class="viewcode-block" id="UserUpdate.get_success_url">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserUpdate.get_success_url">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;user_detail&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">]})</span></div>
+</div>
+
+
+<div class="viewcode-block" id="PasswordChange">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.PasswordChange">[docs]</a>
+<span class="k">class</span> <span class="nc">PasswordChange</span><span class="p">(</span><span class="n">PasswordChangeView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/password_change.html&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="PasswordChangeDone">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.PasswordChangeDone">[docs]</a>
+<span class="k">class</span> <span class="nc">PasswordChangeDone</span><span class="p">(</span><span class="n">PasswordChangeDoneView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/user_detail.html&#39;</span></div>
+
+
+<div class="viewcode-block" id="UserDelete">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.UserDelete">[docs]</a>
+<span class="k">class</span> <span class="nc">UserDelete</span><span class="p">(</span><span class="n">DeleteView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/user_delete.html&#39;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LogoutConfirmView">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.LogoutConfirmView">[docs]</a>
+<span class="k">class</span> <span class="nc">LogoutConfirmView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;cuentas/logout_confirm.html&#39;</span></div>
+
+
+<div class="viewcode-block" id="CustomLogoutView">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.CustomLogoutView">[docs]</a>
+<span class="k">class</span> <span class="nc">CustomLogoutView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="CustomLogoutView.post">
+<a class="viewcode-back" href="../../modules/cuentas.html#cuentas.views.CustomLogoutView.post">[docs]</a>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Recupera el id_token de la sesión del usuario</span>
+        <span class="n">client_id</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;KEYCLOAK_CLIENT_ID&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># Cierra la sesión en Django</span>
+        <span class="n">auth_logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">client_id</span><span class="p">:</span>
+            <span class="n">logout_url</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="s1">&#39;LOGOUT_REDIRECT_URL&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Si no hay id_token, redirige al login normal</span>
+            <span class="n">logout_url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># Redirige al usuario a la URL de logout de Keycloak</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">logout_url</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">cms</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/articulos.html">Artículos</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/cuentas.html">Cuentas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules/cms.html">CMS</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Equipo 08.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
