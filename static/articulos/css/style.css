@@ -79,29 +79,30 @@ nav, footer {
     padding: 10px;
   }
 }
-body {
-  font-family: 'Arial', sans-serif; /* Ejemplo de fuente */
-  background-color: #f4f4f4; /* Color de fondo suave */
-  color: #333; /* Color del texto */
-}
 
-h1, h2, h3 {
-  color: #2c3e50; /* Color para los encabezados */
-}
+/* body {
+  font-family: 'Arial', sans-serif; Ejemplo de fuente
+  background-color: #f4f4f4; Color de fondo suave
+  color: #333; Color del texto
+} */
+
+/* h1, h2, h3 {
+  color: #2c3e50; Color para los encabezados
+} */
 
 .error {
   color: red;
   font-size: 0.875em;
 }
-
+/*
 table {
   border-collapse: separate;
-  border-spacing: 10px; /* Ajusta el tamaño del gap aquí */
+  border-spacing: 10px;  Ajusta el tamaño del gap aquí 
 }
 
 td, th {
-  border: 1px solid #ddd; /* Ajusta el color del borde según sea necesario */
-  padding: 8px; /* Espaciado interno para las celdas */
+  border: 1px solid #ddd; // Ajusta el color del borde según sea necesario 
+  padding: 8px; // Espaciado interno para las celdas 
 }
 
 main {
@@ -116,7 +117,7 @@ main {
   box-sizing: border-box;
   padding-inline: 10%;
 }
-
+*/
 .login-btn {
   width: 100%;
   border-radius: 10px;
@@ -169,3 +170,7 @@ main {
 .align-left {
   text-align: left;
 }
+
+
+
+

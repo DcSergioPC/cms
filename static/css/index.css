@@ -1,0 +1,8 @@
+.filter-form input, .filter-form select {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  

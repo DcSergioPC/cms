@@ -7,46 +7,78 @@
 
 <!-- Filtro separado -->
 
-<a>Filtrar por:</a>
-<form method="get">
+<h3>Filtrar por:</h3>
+<form method="get" class=" filter-form form-control form-control-lg " >
   {{ filter.form.as_p }}
-  <button type="submit">Aplicar</button>
-  <button type="button" onclick="window.location.href='{% url 'articulos:index' %}';">Reiniciar</button>
+  <button type="submit" class="btn btn-primary">Aplicar</button>
+  <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'articulos:index' %}';">Reiniciar</button>
 </form>
 
-<table>
-  <tr>
-    <th>Titulo</th>
-    <th>Contenido</th>
-    <th>Categoría</th>
-    <th>Plantilla</th>
-    <th>Autor</th>
-    <th>Estado</th>
-    <th>Fecha</th>
-    <th colspan="3"></th>
-  </tr>
-  {% for article in articles %}
-  <tr>
-    <td>{{article.title}}</td>
-    <td><a href="{% url 'articulos:detail' article.id %}">Ver Contenido</a></td>
-    <td>{{article.categoria}}</td>
-    <td>{{article.plantilla.titulo}}</td>
-    <td>{{article.author}}</td>
-    <td>{{ article.get_status_display }} </td>
-    <td>{{ article.created_at|date:"d M Y H:i" }}</td> <!-- Muestra la fecha -->
-    {% if myRole == 'admin' or myRole == 'editor' %}<td><a href="{% url 'articulos:edit' article.id %}">Editar</a></td> {% endif %}
-    {% if myRole == 'admin' %}<td><a href="{% url 'articulos:delete' article.id %}">Eliminar</a></td> {% endif %}
-  </tr>
-  {% endfor %}
-</table>
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Contenido</th>
+            <th>Categoría</th>
+            <th>Plantilla</th>
+            <th>Autor</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th> </th>
 
+          </tr>          
+        </thead>
+        <tfoot>
+          <tr>
+            <th>Titulo</th>
+            <th>Contenido</th>
+            <th>Categoría</th>
+            <th>Plantilla</th>
+            <th>Autor</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th> </th>
+
+          </tr>          
+        </tfoot>
+        <tbody>
+          {% for article in articles %}
+          <tr>
+            <td>{{article.title}}</td>
+            <td><a class="btn btn-primary" href="{% url 'articulos:detail' article.id %}">Ver Contenido</a></td>
+            <td>{{article.categoria}}</td>
+            <td>{{article.plantilla.titulo}}</td>
+            <td>{{article.author}}</td>
+            <td>{{ article.get_status_display }} </td>
+            <td>{{ article.created_at|date:"d/m/Y" }} <!-- Muestra la fecha -->
+            <td>{{ article.created_at|date:"H:i" }}</td>  <!-- Muestra la HORA -->
+            <td>
+            {% if myRole == 'admin' or myRole == 'editor' %}<a class="btn btn-primary" href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
+            {% if myRole == 'admin' %}<a class="btn btn-primary" href="{% url 'articulos:delete' article.id %}">Eliminar</a> {% endif %}              
+            </td>
+
+          </tr>
+          {% endfor %}          
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
 <br>
 
-{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
+{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a class="btn btn-primary" href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>
 {% endif %}
+
+
 
 {% endblock %}
