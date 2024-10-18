@@ -2,14 +2,13 @@
 
 {% block main %}
 {% if user.is_authenticated %}
-<div class="container">
     <h1>Publicaciones</h1>
 
-    <a>Filtrar por:</a>
-    <form method="get">
+    <h3>Filtrar por:</h3>
+    <form method="get" class=" filter-form " >
       {{ filter.form.as_p }}
-      <button type="submit">Aplicar</button>
-      <button type="button" onclick="window.location.href='{% url 'articulos:articulos_publicados' %}';">Reiniciar</button>
+      <button type="submit" class="btn btn-primary">Aplicar</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'articulos:articulos_publicados' %}';">Reiniciar</button>
     </form>
 
     <table class="table">
@@ -38,7 +37,7 @@
             {% endfor %}
         </tbody>
     </table>
-</div>
+
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>

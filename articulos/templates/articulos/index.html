@@ -3,21 +3,21 @@
 {% block main %}
 {% if user.is_authenticated %}
 
+<!-- <div class="container"> -->
 <h1>Articulos</h1>
 
 <!-- Filtro separado -->
-
 <h3>Filtrar por:</h3>
-<form method="get" class=" filter-form form-control form-control-lg " >
+<form method="get" class=" filter-form " >
   {{ filter.form.as_p }}
   <button type="submit" class="btn btn-primary">Aplicar</button>
   <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'articulos:index' %}';">Reiniciar</button>
 </form>
 
-<div class="card shadow mb-4">
+<div class="card shadow mb-4 mt-30"> 
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th>Titulo</th>
@@ -70,10 +70,9 @@
     </div>
   </div>
 </div>
-<br>
 
 {% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a class="btn btn-primary" href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
-
+<!-- </div> -->
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>
