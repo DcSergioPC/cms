@@ -20,30 +20,60 @@
           Your browser does not support the video tag.
         </video>
     {% endif %}
-    
-    <h2>Comentarios</h2>
-    <form method="post" class="comentario-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Enviar respuesta</button>
-    </form>
 
-    <ul>
-      {% for comentario in comentarios %}
-      <li class = "comentario"><strong>Usuario: {{ comentario.user.username }}:</strong> <p>{{ comentario.content }}</p> <em>Fecha: ({{ comentario.created_at }})</em>
-        {% if comentario.user == request.user %}
-        <a href="{% url 'articulos:edit_comentario' comentario.id %}">Editar</a>
-        <form method="post" action="{% url 'articulos:delete_comentario' comentario.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Eliminar</button>
-        </form>
-        {% endif %}
-      
-      </li>
-      {% empty %}
-      <li>Sin comentarios</li>
-      {% endfor %}
-    </ul>
+    
+    <!-- Comment Area Start -->
+    <div class=" comment_area clearfix mb-30 mt-100">
+      <h4 class="mb-15 mt-50">Commentarios:</h4>
+
+      <ol>
+        {% for comentario in comentarios %}
+          <!-- Single Comment Area -->
+          <li class="single_comment_area mb-2 ">
+              <!-- Comment Content -->
+              <div class="comment-content d-flex card ">
+                  <!-- Comment Meta -->
+                  <div class="comment-meta pl-sm-3 pt-md-2 mb-2 ">
+                      <div class="d-flex ">
+                          <a href="#" class="post-author ">De: {{ comentario.user.username }}</a>
+                          <a href="#" class="post-date">{{ comentario.created_at }} </a>
+                          {% if comentario.user == request.user %}
+                            <a href="{% url 'articulos:edit_comentario' comentario.id %}" class="post-date">Editar</a>
+                            
+                            <a href="{% url 'articulos:delete_comentario' comentario.id %}" class="post-date">Eliminar</a>
+
+                            <!-- <form method="post" action="{% url 'articulos:delete_comentario' comentario.id %}" style="display:inline;">
+                              {% csrf_token %}
+                              <button type="submit" class="reply">Eliminar</button>
+                            </form> -->
+                          {% endif %}
+                      </div>
+                      <p>{{ comentario.content }}</p>
+                  </div>
+              </div>
+          </li>
+        {% empty %}
+        <a>... Sin comentarios ...</a>
+        {% endfor %}
+      </ol>
+  </div>
+
+  <div class="post-a-comment-area mb-30 clearfix">
+    <h4 class="mt-30">Deja tu comentario</h4>
+
+    <!-- Reply Form -->
+    <div class="comentario-form-area">
+      <div class="row">
+          <form method="post" class="comentario-form-area">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button class="btn newsbox-btn mt-15" type="submit">Enviar respuesta</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
 
   </div>
 

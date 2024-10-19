@@ -39,6 +39,9 @@
         </tr>
         <tr>
             <td>
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="Image">
+                {% endif %}
                 {{ article.author }}
                 {% if myRole == 'admin' or myRole == 'editor' %}
                     <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
@@ -65,6 +68,9 @@
                 <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
             </tr>
             <tr>
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="Image">
+                {% endif %}
                 <td>{{ article.author }}
                     {% if myRole == 'admin' or myRole == 'editor' %} 
                         <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
@@ -89,6 +95,9 @@
                 <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
             </tr>
             <tr>
+                {% if article.image %}
+                <img src="{{ article.image.url }}" alt="Image">
+                {% endif %}
                 <td>{{ article.author }}
                     <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
                         {% csrf_token %}
@@ -110,6 +119,9 @@
                         <th><a href="{% url 'articulos:ver_articulo' article.id %}">{{ article.title }}</a></th>
                     </tr>
                         <tr>
+                            {% if article.image %}
+                            <img src="{{ article.image.url }}" alt="Image">
+                            {% endif %}
                             <td>{{ article.author }}
                             </td>
                         </tr>

@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block main %}
 <h2>Editar Comentario</h2>
 <form method="post">
     {% csrf_token %}
@@ -5,3 +8,5 @@
     <button type="submit">Guardar cambios</button>
 </form>
 <a href="{% url 'articulos:detail' article.id %}">Cancelar</a>
+
+{% endblock %}
