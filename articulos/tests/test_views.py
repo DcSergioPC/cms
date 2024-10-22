@@ -294,7 +294,7 @@ class TestViews(TestCase):
         # self.assertFalse(Article.objects.filter(id=self.article.id).exists())
         pass
 
-    #nuevos
+    
     def aceptar_articulo(self):
         self.client.login(username='usuariotest', password='1234') 
         response = self.client.post(self.aceptar_url)
