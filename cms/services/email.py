@@ -2,6 +2,7 @@
 from django.core.mail import send_mail
 import logging
 from cuentas.models import CustomUser
+from articulos.models import Notification
 
 # Obtener el logger personalizado
 logger = logging.getLogger('email_logger')
@@ -32,22 +33,33 @@ def send_cms_email(subject, message, recipient_list, from_email=None, fail_silen
         logger.error(f"Error al enviar el correo a: {', '.join(recipient_list)}. Detalles: {e}")
 
 def send_confirmation_email(user, article, action='create'):
+    from articulos.views import create_notification
+    
     """Enviar un correo de confirmación al autor del artículo."""
     author_name = f'{user.first_name} {user.last_name}'.strip()
     subject = f'Nuevo artículo en estado: {article.status}'
-    messageAction = f', tu artículo "{article.title}" ha sido creado exitosamente y está en estado "{article.status}".'
+    #messageAction = f', tu artículo "{article.title}" ha sido creado exitosamente y está en estado "{article.status}".'
 
-    if(action == 'update'):
+    if (action == 'create'):
+        message = f'Hola {author_name},\n\nTu artículo "{article.title}" ha sido creado exitosamente y está en estado "{article.status}".'
+        notification_message = f'Tu artículo "{article.title}" ha sido creado.'
+        
+    elif(action == 'update'):
         subject = f'Cambio de estado del artículo: {article.title}'
         messageAction = (f'Has realizado un cambio de estado del articulo de "{article.title}" a "{article.status}".\n')
-    message = (f'Hola {author_name}'.strip() + ',\n\n' + messageAction)
+        message = (f'Hola {author_name}'.strip() + ',\n\n' + messageAction)
+        notification_message = f'Tu artículo "{article.title}" ha cambiado a estado "{article.status}".'
     send_cms_email(
         subject=subject,
         message=message,
         recipient_list=[user.email]
     )
+    
+    create_notification(user, notification_message)
 
 def send_email_to_role(article, origin, action='create', roles=['editor']):
+    from articulos.views import create_notification
+    
     """Enviar un correo a todos los usuarios que se encuentren en el array de roles excepto a la persona origin."""
     users = CustomUser.objects.filter(role__in=roles).exclude(id=origin.id)
     # Obtener el nombre del autor del artículo
@@ -68,3 +80,6 @@ def send_email_to_role(article, origin, action='create', roles=['editor']):
             message=message,
             recipient_list=[u.email]
         )
+        
+        notification_message = f'Un nuevo artículo "{article.title}" ha sido creado por {author_name}.'
+        create_notification(u, notification_message)

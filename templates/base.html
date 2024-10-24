@@ -81,8 +81,14 @@
                                       </ul>
                                   </li>
                                   {% endif %}
-                                  <li><a href="#">Notificaciones</a>
-                                  </li>
+                                  {% if user.is_authenticated %}
+    <li><a href="{% url 'articulos:notifications' %}">Notificaciones 
+        {% if unread_notifications_count > 0 %}
+            ({{ unread_notifications_count }})
+        {% endif %}
+    </a></li>
+{% endif %}
+
                                   <li><a href="#">Usuario</a>
                                       <ul class="dropdown">
                                           <li><a href="{% url 'user_detail' user.pk %}">Mi Usuario</a></li>
