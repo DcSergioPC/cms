@@ -213,3 +213,53 @@ USE_TZ = True
 
 #para el login
 SOCIALACCOUNT_STORE_TOKENS = True
+
+#CONFIGURACION DE CORREO
+# Obtener el valor de la variable de entorno
+value = os.getenv('EMAIL_USE_TLS', 'True')
+
+# Convertir a booleano
+is_enabled = value.lower() in ['true', '1', 't', 'y', 'yes']
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = is_enabled
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USUARIO', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+# Sistema de logs
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {name} {message}',
+            'style': '{',  # Usamos el estilo de formato de cadenas con llaves
+            'datefmt': '[%Y/%b/%d %H:%M:%S]',  # Formato de la fecha y hora
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'email.log'),
+            'formatter': 'verbose',
+            'encoding': 'utf-8',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'email_logger': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
