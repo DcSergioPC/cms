@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article, Plantilla, Categoria, Comentario 
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
+from cms.services.email import send_confirmation_email, send_email_to_role
+from cuentas.models import CustomUser
 
 
 from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
@@ -39,8 +41,17 @@ def create(request):
             article = form.save(commit=False)
             article.author = request.user  # Asigna el autor
             article.status = 'pendiente'  # Establece el estado a "pending"
-            article.save()  
-            return redirect('articulos:index')  
+            article.save()
+            # Enviar correo al usuario que creó el artículo
+            first_name = request.user.first_name or ''
+            last_name = request.user.last_name or ''
+            
+            # Enviar correo al creador del artículo
+            send_confirmation_email(request.user, article, action='create')
+            # Enviar correo a los del mismo rol, excluyendo al creador
+            send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
+
+            return redirect('articulos:index')
     else:
         form = ArticleForm()
 
@@ -113,6 +124,7 @@ def ver_articulo(request, article_id):
 def actualiza_articulo(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     if request.method == 'POST':
+        previous_status = article.status
         if 'aceptar' in request.POST:
             article.status = 'revision'
             article.save()
@@ -125,7 +137,9 @@ def actualiza_articulo(request, article_id):
         elif 'publicar' in request.POST and request.user.role == 'admin':   
             article.status = 'publicado'
             article.save()
-    
+        if(previous_status != article.status):
+            send_confirmation_email(request.user, article, action='update')
+            send_email_to_role(article, request.user, action='update', roles=['admin','editor'])
     return redirect('articulos:tablero_kanban')
 
 
