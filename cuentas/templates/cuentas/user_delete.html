@@ -20,7 +20,7 @@
 
 <form action="{% url 'user_delete' user.id %}" method="post">
   {% csrf_token %}
-  <input type="submit" value="Dar de baja">
+  <input class="btn btn-primary" type="submit" value="Dar de baja">
 </form>
 
 <a href="{% url 'user_detail' user.id %}">Regresar</a>
