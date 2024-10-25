@@ -202,7 +202,7 @@ class TestViews(TestCase):
  
 from django.test import TestCase, Client
 from django.urls import reverse
-from articulos.models import Article, Categoria, Plantilla, Comentario 
+from articulos.models import Article, Categoria, Plantilla, Comentario, Notification
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 class TestViews(TestCase):
@@ -315,3 +315,36 @@ class TestViews(TestCase):
         self.article.refresh_from_db()
         self.assertEqual(self.article.status, 'publicado')
         self.assertRedirects(response, reverse('articulos:manejar_articulos'))
+        
+#Pruebas para notificaciones
+################################################
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+class NotificationViewTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='usuariotest', password='1324')
+        self.client.login(username='usuariotest', password='1234')
+        # Crea 25 notificaciones para el usuario
+        for i in range(25):
+            Notification.objects.create(user=self.user, message=f'Notificación {i + 1}', is_read=False)
+
+    def test_notificationes_view(self):
+        response = self.client.get(reverse('articulos:notifications'))
+        # Verifica que la respuesta sea 200 OK
+        self.assertEqual(response.status_code, 200)
+        # Verifica que se muestren solo 20 notificaciones
+        self.assertEqual(len(response.context['notifications']), 20)
+
+    def test_marcar_notificationes_como_leidas(self):
+        self.client.get(reverse('articulos:notifications'))
+        unread_notifications = Notification.objects.filter(user=self.user, is_read=False)
+        # Verifica que todas las notificaciones se marquen como leídas
+        self.assertEqual(unread_notifications.count(), 0)
+
+    def test_notificacion_create(self):
+        notification = Notification.objects.create(user=self.user, message='Nueva notificación')
+        self.assertEqual(notification.user, self.user)
+        self.assertEqual(notification.message, 'Nueva notificación')
+###############################################################

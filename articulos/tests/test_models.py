@@ -19,7 +19,7 @@ class TestModels(TestCase):
  """
  
 from django.test import TestCase
-from articulos.models import Categoria, Article 
+from articulos.models import Categoria, Article, Notification
 
 class TestModels(TestCase):
     
@@ -41,3 +41,18 @@ class TestModels(TestCase):
     def test_article_creation(self):
         self.assertEqual(self.article.title, 'Test Article')
         self.assertEqual(self.article.categoria, self.categoria)
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class NotificationModelTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+
+    def test_notification_creation(self):
+        notification = Notification.objects.create(user=self.user, message='Test notification')
+        self.assertEqual(notification.user, self.user)
+        self.assertEqual(notification.message, 'Test notification')
+        self.assertFalse(notification.is_read)
+        self.assertIsNotNone(notification.created_at)
