@@ -15,7 +15,7 @@
         {% endfor %}
     </ul>
 
-    {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a> {% endif %}
+    {% if myRole == 'admin' or myRole == 'editor' %}<a  class="btn btn-primary"  href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
