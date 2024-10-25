@@ -173,7 +173,7 @@ def actualiza_articulo(request, article_id):
             article.status = 'revision'
             article.save()
         elif 'rechazar' in request.POST:
-            article.status = 'pendiente'
+            article.status = 'rechazado'
             article.save()
         elif 'aprobar' in request.POST:
             article.status = 'aprobado'
