@@ -324,26 +324,26 @@ User = get_user_model()
 class NotificationViewTests(TestCase):
     def setUp(self):
         self.client = Client()
-        self.user = User.objects.create_user(username='usuariotest', password='1324')
+        self.user = User.objects.create_user(username='usuariotest', password='1234')
         self.client.login(username='usuariotest', password='1234')
         # Crea 25 notificaciones para el usuario
         for i in range(25):
             Notification.objects.create(user=self.user, message=f'Notificación {i + 1}', is_read=False)
 
-    def test_notificationes_view(self):
+    def test_notifications_view(self):
         response = self.client.get(reverse('articulos:notifications'))
         # Verifica que la respuesta sea 200 OK
         self.assertEqual(response.status_code, 200)
         # Verifica que se muestren solo 20 notificaciones
         self.assertEqual(len(response.context['notifications']), 20)
 
-    def test_marcar_notificationes_como_leidas(self):
+    def test_mark_notifications_as_read(self):
         self.client.get(reverse('articulos:notifications'))
         unread_notifications = Notification.objects.filter(user=self.user, is_read=False)
         # Verifica que todas las notificaciones se marquen como leídas
         self.assertEqual(unread_notifications.count(), 0)
 
-    def test_notificacion_create(self):
+    def test_notification_create(self):
         notification = Notification.objects.create(user=self.user, message='Nueva notificación')
         self.assertEqual(notification.user, self.user)
         self.assertEqual(notification.message, 'Nueva notificación')
