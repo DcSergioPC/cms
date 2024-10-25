@@ -101,7 +101,7 @@
                 <td>{{ article.author }}
                     <form method="post" action="{% url 'articulos:actualiza_articulo' article.id %}">
                         {% csrf_token %}
-                        {% if myRole == 'admin' %} <button type="submit" name="publicar">Publicar</button> {% endif %}
+                        {% if myRole == 'admin' or myRole == 'editor' %} <button type="submit" name="publicar">Publicar</button> {% endif %}
                     </form>
                 </td>
             </tr>

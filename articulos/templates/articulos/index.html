@@ -58,8 +58,10 @@
             <td>{{ article.created_at|date:"d/m/Y" }} <!-- Muestra la fecha -->
             <td>{{ article.created_at|date:"H:i" }}</td>  <!-- Muestra la HORA -->
             <td>
-            {% if myRole == 'admin' or myRole == 'editor' %}<a class="btn btn-primary" href="{% url 'articulos:edit' article.id %}">Editar</a> {% endif %}
-            {% if myRole == 'admin' %}<a class="btn btn-primary" href="{% url 'articulos:delete' article.id %}">Eliminar</a> {% endif %}              
+            {% if myRole == 'admin' or myRole == 'editor' %}
+            <a class="btn btn-primary" href="{% url 'articulos:edit' article.id %}">Editar</a>
+            <a class="btn btn-secondary" href="{% url 'articulos:delete' article.id %}">Eliminar</a> 
+            {% endif %}              
             </td>
 
           </tr>
