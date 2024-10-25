@@ -181,7 +181,7 @@ def actualiza_articulo(request, article_id):
         elif 'aprobar' in request.POST:
             article.status = 'aprobado'
             article.save()
-        elif 'publicar' in request.POST and request.user.role == 'admin':   
+        elif 'publicar' in request.POST:   
             article.status = 'publicado'
             article.save()
         if(previous_status != article.status):
