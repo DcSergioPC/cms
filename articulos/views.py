@@ -2,11 +2,28 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria, Comentario 
+from .models import Article, Plantilla, Categoria, Comentario, Notification
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
-
+from cms.services.email import send_confirmation_email, send_email_to_role
+from cuentas.models import CustomUser
+from django.core.paginator import Paginator
 
 from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
+
+###############################Notificaciones
+def create_notification(user, message):
+    Notification.objects.create(user=user, message=message)
+
+def notifications_view(request):
+    notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
+    notifications.filter(is_read=False).update(is_read=True)
+    paginator = Paginator(notifications, 20)  #muestra hasta 20 notificaciones
+    #se obtiene numero de pagina de notificaciones
+    page_number = request.GET.get('page')
+    notifications_page = paginator.get_page(page_number)
+    
+    return render(request, 'articulos/notificaciones.html', {'notifications': notifications_page})
+###############################Notificaciones
 
 def article_list(request):
     articles = Article.objects.all()
@@ -38,9 +55,22 @@ def create(request):
             #form.save()
             article = form.save(commit=False)
             article.author = request.user  # Asigna el autor
-            article.status = 'pendiente'  # Establece el estado a "pending"
-            article.save()  
-            return redirect('articulos:index')  
+            article.status = 'pendiente'  # Establece el estado a "pendiente"
+            article.save()
+            # Enviar correo al usuario que creó el artículo
+            first_name = request.user.first_name or ''
+            last_name = request.user.last_name or ''
+            
+            #notificación para administradores y editores
+            for user in CustomUser.objects.filter(role__in=['admin', 'editor']).exclude(pk=request.user.pk):
+                create_notification(user, f'Se ha creado un nuevo artículo: {article.title}')
+            
+            # Enviar correo al creador del artículo
+            send_confirmation_email(request.user, article, action='create')
+            # Enviar correo a los del mismo rol, excluyendo al creador
+            send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
+
+            return redirect('articulos:index')
     else:
         form = ArticleForm()
 
@@ -54,6 +84,10 @@ def aceptar_articulo(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     article.status = 'aprobado'
     article.save()
+    
+    #notificación sobre el cambio de estado
+    create_notification(article.author, f"Tu artículo '{article.title}' ha sido aprobado.")
+    
     return redirect('articulos:manejar_articulos')
 
 
@@ -61,6 +95,11 @@ def reject_article(request, article_id):
     article = Article.objects.get(id=article_id)
     article.status = 'rechazado'
     article.save()
+    
+    
+    #notificación sobre el cambio de estado
+    create_notification(article.author, f"Tu artículo '{article.title}' ha sido rechazado.")
+    
     return redirect('articulos:manejar_articulos')
 
 def publicar_articulo(request, article_id):
@@ -68,17 +107,28 @@ def publicar_articulo(request, article_id):
     if request.user.role == 'admin': 
         article.status = 'publicado'
         article.save()
+    
+    #notificación sobre el cambio de estado
+    create_notification(article.author, f"Tu artículo '{article.title}' ha sido publicado.")
+    
     return redirect('articulos:manejar_articulos')
 
 def articulos_publicados(request):
     articles = Article.objects.filter(status='publicado')
     # Aplicar el filtro
-    article_filter = PublicadoFilter(request.GET, queryset=Article.objects.filter(status='publicado'))
+    article_filter = PublicadoFilter(request.GET, queryset=articles)
     
-    # Obtener los artículos filtrados
+    # Obtener artículos filtrados
     articles = article_filter.qs
     
-    return render(request, 'articulos/articulos_publicados.html', {'filter': article_filter, 'articles': articles})
+    #contador de notificaciones no leídas
+    unread_notifications_count = request.user.notification_set.filter(is_read=False).count() if request.user.is_authenticated else 0
+    
+    return render(request, 'articulos/articulos_publicados.html', {
+        'filter': article_filter,
+        'articles': articles,
+        'unread_notifications_count': unread_notifications_count,
+    })
 
 def manejar_articulos(request):
     #comprobamos si el usuario es el administrador
@@ -113,6 +163,7 @@ def ver_articulo(request, article_id):
 def actualiza_articulo(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     if request.method == 'POST':
+        previous_status = article.status
         if 'aceptar' in request.POST:
             article.status = 'revision'
             article.save()
@@ -125,7 +176,9 @@ def actualiza_articulo(request, article_id):
         elif 'publicar' in request.POST and request.user.role == 'admin':   
             article.status = 'publicado'
             article.save()
-    
+        if(previous_status != article.status):
+            send_confirmation_email(request.user, article, action='update')
+            send_email_to_role(article, request.user, action='update', roles=['admin','editor'])
     return redirect('articulos:tablero_kanban')
 
 
@@ -133,7 +186,12 @@ def actualiza_articulo(request, article_id):
 def tablero_kanban(request):
     if request.user.is_authenticated:
         articles = Article.objects.all()  # Solo artículos del usuario autenticado
-        return render(request, 'articulos/kanban.html', {'articles': articles})
+        unread_notifications_count = request.user.notification_set.filter(is_read=False).count()  # Contar notificaciones no leídas
+        
+        return render(request, 'articulos/kanban.html', {
+            'articles': articles,
+            'unread_notifications_count': unread_notifications_count,  # Pasar el conteo al contexto
+        })
     return redirect('login')  # Redirige si no está autenticado
 
 

@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from .views import notifications_view
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 app_name = 'articulos'
 
 urlpatterns = [
@@ -31,4 +34,7 @@ urlpatterns = [
     ##Para ver articulo antes de publicar
     path('ver_articulo/<int:article_id>', views.ver_articulo, name='ver_articulo'),
     path('actualiza/<int:article_id>/', views.actualiza_articulo, name='actualiza_articulo'),
+    path('notificaciones/', views.notifications_view, name='notifications'),
 ]
+
+urlpatterns += staticfiles_urlpatterns()

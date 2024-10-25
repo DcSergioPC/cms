@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h2>Notificaciones</h2>
+    <ul>
+        {% for notification in notifications %}
+            <li>
+                <strong>{{ notification.created_at }}</strong>: {{ notification.message }}
+                {% if not notification.is_read %}
+                    <span>(Nuevo)</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No hay notificaciones.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if notifications.has_previous %}
+                <a href="?page=1">&laquo; Primera</a>
+                <a href="?page={{ notifications.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ notifications.number }} de {{ notifications.paginator.num_pages }}.
+            </span>
+
+            {% if notifications.has_next %}
+                <a href="?page={{ notifications.next_page_number }}">Siguiente</a>
+                <a href="?page={{ notifications.paginator.num_pages }}">Última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

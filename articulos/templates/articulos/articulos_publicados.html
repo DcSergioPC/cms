@@ -2,43 +2,48 @@
 
 {% block main %}
 {% if user.is_authenticated %}
-<div class="container">
     <h1>Publicaciones</h1>
 
-    <a>Filtrar por:</a>
-    <form method="get">
+    <h3>Filtrar por:</h3>
+    <form method="get" class=" filter-form " >
       {{ filter.form.as_p }}
-      <button type="submit">Aplicar</button>
-      <button type="button" onclick="window.location.href='{% url 'articulos:articulos_publicados' %}';">Reiniciar</button>
+      <button type="submit" class="btn btn-primary">Aplicar</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'articulos:articulos_publicados' %}';">Reiniciar</button>
     </form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Categoría</th>
-                <th>Autor</th>
-                <th>Fecha de Creación</th>
-                
-            </tr>
-        </thead>
-        <tbody>
+    <div class="mb-4 mt-30">
+        <div class="row">
             {% for article in articles %}
-            <tr>
-                <td><a href="{% url 'articulos:detail' article.id %}">{{ article.title }}</a></td>
-                <td>{{article.categoria}}</td>
-                <td>{{ article.author.username }}</td>
-                <td>{{ article.created_at|date:"D d M Y" }}</td>
+                <!-- Single News Area -->
+                <div class="col-12 col-sm-4">
+                    <div class="single-blog-post style-2 mb-5">
+                        <!-- Blog Thumbnail -->
+                        <div class="blog-thumbnail">
+                            {% if article.image %}
+                                <a href="{% url 'articulos:detail' article.id %}"><img src="{{ article.image.url }}" alt=""></a>
+                            {% else %}
+                                <a href="{% url 'articulos:detail' article.id %}"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png" alt="" ></a>
+                            {% endif %}
+                        </div>
 
-            </tr>
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+                            <span href="{% url 'articulos:detail' article.id %}" class="post-date">{{ article.created_at|date:"D d M Y" }}</span>
+                            <a href="{% url 'articulos:detail' article.id %}" class="post-title">{{ article.title }}</a>
+                            <a href="{% url 'articulos:detail' article.id %}" class="post-author">Por {{ article.author.username }}</a>
+                        </div>
+                    </div>
+                </div>
             {% empty %}
             <tr>
                 <td colspan="4">No hay publicaciones disponibles.</td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-</div>
+        </div>
+    </div>
+    
+
+
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>
