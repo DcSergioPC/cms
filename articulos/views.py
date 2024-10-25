@@ -1,3 +1,4 @@
+import concurrent.futures
 from django.shortcuts import render
 
 # Create your views here.
@@ -70,10 +71,12 @@ def create(request):
             for user in CustomUser.objects.filter(role__in=['admin', 'editor']).exclude(pk=request.user.pk):
                 create_notification(user, f'Se ha creado un nuevo artículo: {article.title}')
             
-            # Enviar correo al creador del artículo
-            send_confirmation_email(request.user, article, action='create')
-            # Enviar correo a los del mismo rol, excluyendo al creador
-            send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
+            # Ejecutar métodos de envío de correo de manera asíncrona
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                # Enviar correo al creador del artículo
+                send_confirmation_email(request.user, article, action='create')
+                # Enviar correo a los del mismo rol, excluyendo al creador
+                send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
 
             return redirect('articulos:index')
     else:
@@ -182,8 +185,10 @@ def actualiza_articulo(request, article_id):
             article.status = 'publicado'
             article.save()
         if(previous_status != article.status):
-            send_confirmation_email(request.user, article, action='update')
-            send_email_to_role(article, request.user, action='update', roles=['admin','editor'])
+            # Ejecutar métodos de envío de correo de manera asíncrona
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                send_confirmation_email(request.user, article, action='update')
+                send_email_to_role(article, request.user, action='update', roles=['admin','editor'])
     return redirect('articulos:tablero_kanban')
 
 
