@@ -40,7 +40,9 @@
         <tr>
             <td>
                 {% if article.image %}
-                <img src="{{ article.image.url }}" alt="Image">
+                    <a href="{% url 'articulos:detail' article.id %}"><img src="{{ article.image.url }}" alt="Image"></a>
+                {% else %}
+                    <a href="{% url 'articulos:detail' article.id %}"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Image-not-found.png" alt="" ></a>
                 {% endif %}
                 {{ article.author }}
                 {% if myRole == 'admin' or myRole == 'editor' %}

@@ -41,9 +41,14 @@ def index(request):
     
         # Obtener los artículos filtrados
         articles = article_filter.qs
-
-
-        return render(request, 'articulos/index.html', {'filter': article_filter, 'articles': articles})
+        # Si inicia sesion con rol invitado le redirige a la pagina de publicaciones
+        if request.user.role == 'guest':
+            return render(request, 'articulos/articulos_publicados.html', {
+            'filter': article_filter,
+            'articles': articles,
+            })
+        else:    
+            return render(request, 'articulos/index.html', {'filter': article_filter, 'articles': articles})
         #return render(request, 'articulos/index.html', {'articles': articles})
     return redirect('login')  # Redirige si no está autenticado
 
