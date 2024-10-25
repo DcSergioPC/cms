@@ -17,8 +17,8 @@
   </div>
 </body>
 
-<a href="{% url 'articulos:plantilla_index' %}">Atras</a> |
-{% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a> {% endif %}
+<a class="btn btn-secondary" href="{% url 'articulos:plantilla_index' %}">Atras</a> |
+{% if myRole == 'admin' or myRole == 'editor' %}<a class="btn btn-primary" href="{% url 'articulos:plantilla_edit' plantillas.id %}">Editar</a> {% endif %}
 
 {% endblock %}
 

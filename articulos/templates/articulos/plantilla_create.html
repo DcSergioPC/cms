@@ -4,7 +4,7 @@
 {% if user.is_authenticated %}
 
 <h1>Nueva Plantilla</h1>
-<form action="{% url 'articulos:plantilla_create' %}" method="post"enctype="multipart/form-data">
+<form class="formulario-form" action="{% url 'articulos:plantilla_create' %}" method="post"enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Crear Plantilla">
@@ -12,7 +12,7 @@
 
 <br>
 
-<a href="{% url 'articulos:plantilla_index' %}">Back</a>
+<a class="btn btn-secondary" href="{% url 'articulos:plantilla_index' %}">Back</a>
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
