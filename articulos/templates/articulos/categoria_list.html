@@ -8,19 +8,28 @@
     
     <ul>
         {% for categoria in categorias %}
-            <li>{{ categoria.titulo }} - 
-                {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:categoria_update' categoria.pk %}">Editar</a> | {% endif %}
-                {% if myRole == 'admin' %}<a href="{% url 'articulos:categoria_delete' categoria.pk %}">Eliminar</a> {% endif %}
+            <li>
+                {{ categoria.titulo }} 
+                <div class="mt-2">  <!-- Espacio adicional para separar el título de los botones -->
+                    {% if myRole == 'admin' or myRole == 'editor' %}
+                        <a class="btn btn-secondary btn-sm" href="{% url 'articulos:categoria_update' categoria.pk %}">Editar</a> 
+                    {% endif %}
+                    {% if myRole == 'admin' %}
+                        <a class="btn btn-secondary btn-sm" href="{% url 'articulos:categoria_delete' categoria.pk %}">Eliminar</a>
+                    {% endif %}
+                </div>  <!-- Fin del contenedor para los botones -->
             </li>
         {% endfor %}
     </ul>
 
-    {% if myRole == 'admin' or myRole == 'editor' %}<a  class="btn btn-primary"  href="{% url 'articulos:categoria_create' %}">Nueva Categoría</a> {% endif %}
+    {% if myRole == 'admin' or myRole == 'editor' %}
+        <br>
+        <a class="btn btn-primary" href="{% url 'articulos:categoria_create' %}"> Nueva Categoría</a> 
+    {% endif %}
 
 {% else %}
-<h1>No hay permisos para acceder a esta pagina</h1>
-<a href="{% url 'login' %}"> Autenticarme</a>
+    <h1>No hay permisos para acceder a esta página</h1>
+    <a href="{% url 'login' %}"> Autenticarme</a>
 {% endif %}
-
 
 {% endblock %}
