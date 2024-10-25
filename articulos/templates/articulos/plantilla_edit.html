@@ -2,15 +2,15 @@
 
 {% block main %}
 <h1>Edición de Plantillas</h1>
-<form action="{% url 'articulos:plantilla_edit' plantilla.id %}" method="post">
+<form class="formulario-form" action="{% url 'articulos:plantilla_edit' plantilla.id %}" method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Guardar">
+  <input class="btn btn-primary"    type="submit" value="Guardar">
 </form>
 
 <br>
 
-<a href="{% url 'articulos:plantilla_detail' plantilla.id %}">Detalles</a> |
-<a href="{% url 'articulos:plantilla_index' %}">Atrás</a>
+<a class="btn btn-secondary" href="{% url 'articulos:plantilla_detail' plantilla.id %}">Detalles</a> |
+<a class="btn btn-secondary" href="{% url 'articulos:plantilla_index' %}">Atrás</a>
 
 {% endblock %}

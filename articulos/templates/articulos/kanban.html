@@ -11,6 +11,23 @@
         width: 33%; /* Ancho de cada columna (ajustable) */
         border: 1px solid #ccc; /* Borde opcional para cada columna */
         padding: 10px;
+        border-radius: 5px;
+    }
+
+    .column[data-status="pendiente"] {
+        background-color: #fff3cd; /* Amarillo claro */
+    }
+
+    .column[data-status="revision"] {
+        background-color: #ffeeba; /* Naranja claro */
+    }
+
+    .column[data-status="aprobado"] {
+        background-color: #c3e6cb; /* Verde claro */
+    }
+
+    .column[data-status="publicado"] {
+        background-color: #b8daff; /* Azul claro */
     }
 
     table {
@@ -21,6 +38,10 @@
     th, td {
         border: 1px solid #ddd;
         padding: 8px;
+    }
+
+    th {
+        background-color: #f8f9fa;
     }
 </style>
 
@@ -119,6 +140,5 @@
 <h1>No hay permisos para acceder a esta pagina</h1>
 <a href="{% url 'login' %}"> Autenticarme</a>
 {% endif %}
-
 
 {% endblock %}

@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
   <h1>Nuevo Articulo</h1>
-  <form action="{% url 'articulos:create' %}" method="post"enctype="multipart/form-data">
+  <form class="formulario-form" action="{% url 'articulos:create' %}" method="post"enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Create Articulo">
