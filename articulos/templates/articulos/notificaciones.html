@@ -5,10 +5,13 @@
     <ul>
         {% for notification in notifications %}
             <li>
-                <strong>{{ notification.created_at }}</strong>: {{ notification.message }}
-                {% if not notification.is_read %}
-                    <span>(Nuevo)</span>
-                {% endif %}
+                <div class="card p-3 mb-2 bg-info text-black">
+                    <strong class="card-title">| {{ notification.created_at|date:"D d M Y" }} | {{ notification.created_at|date:"H:i" }} |</strong> {{ notification.message }}
+                    {% if not notification.is_read %}
+                        <span>(Nuevo)</span>
+                    {% endif %}
+                </div>
+
             </li>
         {% empty %}
             <li>No hay notificaciones.</li>
