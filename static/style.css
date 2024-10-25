@@ -1558,6 +1558,15 @@ img {
   color: #ffffff;
 }
 
+.dark-mode .dropdown {
+  background-color: #121212 !important;
+  color: #ffffff;
+}
+
+.btn-primary a{
+  color: white !important;
+}
+
 .dark-mode a {
   color: #ffffff; 
 }
