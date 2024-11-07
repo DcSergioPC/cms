@@ -78,12 +78,12 @@
   </div>
 
   {% if myRole == 'guest' %}
-    |<a href="{% url 'articulos:articulos_publicados' %}">Atras</a>| 
+    |<a class="btn btn-primary" href="{% url 'articulos:articulos_publicados' %}">Atras</a>| 
   {% else %}
-    |<a href="{% url 'articulos:index' %}">Atras</a>| 
+    |<a class="btn btn-secondary" href="{% url 'articulos:index' %}">Atras</a>| 
   {% endif %}
   
-  {% if myRole == 'admin' or myRole == 'editor' %}<a href="{% url 'articulos:edit' article.id %}">Editar</a>| {% endif %}
+  {% if myRole == 'admin' or myRole == 'editor' %}<a class="btn btn-primary" href="{% url 'articulos:edit' article.id %}">Editar</a>| {% endif %}
 
 </body>
 {% endblock %}
