@@ -10,7 +10,7 @@
 
 <br>
 
-<a href="{% url 'articulos:detail' article.id %}">Detalles</a> |
-<a href="{% url 'articulos:index' %}">Atrás</a>
+<a class="btn btn-secondary" href="{% url 'articulos:index' %}">Atrás</a>
+<a class="btn btn-primary" href="{% url 'articulos:detail' article.id %}">Detalles</a> |
 
 {% endblock %}
