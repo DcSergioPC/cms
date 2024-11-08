@@ -133,6 +133,81 @@ El campo is_read por defecto esta en false, indica si la notificacion se ha leid
 
 El campo created_at refleja la hora y fecha con DateTimeField automaticamente
 
+- Like
+
+.. code-block:: python
+
+    class Like(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def toggle_like(article, user):
+        like = Like.objects.filter(article=article, user=user).first()
+        if like:
+            like.delete()
+        else:
+            like = Like.objects.create(article=article, user=user)
+        return like
+    
+    def filterArticleLikedByUser(articles, user):
+        articles_ids = [article.id for article in articles]
+        likes = Like.objects.filter(article_id__in=articles_ids, user=user)
+        liked_articles_ids = [like.article.id for like in likes]
+        for article in articles:
+            article.liked = article.id in liked_articles_ids
+        return articles
+    
+    def ifArticleLikedByUser(article, user):
+        like = Like.objects.filter(article=article, user=user).first()
+        return like is not None
+
+    def __str__(self):
+        return f'Like de {self.user.username} en {self.article.title}'
+
+Se utiliza modelo de Like para que el usuario con un rol determinado pueda dar "Me gusta" a la publicación
+
+Se utiliza el campo article para asociar el modelo Like con Article para representar la relacion entre el articulo y el "Me gusta" del usuario y mediante on_delete=models.CASCADE se especifica que se borraran los registros de me gusta si se elimina la publicacion
+
+Se utiliza el campo user para especificar el usuario. En este caso el usuario es personalizado (en models - CustomUser) por lo que se utiliza settings.AUTH_USER_MODEL
+
+Se utiliza el campo created_At para definir la fecha.
+
+El método toggle_like permite hacer y deshacer el "Me gusta"
+
+El método filterArticleLikedByUser muestra los articulos que han sido del agrado del usuario. Es decir, aquellos que recibieron "Me gusta"
+
+El método ifArticleLikedByUser establece si el usuario ha dado o no "Me gusta" a la publicacion por medio de valores booleanos True o False (atributo)
+
+- View
+
+.. code-block:: python
+
+    class View(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='views')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    created_at = models.DateTimeField(auto_now_add=True)
+    def create_View_If_Not_Exists(article, user):
+        view = View.objects.filter(article=article, user=user).first()
+        if not view:
+            view = View.objects.create(article=article, user=user)
+        return view
+
+    def __str__(self):
+        return f'Vista de {self.user.username} en {self.article.title}'
+    
+Se utiliza modelo de View que permite registrar las vistas de las publicaciones
+
+Se utiliza el campo article para asociar el modelo View con Article para representar la relacion entre el articulo y la vista del usuario y mediante on_delete=models.CASCADE se especifica que se borraran los registros de vistas (todos los asociados a un articulo) si se elimina la publicacion
+
+Se utiliza el campo user para especificar el usuario. En este caso el usuario es personalizado (en models - CustomUser) por lo que se utiliza settings.AUTH_USER_MODEL
+
+Se utiliza el campo created_At para definir la fecha.
+
+El método create_View_If_Not_Exists permite registrar la visualizacion del usuario solo una vez (no cuenta una vista por cada vez que el usuario accede)
+
+Solo en el caso de que el usuario no haya visto el articulo, se crea la vista con view = View.objects.create(article=article, user=user)
+
 
 =======================================
 Documentacion generada por Sphinx 8.0.2
@@ -692,7 +767,54 @@ A través de page_number = request.GET.get('page') se pueden visualizar las dife
 
 Se renderiza notificaciones.html, es decir se utiliza la plantilla para mostrar las notificaciones recibidas con return render(request, 'articulos/notificaciones.html', {'notifications': notifications_page})
 
+- reportes
 
+.. code-block:: python
+
+    # vistas de reportes
+    def reportes(request):
+        if request.user.is_authenticated:
+            articles = Article.objects.all()
+            unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
+            
+            # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
+            articles_by_user = Article.objects.filter(status='publicado').values('author__username').annotate(count=Count('id'))
+            # Obtener la cantidad de artículos publicados por mes
+            articles_by_month = Article.objects.filter(status='publicado').annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month')
+
+
+            return render(request, 'articulos/reportes.html', {
+                'articles': articles,
+                'unread_notifications_count': unread_notifications_count,
+                'articles_by_user': articles_by_user,  # Pasar los datos al contexto
+                'articles_by_month': articles_by_month,  # Pasar los datos al contexto
+            })
+        return redirect('login')
+
+Método reportes() que crea visualizacion de reportes según requerimientos en el sistema
+
+A través de articles = Article.objects.all(), se recuperan los articulos
+
+A través de la variable articles_by_user = Article.objects.filter(status='publicado').values('author__username').annotate(count=Count('id')) se obtiene la cantidad de publicaciones por cada usuario
+
+A través de la variable articles_by_month = Article.objects.filter(status='publicado').annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month') se obtiene la cantidad de publicaciones realizadas por mes
+
+Con return render(...) se renderiza la plantilla y se pasan los datos obtenidos en el metodo en reportes.html
+
+- toggle_like
+
+.. code-block:: python
+
+    def toggle_like(request, article_id):
+        article = get_object_or_404(Article, id=article_id)
+        Like.toggle_like(article, request.user)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+
+article = get_object_or_404(Article, id=article_id): se recuperan los articulos (si existen)
+
+Like.toggle_like(article, request.user): permite hacer y deshacer el "Me gusta" del usuario
+
+La pantalla sigue siendo la misma al dar clic a "Me gusta" y esto se logra medainte return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
 
 ..
    .. automodule:: articulos.views

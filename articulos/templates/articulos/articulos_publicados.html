@@ -27,13 +27,29 @@
                         </div>
 
                         <!-- Blog Content -->
-                        <div class="blog-content">
-                            <span href="{% url 'articulos:detail' article.id %}" class="post-date">{{ article.created_at|date:"D d M Y" }}</span>
-                            <a href="{% url 'articulos:detail' article.id %}" class="post-title">{{ article.title }}</a>
-                            <a href="{% url 'articulos:detail' article.id %}" class="post-author">Por {{ article.author.username }}</a>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="blog-content">
+                                <span href="{% url 'articulos:detail' article.id %}" class="post-date">{{ article.created_at|date:"D d M Y" }}</span>
+                                <a href="{% url 'articulos:detail' article.id %}" class="post-title">{{ article.title }}</a>
+                                <a href="{% url 'articulos:detail' article.id %}" class="post-author">Por {{ article.author.username }}</a>
+                            </div>
+                            <!-- Like Button -->
+                            <div>
+                                <form action="{% url 'articulos:toggle_like' article.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link btn-like {% if article.liked %}btn-primary liked{% endif %}">
+                                        {% if article.liked %}
+                                            <i class="fas fa-thumbs-up"></i> Me gusta
+                                        {% else %}
+                                            <i class="far fa-thumbs-up"></i> Me gusta
+                                        {% endif %}
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
             {% empty %}
             <tr>
                 <td colspan="4">No hay publicaciones disponibles.</td>

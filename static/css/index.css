@@ -115,3 +115,15 @@ main {
   color: #ffffff00;
   font-size: 0px;
 }  
+
+.chart-bar {
+  position: relative;
+  height: 300;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .chart-bar {
+    height: 20rem;
+  }
+}
