@@ -16,10 +16,13 @@ from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que 
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from django.db.models import Min, Max
+# articulos/views.py
+from cms.services.notifications import create_notification
+
 
 ###############################Notificaciones
-def create_notification(user, message):
-    Notification.objects.create(user=user, message=message)
+#def create_notification(user, message):
+#    Notification.objects.create(user=user, message=message)
 
 def notifications_view(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-created_at')
