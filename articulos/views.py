@@ -1,15 +1,21 @@
 import concurrent.futures
+from itertools import count
 from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria, Comentario, Notification
+from .models import Article, Plantilla, Categoria, Comentario, Notification, Like, View
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
 from cms.services.email import send_confirmation_email, send_email_to_role
 from cuentas.models import CustomUser
 from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 
 from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
+
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
+from django.db.models import Min, Max
 
 ###############################Notificaciones
 def create_notification(user, message):
@@ -127,8 +133,7 @@ def articulos_publicados(request):
     article_filter = PublicadoFilter(request.GET, queryset=articles)
     
     # Obtener artículos filtrados
-    articles = article_filter.qs
-    
+    articles = Like.filterArticleLikedByUser(article_filter.qs, request.user)
     #contador de notificaciones no leídas
     unread_notifications_count = request.user.notification_set.filter(is_read=False).count() if request.user.is_authenticated else 0
     
@@ -220,7 +225,8 @@ def tablero_kanban(request):
 def detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     comentarios = article.comentarios.all()
-    
+    article.liked = Like.ifArticleLikedByUser(article, request.user)
+    View.create_View_If_Not_Exists(article, request.user)
     if request.method == 'POST':
         form = ComentarioForm(request.POST)
         if form.is_valid():
@@ -389,3 +395,52 @@ def delete_comentario(request, comentario_id):
         comentario.delete()
     
     return redirect('articulos:detail', article_id=comentario.article.id)
+
+
+# vistas de reportes
+def reportes(request):
+    if request.user.is_authenticated:
+        year_range = Article.objects.aggregate(Min('created_at__year'), Max('created_at__year'))
+        year_range = range(year_range['created_at__year__min'], year_range['created_at__year__max'] + 1)
+        year = request.GET.get('year', None)  # Obtener el año del request
+        articles = Article.objects.all()
+        unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
+        
+        # Filtrar artículos por año si se proporciona
+        # if year:
+        #     articles = articles.filter(created_at__year=year)
+
+        # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
+        articles_by_user = articles.filter(status='publicado').values('author__username').annotate(count=Count('id'))
+        
+        # Obtener la cantidad de artículos publicados por mes
+        articles_by_month = articles.filter(status='publicado',created_at__year=year).annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id'))
+        
+        # Obtener la cantidad de vistas por artículo
+        article_views = articles.filter(status='publicado').annotate(view_count=Count('views'))
+        
+        # Obtener la cantidad de vistas por artículo
+        top_article_views = articles.filter(status='publicado').annotate(view_cuenta=Count('views')).order_by('-view_cuenta')
+        
+        # Obtener la cantidad de Likes por artículo
+        article_likes = articles.filter(status='publicado').annotate(count=Count('likes'))
+
+        return render(request, 'articulos/reportes.html', {
+            'articles': articles,
+            'unread_notifications_count': unread_notifications_count,
+            'articles_by_user': articles_by_user,
+            'articles_by_month': articles_by_month,
+            'article_views': article_views,
+            'article_likes': article_likes,
+            'selected_year': year,  # Pasar el año seleccionado al contexto
+            'year_range': year_range,
+            'top_article_views': top_article_views,
+        })
+    return redirect('login')
+
+
+
+def toggle_like(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    Like.toggle_like(article, request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirige a la página anterior
