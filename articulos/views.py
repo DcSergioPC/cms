@@ -406,6 +406,10 @@ def reportes(request):
         articles_by_user = Article.objects.filter(status='publicado').values('author__username').annotate(count=Count('id'))
         # Obtener la cantidad de artículos publicados por mes
         articles_by_month = Article.objects.filter(status='publicado').annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month')
+        # Obtener la cantidad de vistas por artículo
+        article_views = Article.objects.filter(status='publicado').annotate(view_count=Count('views')).order_by('-view_count')
+        # Obtener la cantidad de Likes por artículo
+        article_likes = Article.objects.filter(status='publicado').annotate(count=Count('likes')).order_by('-count')
 
 
         return render(request, 'articulos/reportes.html', {
@@ -413,6 +417,8 @@ def reportes(request):
             'unread_notifications_count': unread_notifications_count,
             'articles_by_user': articles_by_user,  # Pasar los datos al contexto
             'articles_by_month': articles_by_month,  # Pasar los datos al contexto
+            'article_views': article_views,  # Pasar los datos de vistas al contexto
+            'article_likes': article_likes,  # Pasar los datos de Likes al contexto
         })
     return redirect('login')
 
