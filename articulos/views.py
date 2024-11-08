@@ -15,6 +15,7 @@ from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que 
 
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
+from django.db.models import Min, Max
 
 ###############################Notificaciones
 def create_notification(user, message):
@@ -399,20 +400,41 @@ def delete_comentario(request, comentario_id):
 # vistas de reportes
 def reportes(request):
     if request.user.is_authenticated:
+        year_range = Article.objects.aggregate(Min('created_at__year'), Max('created_at__year'))
+        year_range = range(year_range['created_at__year__min'], year_range['created_at__year__max'] + 1)
+        year = request.GET.get('year', None)  # Obtener el año del request
         articles = Article.objects.all()
         unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
         
-        # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
-        articles_by_user = Article.objects.filter(status='publicado').values('author__username').annotate(count=Count('id'))
-        # Obtener la cantidad de artículos publicados por mes
-        articles_by_month = Article.objects.filter(status='publicado').annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month')
+        # Filtrar artículos por año si se proporciona
+        # if year:
+        #     articles = articles.filter(created_at__year=year)
 
+        # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
+        articles_by_user = articles.filter(status='publicado').values('author__username').annotate(count=Count('id'))
+        
+        # Obtener la cantidad de artículos publicados por mes
+        articles_by_month = articles.filter(status='publicado',created_at__year=year).annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id'))
+        
+        # Obtener la cantidad de vistas por artículo
+        article_views = articles.filter(status='publicado').annotate(view_count=Count('views'))
+        
+        # Obtener la cantidad de vistas por artículo
+        top_article_views = articles.filter(status='publicado').annotate(view_cuenta=Count('views')).order_by('-view_cuenta')
+        
+        # Obtener la cantidad de Likes por artículo
+        article_likes = articles.filter(status='publicado').annotate(count=Count('likes'))
 
         return render(request, 'articulos/reportes.html', {
             'articles': articles,
             'unread_notifications_count': unread_notifications_count,
-            'articles_by_user': articles_by_user,  # Pasar los datos al contexto
-            'articles_by_month': articles_by_month,  # Pasar los datos al contexto
+            'articles_by_user': articles_by_user,
+            'articles_by_month': articles_by_month,
+            'article_views': article_views,
+            'article_likes': article_likes,
+            'selected_year': year,  # Pasar el año seleccionado al contexto
+            'year_range': year_range,
+            'top_article_views': top_article_views,
         })
     return redirect('login')
 
