@@ -202,8 +202,10 @@ class TestViews(TestCase):
  
 from django.test import TestCase, Client
 from django.urls import reverse
-from articulos.models import Article, Categoria, Plantilla, Comentario, Notification
+from articulos.models import Article, Categoria, Plantilla, Comentario, Notification, Like
 from django.core.files.uploadedfile import SimpleUploadedFile
+from datetime import datetime
+from django.http import HttpResponseRedirect
 
 class TestViews(TestCase):
     def setUp(self):
@@ -348,3 +350,116 @@ class NotificationViewTests(TestCase):
         self.assertEqual(notification.user, self.user)
         self.assertEqual(notification.message, 'Nueva notificación')
 ###############################################################
+
+#Pruebas para reportes y likes
+############################################################
+'''
+Se prueba el funcionamiento de la vista reportes mediante una simulacion
+Creamos articulo de prueba
+Creamos usuarios de preuba
+Creamos notificaciones de prueba
+Y asi comprobamos vista de reportes
+'''
+from django.utils import timezone
+class ReportesViewTest(TestCase):
+    
+    def setUp(self):
+        #creamos un usuario de prueba
+        self.user = User.objects.create_user(username='usuario_prueba', password='1234')
+        
+        #creamos un articulo de prueba
+        self.article1 = Article.objects.create(
+            title='Articulo de prueba 1', 
+            content='Prueba de Contenido de Articulo de Prueba 1', 
+            status='publicado', 
+            created_at=timezone.make_aware(timezone.datetime(2023, 1, 1)),
+            author=self.user
+        )
+        self.article2 = Article.objects.create(
+            title='Articulo de prueba 2', 
+            content='Prueba de Contenido de Artículo de Prueba 2', 
+            status='publicado', 
+            created_at=timezone.make_aware(timezone.datetime(2023, 1, 2)),
+            author=self.user
+        )
+        
+        #se crea notificacion de prueba
+        Notification.objects.create(
+            user=self.user,
+            message='Notificacion de prueba',
+            is_read=False
+        )
+        
+        #para tener las estadisitcas se crean likes y visitas a articulos publicados
+        self.article1.views.create(user=self.user)
+        self.article1.likes.create(user=self.user)
+        self.article2.views.create(user=self.user)
+        
+    def test_reportes_view_authenticated(self):
+        self.client.login(username='usuario_prueba', password='1234')
+
+        response = self.client.get(reverse('articulos:reportes'), {'year': 2023})  
+        self.assertEqual(response.status_code, 200)
+
+        self.assertIn('articles_by_month', response.context)
+        articles_in_2023 = Article.objects.filter(created_at__year=2023)
+        self.assertEqual(response.context['articles'].count(), articles_in_2023.count())  
+        self.assertEqual(response.context['selected_year'], '2023')
+    
+    def test_reportes_view_not_authenticated(self):
+        response = self.client.get(reverse('articulos:reportes'))
+        self.assertRedirects(response, reverse('login'))
+
+
+class ToggleLikeViewTest(TestCase):
+
+    def setUp(self):        
+        self.user = User.objects.create_user(username='usuario_prueba_like', password='123')
+        self.article = Article.objects.create(
+            title='Articulo de prueba', 
+            content='Contenido del artículo de prueba', 
+            status='publicado', 
+            created_at = datetime(2023, 1, 1),
+            author=self.user
+        )
+
+    def test_toggle_like_authenticated(self):
+        self.client.login(username='usuario_prueba_like', password='123')
+        self.assertEqual(Like.objects.filter(article=self.article, user=self.user).count(), 0)
+        response = self.client.get(reverse('articulos:toggle_like', args=[self.article.id]))
+        self.assertEqual(Like.objects.filter(article=self.article, user=self.user).count(), 1)
+        self.assertIsInstance(response, HttpResponseRedirect)
+        #self.assertRedirects(response, response.url)
+        response = self.client.get(reverse('articulos:toggle_like', args=[self.article.id]))
+        self.assertEqual(Like.objects.filter(article=self.article, user=self.user).count(), 0)
+
+    def test_toggle_like_not_authenticated(self):
+        response = self.client.get(reverse('articulos:toggle_like', args=[self.article.id]))
+
+        #self.assertRedirects(response, reverse('login') + '?next=' + reverse('articulos:toggle_like', args=[self.article.id]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################
