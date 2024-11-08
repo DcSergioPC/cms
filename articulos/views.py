@@ -1,4 +1,5 @@
 import concurrent.futures
+from itertools import count
 from django.shortcuts import render
 
 # Create your views here.
@@ -11,6 +12,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 
 from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
+
+from django.db.models import Count
+from django.db.models.functions import TruncMonth
 
 ###############################Notificaciones
 def create_notification(user, message):
@@ -390,6 +394,29 @@ def delete_comentario(request, comentario_id):
         comentario.delete()
     
     return redirect('articulos:detail', article_id=comentario.article.id)
+
+
+# vistas de reportes
+def reportes(request):
+    if request.user.is_authenticated:
+        articles = Article.objects.all()
+        unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
+        
+        # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
+        articles_by_user = Article.objects.filter(status='publicado').values('author__username').annotate(count=Count('id'))
+        # Obtener la cantidad de artículos publicados por mes
+        articles_by_month = Article.objects.filter(status='publicado').annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month')
+
+
+        return render(request, 'articulos/reportes.html', {
+            'articles': articles,
+            'unread_notifications_count': unread_notifications_count,
+            'articles_by_user': articles_by_user,  # Pasar los datos al contexto
+            'articles_by_month': articles_by_month,  # Pasar los datos al contexto
+        })
+    return redirect('login')
+
+
 
 def toggle_like(request, article_id):
     article = get_object_or_404(Article, id=article_id)
