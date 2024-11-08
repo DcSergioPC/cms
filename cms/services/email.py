@@ -4,6 +4,40 @@ import logging
 from cuentas.models import CustomUser
 from articulos.models import Notification
 
+
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
+# cms/services/email.py
+from cms.services.notifications import create_notification  # Nueva importación
+
+
+def send_html_email(subject, template_name, context, recipient_list, from_email=None, fail_silently=False):
+    """
+    Envía un correo electrónico en formato HTML utilizando una plantilla.
+    
+    :param subject: Asunto del correo.
+    :param template_name: Nombre del archivo de plantilla HTML.
+    :param context: Contexto para renderizar la plantilla.
+    :param recipient_list: Lista de destinatarios.
+    :param from_email: Remitente (opcional).
+    :param fail_silently: Si debe fallar silenciosamente en caso de error.
+    """
+    try:
+        html_message = render_to_string(template_name, context)
+        email = EmailMessage(
+            subject=subject,
+            body=html_message,
+            from_email=from_email,
+            to=recipient_list,
+        )
+        email.content_subtype = 'html'  # Establece el contenido como HTML
+        email.send(fail_silently=fail_silently)
+        logger.info(f"Correo HTML enviado a: {', '.join(recipient_list)} con asunto: {subject}")
+    except Exception as e:
+        logger.error(f"Error al enviar correo HTML a: {', '.join(recipient_list)}. Detalles: {e}")
+
+
 # Obtener el logger personalizado
 logger = logging.getLogger('email_logger')
 
@@ -33,28 +67,50 @@ def send_cms_email(subject, message, recipient_list, from_email=None, fail_silen
         logger.error(f"Error al enviar el correo a: {', '.join(recipient_list)}. Detalles: {e}")
 
 def send_confirmation_email(user, article, action='create'):
-    from articulos.views import create_notification
-    
-    """Enviar un correo de confirmación al autor del artículo."""
+    """
+    Enviar un correo de confirmación al autor del artículo con soporte HTML.
+    """
     author_name = f'{user.first_name} {user.last_name}'.strip()
-    subject = f'Nuevo artículo en estado: {article.status}'
-    #messageAction = f', tu artículo "{article.title}" ha sido creado exitosamente y está en estado "{article.status}".'
-
-    if (action == 'create'):
-        message = f'Hola {author_name},\n\nTu artículo "{article.title}" ha sido creado exitosamente y está en estado "{article.status}".'
+    subject = f'Notificación de Artículo: {article.title}'
+    
+    # Determinar el mensaje de notificación
+    if action == 'create':
         notification_message = f'Tu artículo "{article.title}" ha sido creado.'
-        
-    elif(action == 'update'):
-        subject = f'Cambio de estado del artículo: {article.title}'
-        messageAction = (f'Has realizado un cambio de estado del articulo de "{article.title}" a "{article.status}".\n')
-        message = (f'Hola {author_name}'.strip() + ',\n\n' + messageAction)
+    elif action == 'update':
         notification_message = f'Tu artículo "{article.title}" ha cambiado a estado "{article.status}".'
+    else:
+        notification_message = f'Actualización en tu artículo "{article.title}".'
+
+    # Contexto para el correo HTML
+    context = {
+        'user': user,
+        'article': article,
+        'action': action
+    }
+
+    # Enviar correo en formato HTML
+    try:
+        html_message = render_to_string('articulos/email_notification.html', context)
+        email = EmailMessage(
+            subject=subject,
+            body=html_message,
+            to=[user.email]
+        )
+        email.content_subtype = 'html'  # Establecer el contenido como HTML
+        email.send()
+        logger.info(f"Correo HTML enviado a {user.email} con asunto: {subject}")
+    except Exception as e:
+        logger.error(f"Error al enviar correo HTML a {user.email}: {e}")
+
+    # Enviar correo en texto plano como respaldo
+    plain_message = f'Hola {author_name},\n\nTu artículo "{article.title}" está ahora en estado "{article.status}".'
     send_cms_email(
         subject=subject,
-        message=message,
+        message=plain_message,
         recipient_list=[user.email]
     )
-    
+
+    # Crear notificación en la base de datos
     create_notification(user, notification_message)
 
 def send_email_to_role(article, origin, action='create', roles=['editor']):

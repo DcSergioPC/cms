@@ -5,12 +5,12 @@
 <form action="{% url 'articulos:edit' article.id %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Editar">
+  <input type="submit" value="Editar" class = "btn btn-primary">
 </form>
 
 <br>
 
-<a href="{% url 'articulos:detail' article.id %}">Detalles</a> |
-<a href="{% url 'articulos:index' %}">Atrás</a>
+<a class="btn btn-secondary" href="{% url 'articulos:index' %}">Atrás</a>
+<a class="btn btn-primary" href="{% url 'articulos:detail' article.id %}">Detalles</a> |
 
 {% endblock %}

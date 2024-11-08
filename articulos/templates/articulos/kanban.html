@@ -134,7 +134,7 @@
 
 <br>
 
-{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
+{% if myRole == 'admin' or myRole == 'editor' or myRole == 'autor' %}<a  class="btn btn-primary" href="{% url 'articulos:create' %}">Nuevo articulo</a> {% endif %}
 
 {% else %}
 <h1>No hay permisos para acceder a esta pagina</h1>
