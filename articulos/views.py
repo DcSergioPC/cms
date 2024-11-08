@@ -410,8 +410,8 @@ def reportes(request):
         
         
         # Filtrar artículos por año si se proporciona
-        if year:
-            articles = articles.filter(created_at__year=year)
+        # if year:
+        #     articles = articles.filter(created_at__year=year)
 
         unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
         
