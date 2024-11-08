@@ -414,10 +414,13 @@ def reportes(request):
         articles_by_user = articles.filter(status='publicado').values('author__username').annotate(count=Count('id'))
         
         # Obtener la cantidad de artículos publicados por mes
-        articles_by_month = articles.filter(status='publicado',created_at__year=year).annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id')).order_by('month')
+        articles_by_month = articles.filter(status='publicado',created_at__year=year).annotate(month=TruncMonth('created_at')).values('month').annotate(count=Count('id'))
         
         # Obtener la cantidad de vistas por artículo
         article_views = articles.filter(status='publicado').annotate(view_count=Count('views'))
+        
+        # Obtener la cantidad de vistas por artículo
+        top_article_views = articles.filter(status='publicado').annotate(view_cuenta=Count('views')).order_by('-view_cuenta')
         
         # Obtener la cantidad de Likes por artículo
         article_likes = articles.filter(status='publicado').annotate(count=Count('likes'))
@@ -430,7 +433,8 @@ def reportes(request):
             'article_views': article_views,
             'article_likes': article_likes,
             'selected_year': year,  # Pasar el año seleccionado al contexto
-            'year_range': year_range
+            'year_range': year_range,
+            'top_article_views': top_article_views,
         })
     return redirect('login')
 

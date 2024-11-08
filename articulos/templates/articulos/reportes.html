@@ -6,197 +6,432 @@
 
 <h1>REPORTES</h1>
 
-<div class="card shadow mb-4">
-    <!-- Card Header - Dropdown -->
-    <div
-        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Articulos Publicados Por Usuarios</h6>
-    </div>
-    <!-- Card Body -->
-    <div class="card-body">
-        <div class="chart-pie pt-4 pb-2">
-            <canvas id="myPieChart"></canvas>
-            <script>
-              var ctx = document.getElementById("myPieChart");
-              
-              // Obtener los datos de los artículos por usuario desde el contexto de Django
-              var labels = [];
-              var data = [];
-              {% for item in articles_by_user %}
-                labels.push("{{ item.author__username }}");
-                data.push("{{ item.count }}");
-              {% endfor %}
+<div class="col-md-10 offset-md-1">
 
-              var myPieChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                  labels: labels,
-                  datasets: [{
-                    data: data,
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#f4b619', '#e74a3b'],
-                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                  }],
-                },
-                options: {
-                  maintainAspectRatio: false,
-                  tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: false,
-                    caretPadding: 10,
-                  },
-                  legend: {
-                    display: true
-                  },
-                  cutoutPercentage: 80,
-                },
-              });
-            </script>
+    <div class="card shadow mb-4 ">
+        <!-- Card Header - Dropdown -->
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Articulos Publicados Por Usuarios</h6>
         </div>
-    </div>
-</div>
-<br>
-    <!-- Bar Chart -->
-
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Articlos Publicados Por Mes</h6>
-            <form method="GET" action="">
-                <label for="year">Selecciona el año:</label>
-                <select name="year" id="year" onchange="this.form.submit()">
-                    {% for year in year_range %}
-                        <option value="{{ year }}" {% if selected_year == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
+        <!-- Card Body -->
         <div class="card-body">
-            <div class="chart-bar" style="height: 500px;">  <!-- Aumenta la altura del gráfico -->
-                <canvas id="myBarChart"></canvas>
+            <div class="chart-pie pt-4 pb-2">
+                <canvas id="myPieChart"></canvas>
                 <script>
-                    // Obtener los datos de los artículos por mes desde el contexto de Django
-                    var labels = [];
-                    var data = [];
-                    {% for item in articles_by_month %}
-                        labels.push("{{ item.month|date:'F' }}");  // Formato de mes como nombre
-                        data.push("{{ item.count }}");
-                    {% endfor %}
+                var ctx = document.getElementById("myPieChart");
+                
+                // Obtener los datos de los artículos por usuario desde el contexto de Django
+                var labels = [];
+                var data = [];
+                {% for item in articles_by_user %}
+                    labels.push("{{ item.author__username }}");
+                    data.push("{{ item.count }}");
+                {% endfor %}
 
-                    // Bar Chart Example
-                    var ctx = document.getElementById("myBarChart");
-                    var myBarChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: "Artículos Publicados",
-                                backgroundColor: "#4e73df",
-                                hoverBackgroundColor: "#2e59d9",
-                                borderColor: "#4e73df",
-                                data: data,
-                            }],
-                        },
-                        options: {
-                            maintainAspectRatio: false,
-                            layout: {
-                                padding: {
-                                    left: 10,
-                                    right: 25,
-                                    top: 25,
-                                    bottom: 0
-                                }
-                            },
-                            scales: {
-                                xAxes: [{
-                                    time: {
-                                        unit: 'month'
-                                    },
-                                    gridLines: {
-                                        display: false,
-                                        drawBorder: false
-                                    },
-                                    ticks: {
-                                        maxTicksLimit: 12
-                                    },
-                                    maxBarThickness: 25,
-                                }],
-                                yAxes: [{
-                                    ticks: {
-                                        min: 0,
-                                        max: Math.max(...data) + 5,  // Ajuste automático del máximo
-                                        maxTicksLimit: 5,
-                                        padding: 10,
-                                    },
-                                    gridLines: {
-                                        color: "rgb(234, 236, 244)",
-                                        zeroLineColor: "rgb(234, 236, 244)",
-                                        drawBorder: false,
-                                        borderDash: [2],
-                                        zeroLineBorderDash: [2]
-                                    }
-                                }],
-                            },
-                            legend: {
-                                display: false
-                            },
-                            tooltips: {
-                                titleMarginBottom: 10,
-                                titleFontColor: '#6e707e',
-                                titleFontSize: 14,
-                                backgroundColor: "rgb(255,255,255)",
-                                bodyFontColor: "#858796",
-                                borderColor: '#dddfeb',
-                                borderWidth: 1,
-                                xPadding: 15,
-                                yPadding: 15,
-                                displayColors: false,
-                                caretPadding: 10,
-
-                            },
-                        }
-                    });
+                var myPieChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b'],
+                        hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#f4b619', '#e74a3b'],
+                        hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    }],
+                    },
+                    options: {
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        backgroundColor: "rgb(255,255,255)",
+                        bodyFontColor: "#858796",
+                        borderColor: '#dddfeb',
+                        borderWidth: 1,
+                        xPadding: 15,
+                        yPadding: 15,
+                        displayColors: false,
+                        caretPadding: 10,
+                    },
+                    legend: {
+                        display: true
+                    },
+                    cutoutPercentage: 80,
+                    },
+                });
                 </script>
             </div>
-            <hr>
         </div>
     </div>
+    <br>
+        <!-- Bar Chart -->
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Articlos Publicados Por Mes</h6>
+                <form method="GET" action="">
+                    <label for="year">Selecciona el año:</label>
+                    <select name="year" id="year" onchange="this.form.submit()">
+                        <option value="" disabled selected>----</option>
+                        {% for year in year_range %}
+                            <option value="{{ year }}" {% if selected_year == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar" style="height: 500px;">  <!-- Aumenta la altura del gráfico -->
+                    <canvas id="myBarChart"></canvas>
+                    <script>
+                        // Obtener los datos de los artículos por mes desde el contexto de Django
+                        var labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                        var data = new Array(13).fill(0);  // Inicializamos un array con 12 ceros
+                        {% for item in articles_by_month %}
+                            data[{{ item.month|date:'m' }}-1] += {{ item.count }};
+                        {% endfor %}
+                        data[12] += Math.max(...data) + Math.max(...data)/5;
+                        // Bar Chart Example
+                        var ctx = document.getElementById("myBarChart");
+                        var myBarChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: "Artículos Publicados",
+                                    backgroundColor: "#4e73df",
+                                    hoverBackgroundColor: "#2e59d9",
+                                    borderColor: "#4e73df",
+                                    data: data,
+                                    borderRadius: 5,
+                                    maxBarThickness: 40,
+                                }],
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                        left: 10,
+                                        right: 25,
+                                        top: 25,
+                                        bottom: 0
+                                    }
+                                },
+                                scales: {
+                                    x: [{
+                                        stacked: true,
+                                        time: {
+                                            unit: 'month'
+                                        },
+                                        gridLines: {
+                                            display: false,
+                                            drawBorder: false
+                                        },
+                                        ticks: {
+                                            maxTicksLimit: 6
+                                        },
+                                        maxBarThickness: 25,
+                                    }],
+                                    y: [{
+                                        stacked: true,
+                                        ticks: {
+                                            callback: function(val) {
+                                                if (Number.isInteger(val)) {
+                                                    return this.getLabelForValue(val); // Retorna solo valores enteros
+                                                }
+                                                return this.getLabelForValue(' '); // No muestra valores decimales
+                                            },
+                                            min: 0,
+                                            max: Math.max(...data) + 5,  // Ajuste automático del máximo
+                                            maxTicksLimit: 5,
+                                            padding: 10,
+                                        },
+                                        gridLines: {
+                                            color: "rgb(234, 236, 244)",
+                                            zeroLineColor: "rgb(234, 236, 244)",
+                                            drawBorder: false,
+                                            borderDash: [2],
+                                            zeroLineBorderDash: [2]
+                                        }
+                                    }],
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    titleMarginBottom: 10,
+                                    titleFontColor: '#6e707e',
+                                    titleFontSize: 14,
+                                    backgroundColor: "rgb(255,255,255)",
+                                    bodyFontColor: "#858796",
+                                    borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                    xPadding: 15,
+                                    yPadding: 15,
+                                    displayColors: false,
+                                    caretPadding: 10,
+
+                                },
+                            }
+                        });
+                    </script>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <br>
+
+        <!-- Card Body for TOP 5 Article Views -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Top 5 articulos mas Vistos</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar" style="height: 500px;">  <!-- Aumenta la altura del gráfico -->
+                    <canvas id="myTopChart"></canvas>
+                    <script>
+                        // Obtener los datos de las vistas por artículo desde el contexto de Django
+                        var articleLabels = [];
+                        var viewsData = [];
+                        let topfive = 1;
+                        {% for article in top_article_views %}
+                            // 
+                            if ({{ article.view_cuenta }} >= 1) {
+                                articleLabels.push("TOP " + topfive + ": {{ article.title }}");
+                                console.log("TOP " + topfive + ": {{ article.title }}" + " {{ article.view_cuenta }}");
+                                viewsData.push("{{ article.view_cuenta }}");
+                                topfive = topfive + 1;                                
+                            }
+                            // 
+                        {% endfor %}
+                        viewsData.push(Math.max(...viewsData) + Math.max(...viewsData)/5);
+                        
+                        // Bar Chart Example for Article Views
+                        var ctx = document.getElementById("myTopChart");
+                        var myTopChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: articleLabels,
+                                datasets: [{
+                                    label: "Vistas",
+                                    backgroundColor: "#cb4335",
+                                    hoverBackgroundColor: "#e74c3c",
+                                    borderColor: "#cb4335",
+                                    data: viewsData,
+                                    borderRadius: 5,
+                                    maxBarThickness: 70,
+                                }],
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                        left: 10,
+                                        right: 25,
+                                        top: 25,
+                                        bottom: 0
+                                    }
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            display: false,
+                                            drawBorder: false
+                                        },
+                                        ticks: {
+                                            maxTicksLimit: 12
+                                        },
+                                        maxBarThickness: 10,  // Hace las barras más finas
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 0,
+                                            max: Math.max(...viewsData) + 5,  // Ajuste automático del máximo
+                                            maxTicksLimit: 5,
+                                            padding: 10,
+                                            callback: function(value, index, values) {
+                                                return number_format(value);
+                                            }
+                                        },
+                                        gridLines: {
+                                            color: "rgb(234, 236, 244)",
+                                            zeroLineColor: "rgb(234, 236, 244)",
+                                            drawBorder: false,
+                                            borderDash: [2],
+                                            zeroLineBorderDash: [2]
+                                        }
+                                    }],
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    titleMarginBottom: 10,
+                                    titleFontColor: '#6e707e',
+                                    titleFontSize: 14,
+                                    backgroundColor: "rgb(255,255,255)",
+                                    bodyFontColor: "#858796",
+                                    borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                    xPadding: 15,
+                                    yPadding: 15,
+                                    displayColors: false,
+                                    caretPadding: 10,
+                                    callbacks: {
+                                        label: function(tooltipItem, chart) {
+                                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                            return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                                        }
+                                    }
+                                },
+                            }
+                        });
+                    </script>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <br>
+
+        <!-- Card Body for Article Views -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Vistas por Artículo</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-bar" style="height: 500px;">  <!-- Aumenta la altura del gráfico -->
+                    <canvas id="myViewsChart"></canvas>
+                    <script>
+                        // Obtener los datos de las vistas por artículo desde el contexto de Django
+                        var articleLabels = [];
+                        var viewsData = [];
+                        {% for article in article_views %}
+                            articleLabels.push("{{ article.title }}");
+                            viewsData.push("{{ article.view_count }}");
+                        {% endfor %}
+                        viewsData.push(Math.max(...viewsData) + Math.max(...viewsData)/5);
+                        
+                        // Bar Chart Example for Article Views
+                        var ctx = document.getElementById("myViewsChart");
+                        var myViewsChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: articleLabels,
+                                datasets: [{
+                                    label: "Vistas",
+                                    backgroundColor: "#f6c23e",
+                                    hoverBackgroundColor: "#f4b619",
+                                    borderColor: "#f6c23e",
+                                    data: viewsData,
+                                    borderRadius: 5,
+                                    maxBarThickness: 40,
+                                }],
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                layout: {
+                                    padding: {
+                                        left: 10,
+                                        right: 25,
+                                        top: 25,
+                                        bottom: 0
+                                    }
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            display: false,
+                                            drawBorder: false
+                                        },
+                                        ticks: {
+                                            maxTicksLimit: 12
+                                        },
+                                        maxBarThickness: 10,  // Hace las barras más finas
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            min: 0,
+                                            max: Math.max(...viewsData) + 5,  // Ajuste automático del máximo
+                                            maxTicksLimit: 5,
+                                            padding: 10,
+                                            callback: function(value, index, values) {
+                                                return number_format(value);
+                                            }
+                                        },
+                                        gridLines: {
+                                            color: "rgb(234, 236, 244)",
+                                            zeroLineColor: "rgb(234, 236, 244)",
+                                            drawBorder: false,
+                                            borderDash: [2],
+                                            zeroLineBorderDash: [2]
+                                        }
+                                    }],
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    titleMarginBottom: 10,
+                                    titleFontColor: '#6e707e',
+                                    titleFontSize: 14,
+                                    backgroundColor: "rgb(255,255,255)",
+                                    bodyFontColor: "#858796",
+                                    borderColor: '#dddfeb',
+                                    borderWidth: 1,
+                                    xPadding: 15,
+                                    yPadding: 15,
+                                    displayColors: false,
+                                    caretPadding: 10,
+                                    callbacks: {
+                                        label: function(tooltipItem, chart) {
+                                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                                            return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
+                                        }
+                                    }
+                                },
+                            }
+                        });
+                    </script>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <br>
 
 
     <!-- Card Body for Article Views -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Vistas por Artículo</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Likes por Artículo</h6>
         </div>
         <div class="card-body">
-            <div class="chart-bar" style="height: 500px;">  <!-- Aumenta la altura del gráfico -->
-                <canvas id="myViewsChart"></canvas>
+            <div class="chart-bar" style="height: 500px;">
+                <canvas id="myLikesChart"></canvas>
                 <script>
-                    // Obtener los datos de las vistas por artículo desde el contexto de Django
-                    var articleLabels = [];
-                    var viewsData = [];
-                    {% for article in article_views %}
-                        articleLabels.push("{{ article.title }}");
-                        viewsData.push("{{ article.view_count }}");
-                    {% endfor %}
+                    // Obtener los datos de las likes por artículo desde el contexto de Django
 
-                    // Bar Chart Example for Article Views
-                    var ctx = document.getElementById("myViewsChart");
-                    var myViewsChart = new Chart(ctx, {
+                    var articleLabels = [];
+                    var likesData = [];
+                    {% for article in article_likes %}
+                        articleLabels.push("{{ article.title }}");
+                        likesData.push("{{ article.count }}");
+                    {% endfor %}
+                    likesData.push(Math.max(...likesData) + Math.max(...likesData)/5);
+                    // Bar Chart Example for Article Views and Likes
+                    var ctx = document.getElementById("myLikesChart");
+                    var myLikesChart = new Chart(ctx, {
                         type: 'bar',
                         data: {
                             labels: articleLabels,
-                            datasets: [{
-                                label: "Vistas",
-                                backgroundColor: "#f6c23e",
-                                hoverBackgroundColor: "#f4b619",
-                                borderColor: "#f6c23e",
-                                data: viewsData,
-                            }],
+                            datasets: [
+                                {
+                                    label: "Likes",
+                                    backgroundColor: "#64df4e",
+                                    hoverBackgroundColor: "#46e12a",
+                                    borderColor: "#64df4e",
+                                    data: likesData,
+                                    borderRadius: 5,
+                                    maxBarThickness: 40,
+                                }
+                            ],
                         },
                         options: {
                             maintainAspectRatio: false,
@@ -217,17 +452,14 @@
                                     ticks: {
                                         maxTicksLimit: 12
                                     },
-                                    maxBarThickness: 10,  // Hace las barras más finas
+                                    maxBarThickness: 10,
                                 }],
                                 yAxes: [{
                                     ticks: {
                                         min: 0,
-                                        max: Math.max(...viewsData) + 5,  // Ajuste automático del máximo
+                                        max: Math.max(...viewsData, ...likesData) + 5,
                                         maxTicksLimit: 5,
                                         padding: 10,
-                                        callback: function(value, index, values) {
-                                            return number_format(value);
-                                        }
                                     },
                                     gridLines: {
                                         color: "rgb(234, 236, 244)",
@@ -253,12 +485,6 @@
                                 yPadding: 15,
                                 displayColors: false,
                                 caretPadding: 10,
-                                callbacks: {
-                                    label: function(tooltipItem, chart) {
-                                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                                        return datasetLabel + ': ' + number_format(tooltipItem.yLabel);
-                                    }
-                                }
                             },
                         }
                     });
@@ -267,104 +493,8 @@
             <hr>
         </div>
     </div>
-
-
-
-<!-- Card Body for Article Views -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Likes por Artículo</h6>
-    </div>
-    <div class="card-body">
-        <div class="chart-bar" style="height: 500px;">
-            <canvas id="myLikesChart"></canvas>
-            <script>
-                // Obtener los datos de las likes por artículo desde el contexto de Django
-
-                var articleLabels = [];
-                var likesData = [];
-                {% for article in article_likes %}
-                    articleLabels.push("{{ article.title }}");
-                    likesData.push("{{ article.count }}");
-                {% endfor %}
-                // Bar Chart Example for Article Views and Likes
-                var ctx = document.getElementById("myLikesChart");
-                var myLikesChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: articleLabels,
-                        datasets: [
-                            {
-                                label: "Likes",
-                                backgroundColor: "#64df4e",
-                                hoverBackgroundColor: "#46e12a",
-                                borderColor: "#64df4e",
-                                data: likesData,
-                            }
-                        ],
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        layout: {
-                            padding: {
-                                left: 10,
-                                right: 25,
-                                top: 25,
-                                bottom: 0
-                            }
-                        },
-                        scales: {
-                            xAxes: [{
-                                gridLines: {
-                                    display: false,
-                                    drawBorder: false
-                                },
-                                ticks: {
-                                    maxTicksLimit: 12
-                                },
-                                maxBarThickness: 10,
-                            }],
-                            yAxes: [{
-                                ticks: {
-                                    min: 0,
-                                    max: Math.max(...viewsData, ...likesData) + 5,
-                                    maxTicksLimit: 5,
-                                    padding: 10,
-                                },
-                                gridLines: {
-                                    color: "rgb(234, 236, 244)",
-                                    zeroLineColor: "rgb(234, 236, 244)",
-                                    drawBorder: false,
-                                    borderDash: [2],
-                                    zeroLineBorderDash: [2]
-                                }
-                            }],
-                        },
-                        legend: {
-                            display: false
-                        },
-                        tooltips: {
-                            titleMarginBottom: 10,
-                            titleFontColor: '#6e707e',
-                            titleFontSize: 14,
-                            backgroundColor: "rgb(255,255,255)",
-                            bodyFontColor: "#858796",
-                            borderColor: '#dddfeb',
-                            borderWidth: 1,
-                            xPadding: 15,
-                            yPadding: 15,
-                            displayColors: false,
-                            caretPadding: 10,
-                        },
-                    }
-                });
-            </script>
-        </div>
-        <hr>
-    </div>
+    <br>
 </div>
-
-
 {% else %}
 <h1>No tienes permisos para acceder a esta página</h1>
 <a href="{% url 'login' %}">Autenticarme</a>
