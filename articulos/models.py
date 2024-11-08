@@ -98,7 +98,6 @@ class View(models.Model):
     def __str__(self):
         return f'Vista de {self.user.username} en {self.article.title}'
     
-
 ##
 
 

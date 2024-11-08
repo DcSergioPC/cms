@@ -140,6 +140,68 @@
 <p>El campo message almacena texto que representa el mensaje de la notificacion</p>
 <p>El campo is_read por defecto esta en false, indica si la notificacion se ha leido o no</p>
 <p>El campo created_at refleja la hora y fecha con DateTimeField automaticamente</p>
+<ul class="simple">
+<li><p>Like</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Like</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">article</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;likes&#39;</span><span class="p">)</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>  <span class="c1"># Asegúrate de usar esto</span>
+<span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">toggle_like</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">like</span><span class="p">:</span>
+        <span class="n">like</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">like</span> <span class="o">=</span> <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">like</span>
+
+<span class="k">def</span> <span class="nf">filterArticleLikedByUser</span><span class="p">(</span><span class="n">articles</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="n">articles_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">article</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">]</span>
+    <span class="n">likes</span> <span class="o">=</span> <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article_id__in</span><span class="o">=</span><span class="n">articles_ids</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">liked_articles_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">like</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">id</span> <span class="k">for</span> <span class="n">like</span> <span class="ow">in</span> <span class="n">likes</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">:</span>
+        <span class="n">article</span><span class="o">.</span><span class="n">liked</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="n">liked_articles_ids</span>
+    <span class="k">return</span> <span class="n">articles</span>
+
+<span class="k">def</span> <span class="nf">ifArticleLikedByUser</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="n">like</span> <span class="o">=</span> <span class="n">Like</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">like</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Like de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1"> en </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>Se utiliza modelo de Like para que el usuario con un rol determinado pueda dar “Me gusta” a la publicación</p>
+<p>Se utiliza el campo article para asociar el modelo Like con Article para representar la relacion entre el articulo y el “Me gusta” del usuario y mediante on_delete=models.CASCADE se especifica que se borraran los registros de me gusta si se elimina la publicacion</p>
+<p>Se utiliza el campo user para especificar el usuario. En este caso el usuario es personalizado (en models - CustomUser) por lo que se utiliza settings.AUTH_USER_MODEL</p>
+<p>Se utiliza el campo created_At para definir la fecha.</p>
+<p>El método toggle_like permite hacer y deshacer el “Me gusta”</p>
+<p>El método filterArticleLikedByUser muestra los articulos que han sido del agrado del usuario. Es decir, aquellos que recibieron “Me gusta”</p>
+<p>El método ifArticleLikedByUser establece si el usuario ha dado o no “Me gusta” a la publicacion por medio de valores booleanos True o False (atributo)</p>
+<ul class="simple">
+<li><p>View</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">View</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="n">article</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;views&#39;</span><span class="p">)</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">)</span>  <span class="c1"># Asegúrate de usar esto</span>
+<span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_View_If_Not_Exists</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+    <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">view</span><span class="p">:</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">view</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Vista de </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="si">}</span><span class="s1"> en </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>Se utiliza modelo de View que permite registrar las vistas de las publicaciones</p>
+<p>Se utiliza el campo article para asociar el modelo View con Article para representar la relacion entre el articulo y la vista del usuario y mediante on_delete=models.CASCADE se especifica que se borraran los registros de vistas (todos los asociados a un articulo) si se elimina la publicacion</p>
+<p>Se utiliza el campo user para especificar el usuario. En este caso el usuario es personalizado (en models - CustomUser) por lo que se utiliza settings.AUTH_USER_MODEL</p>
+<p>Se utiliza el campo created_At para definir la fecha.</p>
+<p>El método create_View_If_Not_Exists permite registrar la visualizacion del usuario solo una vez (no cuenta una vista por cada vez que el usuario accede)</p>
+<p>Solo en el caso de que el usuario no haya visto el articulo, se crea la vista con view = View.objects.create(article=article, user=user)</p>
 <section id="documentacion-generada-por-sphinx-8-0-2">
 <h3>Documentacion generada por Sphinx 8.0.2<a class="headerlink" href="#documentacion-generada-por-sphinx-8-0-2" title="Link to this heading">¶</a></h3>
 </section>
@@ -600,6 +662,47 @@
 <p>Con Paginator se muestran hasta 20 notificaciones por pagina. Si hay mas, pasan a otra pagina - paginator = Paginator(notifications, 20)</p>
 <p>A través de page_number = request.GET.get(‘page’) se pueden visualizar las diferentes paginas de notificaciones</p>
 <p>Se renderiza notificaciones.html, es decir se utiliza la plantilla para mostrar las notificaciones recibidas con return render(request, ‘articulos/notificaciones.html’, {‘notifications’: notifications_page})</p>
+<ul class="simple">
+<li><p>reportes</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># vistas de reportes</span>
+<span class="k">def</span> <span class="nf">reportes</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+        <span class="n">articles</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">unread_notifications_count</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">notification_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">is_read</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+
+        <span class="c1"># Obtener la cantidad de artículos publicados por cada usuario con el estado &quot;publicado&quot;</span>
+        <span class="n">articles_by_user</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;publicado&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;author__username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">))</span>
+        <span class="c1"># Obtener la cantidad de artículos publicados por mes</span>
+        <span class="n">articles_by_month</span> <span class="o">=</span> <span class="n">Article</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;publicado&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">month</span><span class="o">=</span><span class="n">TruncMonth</span><span class="p">(</span><span class="s1">&#39;created_at&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">count</span><span class="o">=</span><span class="n">Count</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;month&#39;</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/reportes.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+            <span class="s1">&#39;articles&#39;</span><span class="p">:</span> <span class="n">articles</span><span class="p">,</span>
+            <span class="s1">&#39;unread_notifications_count&#39;</span><span class="p">:</span> <span class="n">unread_notifications_count</span><span class="p">,</span>
+            <span class="s1">&#39;articles_by_user&#39;</span><span class="p">:</span> <span class="n">articles_by_user</span><span class="p">,</span>  <span class="c1"># Pasar los datos al contexto</span>
+            <span class="s1">&#39;articles_by_month&#39;</span><span class="p">:</span> <span class="n">articles_by_month</span><span class="p">,</span>  <span class="c1"># Pasar los datos al contexto</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Método reportes() que crea visualizacion de reportes según requerimientos en el sistema</p>
+<p>A través de articles = Article.objects.all(), se recuperan los articulos</p>
+<p>A través de la variable articles_by_user = Article.objects.filter(status=’publicado’).values(‘author__username’).annotate(count=Count(‘id’)) se obtiene la cantidad de publicaciones por cada usuario</p>
+<p>A través de la variable articles_by_month = Article.objects.filter(status=’publicado’).annotate(month=TruncMonth(‘created_at’)).values(‘month’).annotate(count=Count(‘id’)).order_by(‘month’) se obtiene la cantidad de publicaciones realizadas por mes</p>
+<p>Con return render(…) se renderiza la plantilla y se pasan los datos obtenidos en el metodo en reportes.html</p>
+<ul class="simple">
+<li><p>toggle_like</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">toggle_like</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+    <span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+    <span class="n">Like</span><span class="o">.</span><span class="n">toggle_like</span><span class="p">(</span><span class="n">article</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">META</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;HTTP_REFERER&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>article = get_object_or_404(Article, id=article_id): se recuperan los articulos (si existen)</p>
+<p>Like.toggle_like(article, request.user): permite hacer y deshacer el “Me gusta” del usuario</p>
+<p>La pantalla sigue siendo la misma al dar clic a “Me gusta” y esto se logra medainte return HttpResponseRedirect(request.META.get(‘HTTP_REFERER’))</p>
 </section>
 <section id="formularios">
 <h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
