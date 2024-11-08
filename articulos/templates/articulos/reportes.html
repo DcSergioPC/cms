@@ -58,8 +58,21 @@
                     cutoutPercentage: 80,
                     },
                 });
+                // Función para descargar el gráfico como PDF
+                function downloadmyPieChart() {
+                    html2canvas(document.getElementById('myPieChart')).then(function(canvas) {
+                        const imgData = canvas.toDataURL('image/png');
+                        const pdf = new jspdf.jsPDF('landscape');
+                        pdf.text("Articulos Publicados Por Usuarios", 10, 10); // Añade el título
+                        pdf.addImage(imgData, 'PNG', 10, 30);
+                        pdf.save('myPieChart.pdf');
+                    });
+                }
                 </script>
             </div>
+                            
+            <hr>
+            <button onclick="downloadmyPieChart()" class="btn btn-primary">Descargar Grafico</button>
         </div>
     </div>
     <br>
@@ -172,9 +185,22 @@
                                 },
                             }
                         });
+
+                        // Función para descargar el gráfico como PDF
+                        function downloadPDF() {
+                            html2canvas(document.getElementById('myBarChart')).then(function(canvas) {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jspdf.jsPDF('landscape');
+                                pdf.text("Articlos Publicados Por Mes", 10, 10); // Añade el título
+                                pdf.addImage(imgData, 'PNG', 10, 30);
+                                pdf.save('myBarChart.pdf');
+                            });
+                        }
                     </script>
                 </div>
+                
                 <hr>
+                <button onclick="downloadPDF()" class="btn btn-primary">Descargar Grafico</button>
             </div>
         </div>
         <br>
@@ -284,9 +310,21 @@
                                 },
                             }
                         });
-                    </script>
+                        // Función para descargar el gráfico como PDF
+                        function downloadmyTopChart() {
+                            html2canvas(document.getElementById('myTopChart')).then(function(canvas) {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jspdf.jsPDF('landscape');
+                                pdf.text("Top 5 articulos mas Vistos", 10, 10); // Añade el título
+                                pdf.addImage(imgData, 'PNG', 10, 30);
+                                pdf.save('myTopChart.pdf');
+                            });
+                        }
+                        </script>
                 </div>
+                                    
                 <hr>
+                <button onclick="downloadmyTopChart()" class="btn btn-primary">Descargar Grafico</button>
             </div>
         </div>
         <br>
@@ -389,9 +427,21 @@
                                 },
                             }
                         });
-                    </script>
+                        // Función para descargar el gráfico como PDF
+                        function downloadmyViewsChart() {
+                            html2canvas(document.getElementById('myViewsChart')).then(function(canvas) {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jspdf.jsPDF('landscape');
+                                pdf.text("Vistas por Artículo", 10, 10); // Añade el título
+                                pdf.addImage(imgData, 'PNG', 10, 30);
+                                pdf.save('myViewsChart.pdf');
+                            });
+                        }
+                        </script>
                 </div>
+                                    
                 <hr>
+                <button onclick="downloadmyViewsChart()" class="btn btn-primary">Descargar Grafico</button>
             </div>
         </div>
         <br>
@@ -488,9 +538,21 @@
                             },
                         }
                     });
-                </script>
-            </div>
-            <hr>
+                        // Función para descargar el gráfico como PDF
+                        function downloadmyLikesChart() {
+                            html2canvas(document.getElementById('myLikesChart')).then(function(canvas) {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jspdf.jsPDF('landscape');
+                                pdf.text("Likes por Artículo", 10, 10); // Añade el título
+                                pdf.addImage(imgData, 'PNG', 10, 30);
+                                pdf.save('myLikesChart.pdf');
+                            });
+                        }
+                        </script>
+                </div>
+                                    
+                <hr>
+                <button onclick="downloadmyLikesChart()" class="btn btn-primary">Descargar Grafico</button>
         </div>
     </div>
     <br>
