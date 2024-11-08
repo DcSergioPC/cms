@@ -35,6 +35,8 @@ urlpatterns = [
     path('ver_articulo/<int:article_id>', views.ver_articulo, name='ver_articulo'),
     path('actualiza/<int:article_id>/', views.actualiza_articulo, name='actualiza_articulo'),
     path('notificaciones/', views.notifications_view, name='notifications'),
+    ## Para ver estadisticas
+    path('reportes', views.reportes, name='reportes'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
