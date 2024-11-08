@@ -35,6 +35,8 @@ urlpatterns = [
     path('ver_articulo/<int:article_id>', views.ver_articulo, name='ver_articulo'),
     path('actualiza/<int:article_id>/', views.actualiza_articulo, name='actualiza_articulo'),
     path('notificaciones/', views.notifications_view, name='notifications'),
+    ##toggle like
+    path('like/<int:article_id>/', views.toggle_like, name='toggle_like'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
