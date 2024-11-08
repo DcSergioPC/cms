@@ -1622,3 +1622,26 @@ body.dark-mode .card-body {
   border: 1px solid #444b51; 
 }
 
+
+/* Estilos para el botón de "Me gusta" */
+.btn-like {
+  font-size: 1rem;
+  color: #555; /* Color inicial */
+  transition: 0.3s; /* Suaviza el cambio de estado */
+}
+.dark-mode .btn-like {
+  color: #ffffff; /* Color blanco en modo oscuro */
+}
+/* Estado cuando el usuario ya ha dado "Me gusta" */
+.btn-like.liked {
+  color: #ffffff;
+  background-color: #007bff; /* Fondo azul */
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+.btn-like.liked i {
+  color: #ffffff; /* Color blanco para el icono */
+}
