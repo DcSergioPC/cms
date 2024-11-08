@@ -4,11 +4,12 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria, Comentario, Notification
+from .models import Article, Plantilla, Categoria, Comentario, Notification, Like, View
 from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
 from cms.services.email import send_confirmation_email, send_email_to_role
 from cuentas.models import CustomUser
 from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 
 from .filters import ArticleFilter, PublicadoFilter  # Importamos el filtro que se creó en filters.py
 
@@ -131,8 +132,7 @@ def articulos_publicados(request):
     article_filter = PublicadoFilter(request.GET, queryset=articles)
     
     # Obtener artículos filtrados
-    articles = article_filter.qs
-    
+    articles = Like.filterArticleLikedByUser(article_filter.qs, request.user)
     #contador de notificaciones no leídas
     unread_notifications_count = request.user.notification_set.filter(is_read=False).count() if request.user.is_authenticated else 0
     
@@ -224,7 +224,8 @@ def tablero_kanban(request):
 def detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     comentarios = article.comentarios.all()
-    
+    article.liked = Like.ifArticleLikedByUser(article, request.user)
+    View.create_View_If_Not_Exists(article, request.user)
     if request.method == 'POST':
         form = ComentarioForm(request.POST)
         if form.is_valid():
@@ -415,3 +416,9 @@ def reportes(request):
         })
     return redirect('login')
 
+
+
+def toggle_like(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    Like.toggle_like(article, request.user)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirige a la página anterior

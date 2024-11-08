@@ -57,6 +57,47 @@ class Article(models.Model):
     def __str__(self):
         return f'{self.title}, {self.content}'
     
+class Like(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def toggle_like(article, user):
+        like = Like.objects.filter(article=article, user=user).first()
+        if like:
+            like.delete()
+        else:
+            like = Like.objects.create(article=article, user=user)
+        return like
+    
+    def filterArticleLikedByUser(articles, user):
+        articles_ids = [article.id for article in articles]
+        likes = Like.objects.filter(article_id__in=articles_ids, user=user)
+        liked_articles_ids = [like.article.id for like in likes]
+        for article in articles:
+            article.liked = article.id in liked_articles_ids
+        return articles
+    
+    def ifArticleLikedByUser(article, user):
+        like = Like.objects.filter(article=article, user=user).first()
+        return like is not None
+
+    def __str__(self):
+        return f'Like de {self.user.username} en {self.article.title}'
+    
+class View(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='views')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Asegúrate de usar esto
+    created_at = models.DateTimeField(auto_now_add=True)
+    def create_View_If_Not_Exists(article, user):
+        view = View.objects.filter(article=article, user=user).first()
+        if not view:
+            view = View.objects.create(article=article, user=user)
+        return view
+
+    def __str__(self):
+        return f'Vista de {self.user.username} en {self.article.title}'
+    
 
 ##
 
