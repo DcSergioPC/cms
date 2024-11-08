@@ -404,12 +404,14 @@ def reportes(request):
         year_range = range(year_range['created_at__year__min'], year_range['created_at__year__max'] + 1)
         year = request.GET.get('year', None)  # Obtener el año del request
         articles = Article.objects.all()
-        unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
+        
         
         # Filtrar artículos por año si se proporciona
-        # if year:
-        #     articles = articles.filter(created_at__year=year)
+        if year:
+            articles = articles.filter(created_at__year=year)
 
+        unread_notifications_count = request.user.notification_set.filter(is_read=False).count()
+        
         # Obtener la cantidad de artículos publicados por cada usuario con el estado "publicado"
         articles_by_user = articles.filter(status='publicado').values('author__username').annotate(count=Count('id'))
         
@@ -441,6 +443,9 @@ def reportes(request):
 
 
 def toggle_like(request, article_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     article = get_object_or_404(Article, id=article_id)
     Like.toggle_like(article, request.user)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirige a la página anterior
