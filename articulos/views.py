@@ -4,8 +4,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article, Plantilla, Categoria, Comentario, Notification, Like, View
-from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm
+from .models import Article, Plantilla, Categoria, Comentario, Notification, Like, View, ArticleVersion
+from .forms import ArticleForm, PlantillaForm, CategoriaForm, ComentarioForm, ArticleEditForm
 from cms.services.email import send_confirmation_email, send_email_to_role
 from cuentas.models import CustomUser
 from django.core.paginator import Paginator
@@ -69,6 +69,21 @@ def create(request):
             article.author = request.user  # Asigna el autor
             article.status = 'pendiente'  # Establece el estado a "pendiente"
             article.save()
+            
+            # Crear la primera versión del artículo
+            ArticleVersion.objects.create(
+                article=article,
+                change_description="Se Creó El Articulo",
+                changed_by=request.user,
+                title=article.title,
+                content=article.content,
+                image=article.image,
+                video=article.video,
+                categoria=article.categoria.titulo,
+                plantilla=article.plantilla.contenido,
+                author=article.author
+            )
+            
             # Enviar correo al usuario que creó el artículo
             first_name = request.user.first_name or ''
             last_name = request.user.last_name or ''
@@ -78,11 +93,11 @@ def create(request):
                 create_notification(user, f'Se ha creado un nuevo artículo: {article.title}')
             
             # Ejecutar métodos de envío de correo de manera asíncrona
-            with concurrent.futures.ThreadPoolExecutor() as executor:
+#            with concurrent.futures.ThreadPoolExecutor() as executor:
                 # Enviar correo al creador del artículo
-                send_confirmation_email(request.user, article, action='create')
+#                send_confirmation_email(request.user, article, action='create')
                 # Enviar correo a los del mismo rol, excluyendo al creador
-                send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
+#                send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
 
             return redirect('articulos:index')
     else:
@@ -249,12 +264,31 @@ def edit(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     
     if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES, instance=article)  # Usa request.FILES para archivos
+        form = ArticleEditForm(request.POST, request.FILES, instance=article)  # Usa request.FILES para archivos
         if form.is_valid():
+            
+            change_description = form.cleaned_data.get('change_description')
+            
+            # Guardar los cambios en el artículo actual
             form.save()
+            
+            # Crear una nueva versión del artículo con los datos editados
+            ArticleVersion.objects.create(
+                article=article,
+                change_description=change_description,
+                changed_by=request.user,
+                title=article.title,
+                content=article.content,
+                image=article.image,
+                video=article.video,
+                categoria=article.categoria.titulo,
+                plantilla=article.plantilla.contenido,
+                author=article.author
+            )
+            
             return redirect('articulos:detail', article_id)
     else:
-        form = ArticleForm(instance=article)  # Usa la instancia para prellenar el formulario
+        form = ArticleEditForm(instance=article)  # Usa la instancia para prellenar el formulario
     
     return render(request, 'articulos/edit.html', {'article': article, 'form': form})
 
@@ -444,3 +478,29 @@ def toggle_like(request, article_id):
     article = get_object_or_404(Article, id=article_id)
     Like.toggle_like(article, request.user)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirige a la página anterior
+
+# vista de lista de historial de cambios
+def cambios_articulo(request, article_id):
+    # Obtener el artículo específico
+    article = get_object_or_404(Article, id=article_id)
+    
+    # Obtener todas las versiones del artículo
+    versions = ArticleVersion.objects.filter(article=article).order_by('-change_date')
+    params = {
+        'article': article,
+        'versions': versions
+    }
+    return render(request, 'articulos/cambios_articulo.html', params)
+
+
+def version_detail(request, article_id, version_id):
+    # Obtener el artículo específico
+    article = get_object_or_404(Article, id=article_id)
+    
+    # Obtener la versión específica del artículo
+    version = get_object_or_404(ArticleVersion, id=version_id, article=article)
+    
+    return render(request, 'articulos/version_detail.html', {
+        'article': article,
+        'version': version
+    })

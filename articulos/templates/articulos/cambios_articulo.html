@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% if user.is_authenticated and myRole == 'admin'%}
+
+<!-- <div class="container"> -->
+<h1>Historial de Cambios del Articulo: "{{article.title}}" </h1>
+
+<div class="card shadow mb-4 mt-30"> 
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered display" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Timeline</th>
+            <th>Descripción</th>
+            <th>Usuario</th>
+            <!-- <th>Plantilla</th>
+            <th>Autor</th>
+            <th>Estado</th> -->
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Contenido</th>
+          </tr>          
+        </thead>
+        <tfoot>
+          <tr>
+          </tr>          
+        </tfoot>
+        <tbody>
+          {% for version in versions %}
+          <tr>
+            <td>{{version.change_date}}</td>
+            <td>{{version.change_description}}</td>
+            <td>{{version.author}}</td>
+            <td>{{ version.change_date|date:"d/m/Y" }}</td>  <!-- Muestra la fecha -->
+            <td>{{ version.change_date|date:"H:i" }}</td>  <!-- Muestra la HORA -->
+            <td><a class="btn btn-primary" href="{% url 'articulos:version_detail' article.id version.id %}">Ver Versión</a></td>
+          </tr>
+          {% endfor %}          
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+{% else %}
+<h1>No hay permisos para acceder a esta pagina</h1>
+<a href="{% url 'login' %}"> Autenticarme</a>
+{% endif %}
+
+<a class="btn btn-secondary mt-1" href="{% url 'articulos:index' %}">Volver</a>
+
+{% endblock %}

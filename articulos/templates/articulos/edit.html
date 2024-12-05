@@ -2,7 +2,7 @@
 
 {% block main %}
 <h1>Edición de artículo</h1>
-<form action="{% url 'articulos:edit' article.id %}" method="post" enctype="multipart/form-data">
+<form class="formulario-form" action="{% url 'articulos:edit' article.id %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Editar">
@@ -10,7 +10,7 @@
 
 <br>
 
-<a href="{% url 'articulos:detail' article.id %}">Detalles</a> |
-<a href="{% url 'articulos:index' %}">Atrás</a>
+<a class="btn btn-primary mt-1" href="{% url 'articulos:detail' article.id %}">Detalles</a> 
+<a class="btn btn-secondary mt-1" href="{% url 'articulos:index' %}">Atrás</a>
 
 {% endblock %}
