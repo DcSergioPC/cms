@@ -18,13 +18,32 @@
     height: 120px;
   }  
 
-  .formulario-form input, .formulario-form select {
+  .formulario-form select {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 0px 0;
     border-radius: .3rem;
     width: 100%;
     box-sizing: border-box;
+  }
+
+  .formulario-form input[type="text" i] {
+    padding: 10px;
+    width: 100%;
+  }
+
+  .formulario-form input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 0px 0;
+    border-radius: .3rem;
+    box-sizing: border-box;
+  }
+
+  .formulario-form [type="submit"] {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
   }
 
   .formulario-form label{

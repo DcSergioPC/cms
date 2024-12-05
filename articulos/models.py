@@ -113,4 +113,24 @@ class Comentario(models.Model):
         return f'Comentario de {self.user.username} en {self.article.title}'
 
 
+class ArticleVersion(models.Model):
+    
+    change_description = models.TextField()
+    
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='histories')
+    change_date = models.DateTimeField(auto_now_add=True)
+    changed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='article_changes')
+    
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    ##################
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    video = models.FileField(upload_to='videos/', blank=True, null=True)
+    ####################
+    categoria = models.CharField(max_length=100, default='Sin Categoría')  # Agrega un valor por defecto
+    plantilla = models.TextField(default='Sin Plantilla')    
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)  # Usuario que creó el artículo
+    
+    def __str__(self):
+        return f'{self.title}, {self.content}'
 

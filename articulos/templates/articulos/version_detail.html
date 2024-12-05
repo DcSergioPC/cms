@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block main %}
+{{ version.plantilla|safe }}
+<body>
+
+  <!-- Like Button -->
+  <div class="float-right">
+
+</div>
+  <div class="container">
+    <h1>{{ version.title }}</h1>
+    <p>Fecha de Modificacion: {{ version.change_date|date:"F j, Y" }}</p>
+
+    {% if version.image %}
+    <img src="{{ version.image.url }}" alt="Image">
+    {% endif %}
+    
+    <p>{{ version.content }}</p>
+    
+    {% if version.video %}
+        <video controls>
+          <source src="{{ version.video.url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    {% endif %}
+
+    
+</div>
+
+
+  </div>
+
+    <a class="btn btn-secondary mt-30" href="{% url 'articulos:historial' article.id %}">Atras</a>
+  
+
+</body>
+{% endblock %}
