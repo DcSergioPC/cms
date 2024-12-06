@@ -208,6 +208,52 @@ El método create_View_If_Not_Exists permite registrar la visualizacion del usua
 
 Solo en el caso de que el usuario no haya visto el articulo, se crea la vista con view = View.objects.create(article=article, user=user)
 
+- ArticleVersion
+
+.. code-block:: python
+    
+    class ArticleVersion(models.Model):
+    
+    change_description = models.TextField()
+    
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='histories')
+    change_date = models.DateTimeField(auto_now_add=True)
+    changed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='article_changes')
+    
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    ##################
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    video = models.FileField(upload_to='videos/', blank=True, null=True)
+    ####################
+    categoria = models.CharField(max_length=100, default='Sin Categoría')  # Agrega un valor por defecto
+    plantilla = models.TextField(default='Sin Plantilla')    
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)  # Usuario que creó el artículo
+    
+    def __str__(self):
+        return f'{self.title}, {self.content}'
+
+En el campo change_description se detalla a través de una descripción que cambios se realizan en articulo
+
+En el campo article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='histories') se relaciona al modelo Article para establecer a qué artículo hacemos referencia. Con (on_delete = models.CASCADE) desaparecen las versiones en caso de eliminacióno
+
+En el campo change_date se guarda la fecha y hora de creación de versión
+
+En el campo changed_by se guarda quién realizó los cambios para esa versión 
+
+El campo title almacena el título del articulo
+
+El campo content almacena el contenido del articulo
+
+El campo image almacena la imagen del articulo
+
+El campo video almacena el video del articulo
+
+El campo categoria almacena la categoría del articulo
+
+El campo plantilla almacena la plantilla del articulo
+
+El campo author almacena el autor del articulo
 
 =======================================
 Documentacion generada por Sphinx 8.0.2
@@ -815,6 +861,58 @@ article = get_object_or_404(Article, id=article_id): se recuperan los articulos 
 Like.toggle_like(article, request.user): permite hacer y deshacer el "Me gusta" del usuario
 
 La pantalla sigue siendo la misma al dar clic a "Me gusta" y esto se logra medainte return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+
+- cambios_articulo
+
+.. code-block:: python
+
+    def cambios_articulo(request, article_id):
+    # Obtener el artículo específico
+        article = get_object_or_404(Article, id=article_id)
+        
+        # Obtener todas las versiones del artículo
+        versions = ArticleVersion.objects.filter(article=article).order_by('-change_date')
+        params = {
+            'article': article,
+            'versions': versions
+        }
+        return render(request, 'articulos/cambios_articulo.html', params)
+
+A través de article = get_object_or_404(Article, id=article_id) se obtiene un articulo con id coincidente a article_id. En el caso de que no existe dicho articulo se genera 404 Not Found
+
+En un articulo se recuperan (filtran) las versiones de un articulo seleccionado (filter) y se muestran en forma cronologica (order_by('-change_date')) en versions = ArticleVersion.objects.filter(article=article).order_by('-change_date')
+
+Se establece params = {'article':article, 'versions':versions} para dar formato a plantilla para mostrar articulo con los cambios y las respectivas versiones que se recuperan en versions
+
+Se establece la comunicacion HTTPS para la plantilla cambios_articulo.html con render y éste recibe el formato params para mostrar la informacion.
+
+Básicamente, sirve para mostrar el historial de versiones de un determinado articulo
+
+- version_detail
+
+.. code-block:: python
+
+    def version_detail(request, article_id, version_id):
+        # Obtener el artículo específico
+        article = get_object_or_404(Article, id=article_id)
+        
+        # Obtener la versión específica del artículo
+        version = get_object_or_404(ArticleVersion, id=version_id, article=article)
+        
+        return render(request, 'articulos/version_detail.html', {
+            'article': article,
+            'version': version
+        })
+
+Como parámetros, tenemos el id del artículo y la versión para pasar a la plantilla que muestra la informacióno
+
+A través de article = get_object_or_404(Article, id=article_id) se obtiene un articulo con id coincidente a article_id. En el caso de que no existe dicho articulo se genera 404 Not Found
+
+A través de version = get_object_or_404(ArticleVersion, id=version_id, article=article) se determina la version del articulo que se filtra a través del id de la version que se recibió como dato, además del id del artículo (PRIMERO SE OBTIENE ID DE ARTICULO Y LUEGO ID DE VERSION DE ARTICULO PARA ASOCIAR)
+
+Se muestra plantilla version_detail.html cuando se pasa formato de plantilla mediante 'article' y 'version' luego de generarse una respuesta HTTPS mediante la función render
+
+Básicamente, sirve para mostrar cada campo de una determinada versión de un artículo
 
 ..
    .. automodule:: articulos.views

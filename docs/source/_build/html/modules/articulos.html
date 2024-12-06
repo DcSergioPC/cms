@@ -202,6 +202,42 @@
 <p>Se utiliza el campo created_At para definir la fecha.</p>
 <p>El método create_View_If_Not_Exists permite registrar la visualizacion del usuario solo una vez (no cuenta una vista por cada vez que el usuario accede)</p>
 <p>Solo en el caso de que el usuario no haya visto el articulo, se crea la vista con view = View.objects.create(article=article, user=user)</p>
+<ul class="simple">
+<li><p>ArticleVersion</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ArticleVersion</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+
+<span class="n">change_description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+
+<span class="n">article</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;histories&#39;</span><span class="p">)</span>
+<span class="n">change_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">changed_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;article_changes&#39;</span><span class="p">)</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+<span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+<span class="c1">##################</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ImageField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;images/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">upload_to</span><span class="o">=</span><span class="s1">&#39;videos/&#39;</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">####################</span>
+<span class="n">categoria</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Sin Categoría&#39;</span><span class="p">)</span>  <span class="c1"># Agrega un valor por defecto</span>
+<span class="n">plantilla</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;Sin Plantilla&#39;</span><span class="p">)</span>
+<span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SET_NULL</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Usuario que creó el artículo</span>
+
+<span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+<p>En el campo change_description se detalla a través de una descripción que cambios se realizan en articulo</p>
+<p>En el campo article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name=’histories’) se relaciona al modelo Article para establecer a qué artículo hacemos referencia. Con (on_delete = models.CASCADE) desaparecen las versiones en caso de eliminacióno</p>
+<p>En el campo change_date se guarda la fecha y hora de creación de versión</p>
+<p>En el campo changed_by se guarda quién realizó los cambios para esa versión</p>
+<p>El campo title almacena el título del articulo</p>
+<p>El campo content almacena el contenido del articulo</p>
+<p>El campo image almacena la imagen del articulo</p>
+<p>El campo video almacena el video del articulo</p>
+<p>El campo categoria almacena la categoría del articulo</p>
+<p>El campo plantilla almacena la plantilla del articulo</p>
+<p>El campo author almacena el autor del articulo</p>
 <section id="documentacion-generada-por-sphinx-8-0-2">
 <h3>Documentacion generada por Sphinx 8.0.2<a class="headerlink" href="#documentacion-generada-por-sphinx-8-0-2" title="Link to this heading">¶</a></h3>
 </section>
@@ -703,6 +739,48 @@
 <p>article = get_object_or_404(Article, id=article_id): se recuperan los articulos (si existen)</p>
 <p>Like.toggle_like(article, request.user): permite hacer y deshacer el “Me gusta” del usuario</p>
 <p>La pantalla sigue siendo la misma al dar clic a “Me gusta” y esto se logra medainte return HttpResponseRedirect(request.META.get(‘HTTP_REFERER’))</p>
+<ul class="simple">
+<li><p>cambios_articulo</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cambios_articulo</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">):</span>
+<span class="c1"># Obtener el artículo específico</span>
+<span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+
+<span class="c1"># Obtener todas las versiones del artículo</span>
+<span class="n">versions</span> <span class="o">=</span> <span class="n">ArticleVersion</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-change_date&#39;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+    <span class="s1">&#39;versions&#39;</span><span class="p">:</span> <span class="n">versions</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/cambios_articulo.html&#39;</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A través de article = get_object_or_404(Article, id=article_id) se obtiene un articulo con id coincidente a article_id. En el caso de que no existe dicho articulo se genera 404 Not Found</p>
+<p>En un articulo se recuperan (filtran) las versiones de un articulo seleccionado (filter) y se muestran en forma cronologica (order_by(‘-change_date’)) en versions = ArticleVersion.objects.filter(article=article).order_by(‘-change_date’)</p>
+<p>Se establece params = {‘article’:article, ‘versions’:versions} para dar formato a plantilla para mostrar articulo con los cambios y las respectivas versiones que se recuperan en versions</p>
+<p>Se establece la comunicacion HTTPS para la plantilla cambios_articulo.html con render y éste recibe el formato params para mostrar la informacion.</p>
+<p>Básicamente, sirve para mostrar el historial de versiones de un determinado articulo</p>
+<ul class="simple">
+<li><p>version_detail</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">version_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">article_id</span><span class="p">,</span> <span class="n">version_id</span><span class="p">):</span>
+<span class="c1"># Obtener el artículo específico</span>
+<span class="n">article</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Article</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">article_id</span><span class="p">)</span>
+
+<span class="c1"># Obtener la versión específica del artículo</span>
+<span class="n">version</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">ArticleVersion</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">version_id</span><span class="p">,</span> <span class="n">article</span><span class="o">=</span><span class="n">article</span><span class="p">)</span>
+
+<span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;articulos/version_detail.html&#39;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;article&#39;</span><span class="p">:</span> <span class="n">article</span><span class="p">,</span>
+    <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">version</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+<p>Como parámetros, tenemos el id del artículo y la versión para pasar a la plantilla que muestra la informacióno</p>
+<p>A través de article = get_object_or_404(Article, id=article_id) se obtiene un articulo con id coincidente a article_id. En el caso de que no existe dicho articulo se genera 404 Not Found</p>
+<p>A través de version = get_object_or_404(ArticleVersion, id=version_id, article=article) se determina la version del articulo que se filtra a través del id de la version que se recibió como dato, además del id del artículo (PRIMERO SE OBTIENE ID DE ARTICULO Y LUEGO ID DE VERSION DE ARTICULO PARA ASOCIAR)</p>
+<p>Se muestra plantilla version_detail.html cuando se pasa formato de plantilla mediante ‘article’ y ‘version’ luego de generarse una respuesta HTTPS mediante la función render</p>
+<p>Básicamente, sirve para mostrar cada campo de una determinada versión de un artículo</p>
 </section>
 <section id="formularios">
 <h2>Formularios<a class="headerlink" href="#formularios" title="Link to this heading">¶</a></h2>
