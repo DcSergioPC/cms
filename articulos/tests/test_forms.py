@@ -28,3 +28,5 @@ class TestForms(SimpleTestCase):
     def test_categoria_form_invalid_data(self):
         form = CategoriaForm(data={})
         self.assertFalse(form.is_valid())
+        
+
