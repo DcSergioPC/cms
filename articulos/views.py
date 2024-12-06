@@ -96,11 +96,11 @@ def create(request):
                 create_notification(user, f'Se ha creado un nuevo artículo: {article.title}')
             
             # Ejecutar métodos de envío de correo de manera asíncrona
-#            with concurrent.futures.ThreadPoolExecutor() as executor:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
                 # Enviar correo al creador del artículo
-#                send_confirmation_email(request.user, article, action='create')
+                send_confirmation_email(request.user, article, action='create')
                 # Enviar correo a los del mismo rol, excluyendo al creador
-#                send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
+                send_email_to_role(article, request.user, action='create', roles=['admin','editor'])
 
             return redirect('articulos:index')
     else:
